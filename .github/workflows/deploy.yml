@@ -25,6 +25,7 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
+          cache-dependency-path: hookah-bowl-builder/package-lock.json
       - name: Install dependencies
         run: npm install
         working-directory: hookah-bowl-builder
