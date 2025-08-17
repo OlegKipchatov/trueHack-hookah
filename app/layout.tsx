@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import "@heroui/react/styles.css";
 import "./globals.css";
+import { HeroUIProvider } from "@heroui/react";
 
 export const metadata: Metadata = {
   title: "BowlBuilder",
@@ -14,7 +16,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru">
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <HeroUIProvider>{children}</HeroUIProvider>
+      </body>
     </html>
   );
 }
