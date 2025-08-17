@@ -6,8 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "deploy": "next build && next export -o docs && touch docs/.nojekyll"
+    "lint": "next lint"
   },
   "dependencies": {
     "@heroui/react": "^2.8.2",

@@ -63,11 +63,13 @@ jobs:
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Build and export
-        run: ${{ steps.detect-package-manager.outputs.manager }} run deploy
+        run: |
+          ${{ steps.detect-package-manager.outputs.manager }} run build
+          touch ./out/.nojekyll
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: docs
+          path: out
 
   # Deployment job
   deploy:
