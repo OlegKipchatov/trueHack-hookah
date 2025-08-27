@@ -1,6 +1,8 @@
-import { Link } from "@heroui/link";
+import { Link } from "@heroui/react";
 
-export default function Home() {
+export type HomePageProps = {};
+
+const HomePage = ({}: HomePageProps) => {
   return (
     <section className="flex flex-col items-center justify-center text-center p-4">
       <h1 className="text-5xl font-bold">BowlBuilder</h1>
@@ -26,4 +28,6 @@ export default function Home() {
       </p>
     </section>
   );
-}
+};
+
+export default HomePage;
