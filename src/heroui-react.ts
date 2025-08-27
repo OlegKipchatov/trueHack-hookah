@@ -8,3 +8,5 @@ export {
   NavbarItem,
 } from "@heroui/navbar";
 export { type SwitchProps, useSwitch } from "@heroui/switch";
+export { Input } from "@heroui/input";
+export { Button } from "@heroui/button";
