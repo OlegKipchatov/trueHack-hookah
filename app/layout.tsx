@@ -1,20 +1,18 @@
 import "@/styles/globals.css";
 import { Metadata, Viewport } from "next";
-import { Link } from "@heroui/link";
 import clsx from "clsx";
 
 import { Providers } from "./providers";
 
-import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/navbar";
 
 export const metadata: Metadata = {
   title: {
-    default: siteConfig.name,
-    template: `%s - ${siteConfig.name}`,
+    default: 'BowlBuilder',
+    template: `%s - BowlBuilder`,
   },
-  description: siteConfig.description,
+  description: "Сервис для создания и сохранения собственных миксов для кальянных чаш",
   icons: {
     icon: "/favicon.ico",
   },
@@ -44,7 +42,7 @@ export default function RootLayout({
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
           <div className="relative flex flex-col h-screen">
             <Navbar />
-            <main className="container mx-auto max-w-7xl flex-grow">
+            <main className="container mx-auto max-w-7xl flex-grow grid">
               {children}
             </main>
           </div>

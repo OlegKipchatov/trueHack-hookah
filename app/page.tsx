@@ -1,3 +1,5 @@
+import { Link } from "@heroui/link";
+
 export default function Home() {
   return (
     <section className="flex flex-col items-center justify-center text-center p-4">
@@ -12,14 +14,14 @@ export default function Home() {
         Подписывайтесь на{
           " "
         }
-        <a
+        <Link
           href="https://t.me/+BjywrBIpCoQ1YTA6"
           className="underline"
           target="_blank"
           rel="noopener noreferrer"
         >
           канал разработки
-        </a>{" "}
+        </Link>{" "}
         и следите за обновлениями.
       </p>
     </section>
