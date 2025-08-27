@@ -4,13 +4,11 @@ import {
   NavbarMenuToggle,
   NavbarBrand,
   NavbarItem,
-} from "@heroui/navbar";
+} from "@heroui/react";
 import NextLink from "next/link";
 
-import { ThemeSwitch } from "@/components/theme-switch";
-import {
-  Logo,
-} from "@/components/icons";
+import { ThemeSwitch } from "@/features/theme-switch";
+import { Logo } from "@/shared/ui/icons";
 
 export const Navbar = () => {
   return (

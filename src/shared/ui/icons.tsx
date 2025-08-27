@@ -1,13 +1,11 @@
-import * as React from "react";
+import { IconSvgProps } from "@/shared/types/icon.types";
 
-import { IconSvgProps } from "@/types";
-
-export const Logo: React.FC<IconSvgProps> = ({
+export const Logo = ({
   size = 36,
   width,
   height,
   ...props
-}) => (
+}: IconSvgProps) => (
   <svg
     fill="none"
     height={size || height}

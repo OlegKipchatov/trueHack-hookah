@@ -2,13 +2,12 @@
 
 import { useEffect } from "react";
 
-export default function Error({
-  error,
-  reset,
-}: {
+export type ErrorPageProps = {
   error: Error;
   reset: () => void;
-}) {
+};
+
+const ErrorPage = ({ error, reset }: ErrorPageProps) => {
   useEffect(() => {
     // Log the error to an error reporting service
     /* eslint-disable no-console */
@@ -28,4 +27,6 @@ export default function Error({
       </button>
     </div>
   );
-}
+};
+
+export default ErrorPage;
