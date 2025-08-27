@@ -1,10 +1,11 @@
+import NextLink from "next/link";
+
 import {
   HeroUINavbar,
   NavbarContent,
   NavbarMenuToggle,
   NavbarBrand,
   NavbarItem,
-  Link,
 } from "@heroui/react";
 
 import { ThemeSwitch } from "@/features/theme-switch";
@@ -15,10 +16,10 @@ export const Navbar = () => {
     <HeroUINavbar maxWidth="xl" position="sticky">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
-          <Link className="flex justify-start items-center gap-1" href="/">
+          <NextLink className="flex justify-start items-center gap-1" href="/" >
             <Logo />
             <p className="font-bold text-inherit">BowlBuilder</p>
-          </Link>
+          </NextLink>
         </NavbarBrand>
       </NavbarContent>
 
