@@ -19,4 +19,6 @@ export {
   ModalFooter,
 } from "@heroui/modal";
 export { Slider } from "@heroui/slider";
+export { Chip } from "@heroui/chip";
+export { Badge } from "@heroui/badge";
 
