@@ -39,6 +39,7 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
   };
 
   const total = tobaccos.reduce((sum, t) => sum + t.percentage, 0);
+  const hasErrorTotal = total !== 100;
 
   const submit = () => {
     const bowl: Bowl = {
@@ -62,6 +63,8 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
             {tobaccos.map((t, idx) => (
               <div key={idx} className="flex flex-col gap-2">
                 <Input
+                  isRequired
+                  size="sm"
                   label="Tobacco"
                   value={t.name}
                   onChange={(e) => updateField(idx, 'name', e.target.value)}
@@ -74,19 +77,21 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
                   onChange={(value: number) =>
                     updateField(idx, 'percentage', value)
                   }
+                  size="sm"
                 />
               </div>
             ))}
-            {total !== 100 && <p className="text-danger text-sm">error</p>}
-            <Button size="sm" variant="light" onPress={addField}>
-              Add Tobacco
-            </Button>
+            <div>
+              <Button size="sm" variant="light" color='primary' onPress={addField}>
+                Add Tobacco
+              </Button>
+            </div>
           </ModalBody>
           <ModalFooter>
             <Button variant="light" onPress={() => setIsOpen(false)}>
               Cancel
             </Button>
-            <Button color="primary" onPress={submit}>
+            <Button color="primary" onPress={submit} isDisabled={hasErrorTotal}>
               Save
             </Button>
           </ModalFooter>
