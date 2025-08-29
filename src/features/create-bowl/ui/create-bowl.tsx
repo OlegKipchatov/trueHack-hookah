@@ -24,8 +24,8 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
     { name: '', percentage: 0 },
   ]);
 
-  const addField = () => {
-    setTobaccos([...tobaccos, { name: '', percentage: 0 }]);
+  const addField = ({ percentage }: { percentage: number }) => {
+    setTobaccos([...tobaccos, { name: '', percentage }]);
   };
 
   const updateField = <K extends keyof BowlTobacco>(
@@ -39,6 +39,7 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
   };
 
   const total = tobaccos.reduce((sum, t) => sum + t.percentage, 0);
+  const restTotal = 100 - total;
   const hasErrorTotal = total !== 100;
 
   const submit = () => {
@@ -70,19 +71,18 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
                   onChange={(e) => updateField(idx, 'name', e.target.value)}
                 />
                 <Slider
+                  size="sm"
                   label="Percentage"
-                  step={5}
                   maxValue={100}
                   value={t.percentage}
                   onChange={(value: number) =>
                     updateField(idx, 'percentage', value)
                   }
-                  size="sm"
                 />
               </div>
             ))}
             <div>
-              <Button size="sm" variant="light" color='primary' onPress={addField}>
+              <Button size="sm" variant="light" color='primary' onPress={() => addField({ percentage: restTotal })}>
                 Add Tobacco
               </Button>
             </div>
