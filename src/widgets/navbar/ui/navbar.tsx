@@ -10,6 +10,7 @@ import {
 
 import { ThemeSwitch } from "@/features/theme-switch";
 import { Logo } from "@/shared/ui/icons";
+import { NavbarItemText } from "./navbar-item-text";
 
 export const Navbar = () => {
   return (
@@ -27,9 +28,10 @@ export const Navbar = () => {
         className="hidden sm:flex basis-1/5 sm:basis-full"
         justify="end"
       >
-        <NavbarItem>
-          <NextLink href="/user">Profile</NextLink>
-        </NavbarItem>
+        <NavbarItemText href="/user">
+          Profile
+        </NavbarItemText>
+
         <NavbarItem className="hidden sm:flex gap-2">
           <ThemeSwitch />
         </NavbarItem>
