@@ -37,7 +37,14 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
   ) => {
     const next = [...tobaccos];
 
-    next[index][field] = value;
+    if (field === "percentage") {
+      const max = next[index].percentage + restTotal;
+      const clamped = Math.max(0, Math.min(value as number, max));
+
+      next[index].percentage = clamped;
+    } else {
+      next[index][field] = value;
+    }
     setTobaccos(next);
   };
 
@@ -99,7 +106,7 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
                     </div>
                     <Slider
                       label="Percentage"
-                      maxValue={100}
+                      maxValue={t.percentage + restTotal}
                       size="sm"
                       value={t.percentage}
                       onChange={(value) =>
