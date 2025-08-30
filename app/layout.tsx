@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
-import { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
+
+import { Metadata, Viewport } from "next";
 import clsx from "clsx";
 
 import { Providers } from "./providers";
@@ -10,10 +11,11 @@ import { Navbar } from "@/widgets/navbar";
 
 export const metadata: Metadata = {
   title: {
-    default: 'BowlBuilder',
+    default: "BowlBuilder",
     template: `%s - BowlBuilder`,
   },
-  description: "Сервис для создания и сохранения собственных миксов для кальянных чаш",
+  description:
+    "Сервис для создания и сохранения собственных миксов для кальянных чаш",
   icons: {
     icon: "/favicon.ico",
   },

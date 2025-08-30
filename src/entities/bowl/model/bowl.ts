@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useLocalStorage } from '@/shared/lib/useLocalStorage';
+import { useLocalStorage } from "@/shared/lib/useLocalStorage";
 
 export type BowlTobacco = {
   name: string;
@@ -13,7 +13,7 @@ export type Bowl = {
 };
 
 export const useBowls = () => {
-  const [bowls, setBowls] = useLocalStorage<Bowl[]>('bowls', []);
+  const [bowls, setBowls] = useLocalStorage<Bowl[]>("bowls", []);
 
   const addBowl = (bowl: Bowl) => {
     setBowls([...bowls, bowl]);

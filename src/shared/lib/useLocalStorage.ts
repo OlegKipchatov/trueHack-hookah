@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { getLocalStorageItem, setLocalStorageItem, removeLocalStorageItem } from "./storage";
+
+import {
+  getLocalStorageItem,
+  setLocalStorageItem,
+  removeLocalStorageItem,
+} from "./storage";
 
 /**
  * Хук для работы с localStorage в React компонентах
@@ -11,13 +16,14 @@ import { getLocalStorageItem, setLocalStorageItem, removeLocalStorageItem } from
  *   2. Функция для установки нового значения
  *   3. Функция для удаления значения из localStorage
  */
-export const useLocalStorage = <T,>(key: string, initial: T) => {
+export const useLocalStorage = <T>(key: string, initial: T) => {
   const [value, setValue] = useState<T>(getLocalStorageItem<T>(key, initial));
 
   // При изменении ключа перезагружаем значение из localStorage
   useEffect(() => {
     setValue((prevValue) => {
       const storedValue = getLocalStorageItem<T>(key, prevValue);
+
       return storedValue;
     });
   }, [key]);

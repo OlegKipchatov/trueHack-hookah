@@ -1,1 +1,1 @@
-export { CreateBowl } from './ui/create-bowl';
+export { CreateBowl } from "./ui/create-bowl";

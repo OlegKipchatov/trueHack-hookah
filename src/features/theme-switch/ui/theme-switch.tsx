@@ -13,10 +13,7 @@ export type ThemeSwitchProps = {
   classNames?: SwitchProps["classNames"];
 };
 
-export const ThemeSwitch = ({
-  className,
-  classNames,
-}: ThemeSwitchProps) => {
+export const ThemeSwitch = ({ className, classNames }: ThemeSwitchProps) => {
   const { theme, setTheme } = useTheme();
   const isSSR = useIsSSR();
 
