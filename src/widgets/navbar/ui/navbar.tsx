@@ -1,7 +1,6 @@
-'use client';
+"use client";
 
 import NextLink from "next/link";
-
 import {
   Navbar as HeroUINavbar,
   NavbarContent,
@@ -10,16 +9,17 @@ import {
   NavbarItem,
 } from "@heroui/react";
 
+import { NavbarItemText } from "./navbar-item-text";
+
 import { ThemeSwitch } from "@/features/theme-switch";
 import { Logo } from "@/shared/ui/icons";
-import { NavbarItemText } from "./navbar-item-text";
 
 export const Navbar = () => {
   return (
     <HeroUINavbar maxWidth="xl" position="sticky">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
-          <NextLink className="flex justify-start items-center gap-1" href="/" >
+          <NextLink className="flex justify-start items-center gap-1" href="/">
             <Logo />
             <p className="font-bold text-inherit">BowlBuilder</p>
           </NextLink>
@@ -30,9 +30,7 @@ export const Navbar = () => {
         className="hidden sm:flex basis-1/5 sm:basis-full"
         justify="end"
       >
-        <NavbarItemText href="/user">
-          Profile
-        </NavbarItemText>
+        <NavbarItemText href="/user">Profile</NavbarItemText>
 
         <NavbarItem className="hidden sm:flex gap-2">
           <ThemeSwitch />

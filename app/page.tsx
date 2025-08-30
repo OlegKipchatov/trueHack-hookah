@@ -13,14 +13,12 @@ const HomePage = ({}: HomePageProps) => {
         Создайте свою идеальную чашу.
       </p>
       <p className="mt-6 text-sm">
-        Подписывайтесь на{
-          " "
-        }
+        Подписывайтесь на{" "}
         <Link
-          href="https://t.me/+BjywrBIpCoQ1YTA6"
           className="underline"
-          target="_blank"
+          href="https://t.me/+BjywrBIpCoQ1YTA6"
           rel="noopener noreferrer"
+          target="_blank"
         >
           канал разработки
         </Link>{" "}

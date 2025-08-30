@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { CreateBowl } from '@/features/create-bowl';
-import { useBowls, BowlCard } from '@/entities/bowl';
+import { CreateBowl } from "@/features/create-bowl";
+import { useBowls, BowlCard } from "@/entities/bowl";
 
 export type UserPageProps = {};
 

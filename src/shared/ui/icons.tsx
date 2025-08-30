@@ -1,11 +1,6 @@
 import { IconSvgProps } from "@/shared/types/icon.types";
 
-export const Logo = ({
-  size = 36,
-  width,
-  height,
-  ...props
-}: IconSvgProps) => (
+export const Logo = ({ size = 36, width, height, ...props }: IconSvgProps) => (
   <svg
     fill="none"
     height={size || height}

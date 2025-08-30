@@ -1,6 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import type { Bowl, BowlTobacco } from "@/entities/bowl";
+
+import { useState } from "react";
 import {
   Button,
   Input,
@@ -10,9 +12,7 @@ import {
   ModalBody,
   ModalFooter,
   Slider,
-} from '@heroui/react';
-
-import type { Bowl, BowlTobacco } from '@/entities/bowl';
+} from "@heroui/react";
 
 export type CreateBowlProps = {
   onCreate: (bowl: Bowl) => void;
@@ -21,11 +21,11 @@ export type CreateBowlProps = {
 export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [tobaccos, setTobaccos] = useState<BowlTobacco[]>([
-    { name: '', percentage: 0 },
+    { name: "", percentage: 0 },
   ]);
 
   const addField = ({ percentage }: { percentage: number }) => {
-    setTobaccos([...tobaccos, { name: '', percentage }]);
+    setTobaccos([...tobaccos, { name: "", percentage }]);
   };
 
   const updateField = <K extends keyof BowlTobacco>(
@@ -34,6 +34,7 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
     value: BowlTobacco[K],
   ) => {
     const next = [...tobaccos];
+
     next[index][field] = value;
     setTobaccos(next);
   };
@@ -47,8 +48,9 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
       id: crypto.randomUUID(),
       tobaccos,
     };
+
     onCreate(bowl);
-    setTobaccos([{ name: '', percentage: 0 }]);
+    setTobaccos([{ name: "", percentage: 0 }]);
     setIsOpen(false);
   };
 
@@ -65,24 +67,29 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
               <div key={idx} className="flex flex-col gap-2">
                 <Input
                   isRequired
-                  size="sm"
                   label="Tobacco"
+                  size="sm"
                   value={t.name}
-                  onChange={(e) => updateField(idx, 'name', e.target.value)}
+                  onChange={(e) => updateField(idx, "name", e.target.value)}
                 />
                 <Slider
-                  size="sm"
                   label="Percentage"
                   maxValue={100}
+                  size="sm"
                   value={t.percentage}
                   onChange={(value) =>
-                    updateField(idx, 'percentage', value as number)
+                    updateField(idx, "percentage", value as number)
                   }
                 />
               </div>
             ))}
             <div>
-              <Button size="sm" variant="light" color='primary' onPress={() => addField({ percentage: restTotal })}>
+              <Button
+                color="primary"
+                size="sm"
+                variant="light"
+                onPress={() => addField({ percentage: restTotal })}
+              >
                 Add Tobacco
               </Button>
             </div>
@@ -91,7 +98,7 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
             <Button variant="light" onPress={() => setIsOpen(false)}>
               Cancel
             </Button>
-            <Button color="primary" onPress={submit} isDisabled={hasErrorTotal}>
+            <Button color="primary" isDisabled={hasErrorTotal} onPress={submit}>
               Save
             </Button>
           </ModalFooter>

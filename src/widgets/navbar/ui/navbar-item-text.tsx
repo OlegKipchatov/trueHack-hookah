@@ -1,9 +1,7 @@
-'use client'
+"use client";
 
-import { type PropsWithChildren } from 'react';
-
-import { usePathname } from 'next/navigation'
-
+import { type PropsWithChildren } from "react";
+import { usePathname } from "next/navigation";
 import { NavbarItem, Link } from "@heroui/react";
 
 type NavbarItemProps = PropsWithChildren & {
@@ -16,7 +14,9 @@ export const NavbarItemText = ({ href, children }: NavbarItemProps) => {
 
   return (
     <NavbarItem isActive={isActive}>
-      <Link color={isActive ? 'primary' : 'foreground'} href={href}>{children}</Link>
+      <Link color={isActive ? "primary" : "foreground"} href={href}>
+        {children}
+      </Link>
     </NavbarItem>
   );
 };

@@ -5,16 +5,16 @@
  * @param {T} fallback - Значение по умолчанию, если ключ не найден или произошла ошибка
  * @returns {T} Значение из localStorage или fallback
  */
-export const getLocalStorageItem = <T,>(key: string, fallback: T): T => {
+export const getLocalStorageItem = <T>(key: string, fallback: T): T => {
   if (typeof window === "undefined") return fallback;
 
   const raw = localStorage.getItem(key);
+
   if (!raw) return fallback;
 
   try {
     return JSON.parse(raw) as T;
   } catch {
-    console.log('hello');
     return fallback;
   }
 };
@@ -25,7 +25,7 @@ export const getLocalStorageItem = <T,>(key: string, fallback: T): T => {
  * @param {string} key - Ключ для сохранения значения
  * @param {T} value - Значение для сохранения
  */
-export const setLocalStorageItem = <T,>(key: string, value: T) => {
+export const setLocalStorageItem = <T>(key: string, value: T) => {
   if (typeof window === "undefined") return;
   localStorage.setItem(key, JSON.stringify(value));
 };
