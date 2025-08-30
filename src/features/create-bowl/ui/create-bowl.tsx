@@ -2,9 +2,10 @@
 
 import type { Bowl, BowlTobacco } from "@/entities/bowl";
 
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import {
   Button,
+  Form,
   Input,
   Modal,
   ModalContent,
@@ -65,7 +66,9 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
   const restTotal = 100 - total;
   const hasErrorTotal = total !== 100;
 
-  const submit = () => {
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     const bowl: Bowl = {
       id: crypto.randomUUID(),
       tobaccos,
@@ -84,7 +87,7 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
-            <>
+            <Form className="flex flex-col gap-4" onSubmit={onSubmit}>
               <ModalHeader>Create Bowl</ModalHeader>
               <ModalBody>
                 {tobaccos.map((t, idx) => (
@@ -143,12 +146,12 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
                 <Button
                   color="primary"
                   isDisabled={hasErrorTotal}
-                  onPress={submit}
+                  type="submit"
                 >
                   Save
                 </Button>
               </ModalFooter>
-            </>
+            </Form>
           )}
         </ModalContent>
       </Modal>
