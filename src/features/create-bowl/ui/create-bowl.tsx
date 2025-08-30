@@ -12,14 +12,16 @@ import {
   ModalBody,
   ModalFooter,
   Slider,
+  useDisclosure,
 } from "@heroui/react";
+import { Icon } from "@iconify/react";
 
 export type CreateBowlProps = {
   onCreate: (bowl: Bowl) => void;
 };
 
 export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
   const [tobaccos, setTobaccos] = useState<BowlTobacco[]>([
     { name: "", percentage: 0 },
   ]);
@@ -39,6 +41,10 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
     setTobaccos(next);
   };
 
+  const removeField = (index: number) => {
+    setTobaccos(tobaccos.filter((_, idx) => idx !== index));
+  };
+
   const total = tobaccos.reduce((sum, t) => sum + t.percentage, 0);
   const restTotal = 100 - total;
   const hasErrorTotal = total !== 100;
@@ -51,57 +57,83 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
 
     onCreate(bowl);
     setTobaccos([{ name: "", percentage: 0 }]);
-    setIsOpen(false);
+    onClose();
   };
 
   return (
     <>
-      <Button color="primary" onPress={() => setIsOpen(true)}>
+      <Button color="primary" onPress={onOpen}>
         Create Bowl
       </Button>
-      <Modal isOpen={isOpen} onOpenChange={setIsOpen}>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
-          <ModalHeader>Create Bowl</ModalHeader>
-          <ModalBody>
-            {tobaccos.map((t, idx) => (
-              <div key={idx} className="flex flex-col gap-2">
-                <Input
-                  isRequired
-                  label="Tobacco"
-                  size="sm"
-                  value={t.name}
-                  onChange={(e) => updateField(idx, "name", e.target.value)}
-                />
-                <Slider
-                  label="Percentage"
-                  maxValue={100}
-                  size="sm"
-                  value={t.percentage}
-                  onChange={(value) =>
-                    updateField(idx, "percentage", value as number)
-                  }
-                />
-              </div>
-            ))}
-            <div>
-              <Button
-                color="primary"
-                size="sm"
-                variant="light"
-                onPress={() => addField({ percentage: restTotal })}
-              >
-                Add Tobacco
-              </Button>
-            </div>
-          </ModalBody>
-          <ModalFooter>
-            <Button variant="light" onPress={() => setIsOpen(false)}>
-              Cancel
-            </Button>
-            <Button color="primary" isDisabled={hasErrorTotal} onPress={submit}>
-              Save
-            </Button>
-          </ModalFooter>
+          {(onClose) => (
+            <>
+              <ModalHeader>Create Bowl</ModalHeader>
+              <ModalBody>
+                {tobaccos.map((t, idx) => (
+                  <div key={idx} className="flex flex-col gap-2">
+                    <div className="flex items-end gap-2">
+                      <Input
+                        isRequired
+                        className="flex-1"
+                        label="Tobacco"
+                        labelPlacement="outside"
+                        placeholder="pineapple"
+                        size="sm"
+                        value={t.name}
+                        onChange={(e) =>
+                          updateField(idx, "name", e.target.value)
+                        }
+                      />
+                      <Button
+                        isIconOnly
+                        aria-label="Delete tobacco"
+                        color="danger"
+                        size="sm"
+                        variant="light"
+                        onPress={() => removeField(idx)}
+                      >
+                        <Icon icon="akar-icons:cross" width={16} />
+                      </Button>
+                    </div>
+                    <Slider
+                      label="Percentage"
+                      maxValue={100}
+                      size="sm"
+                      value={t.percentage}
+                      onChange={(value) =>
+                        updateField(idx, "percentage", value as number)
+                      }
+                    />
+                  </div>
+                ))}
+                <div>
+                  <Button
+                    color="primary"
+                    size="sm"
+                    startContent={<Icon icon="akar-icons:plus" width={16} />}
+                    variant="light"
+                    onPress={() => addField({ percentage: restTotal })}
+                  >
+                    Add Tobacco
+                  </Button>
+                </div>
+              </ModalBody>
+              <ModalFooter>
+                <Button variant="light" onPress={onClose}>
+                  Cancel
+                </Button>
+                <Button
+                  color="primary"
+                  isDisabled={hasErrorTotal}
+                  onPress={submit}
+                >
+                  Save
+                </Button>
+              </ModalFooter>
+            </>
+          )}
         </ModalContent>
       </Modal>
     </>
