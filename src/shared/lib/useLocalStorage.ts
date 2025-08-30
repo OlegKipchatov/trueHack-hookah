@@ -1,30 +1,35 @@
 import { useEffect, useState } from "react";
+import { getLocalStorageItem, setLocalStorageItem, removeLocalStorageItem } from "./storage";
 
+/**
+ * Хук для работы с localStorage в React компонентах
+ * @template T - Тип значения
+ * @param {string} key - Ключ для хранения значения в localStorage
+ * @param {T} initial - Начальное значение, если в localStorage ничего нет
+ * @returns {[T, (value: T) => void, () => void]} Массив с тремя элементами:
+ *   1. Текущее значение
+ *   2. Функция для установки нового значения
+ *   3. Функция для удаления значения из localStorage
+ */
 export const useLocalStorage = <T,>(key: string, initial: T) => {
-  const [value, setValue] = useState<T>(initial);
+  const [value, setValue] = useState<T>(getLocalStorageItem<T>(key, initial));
 
+  // При изменении ключа перезагружаем значение из localStorage
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    try {
-      const raw = localStorage.getItem(key);
-      if (raw !== null) setValue(JSON.parse(raw));
-    } catch {
-      /* noop */
-    }
+    setValue((prevValue) => {
+      const storedValue = getLocalStorageItem<T>(key, prevValue);
+      return storedValue;
+    });
   }, [key]);
 
+  // При изменении значения сохраняем его в localStorage
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    try {
-      localStorage.setItem(key, JSON.stringify(value));
-    } catch {
-      /* noop */
-    }
+    setLocalStorageItem<T>(key, value);
   }, [key, value]);
 
+  // Функция для удаления значения из localStorage
   const remove = () => {
-    if (typeof window === "undefined") return;
-    localStorage.removeItem(key);
+    removeLocalStorageItem(key);
   };
 
   return [value, setValue, remove] as const;
