@@ -65,9 +65,14 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
   const total = tobaccos.reduce((sum, t) => sum + t.percentage, 0);
   const restTotal = 100 - total;
   const hasErrorTotal = total !== 100;
+  const hasEmptyName = tobaccos.some((t) => t.name.trim() === "");
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (hasErrorTotal || hasEmptyName) {
+      return;
+    }
 
     const bowl: Bowl = {
       id: crypto.randomUUID(),
@@ -96,6 +101,7 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
                       <Input
                         isRequired
                         className="flex-1"
+                        isInvalid={!t.name.trim()}
                         label="Tobacco"
                         labelPlacement="outside"
                         placeholder="pineapple"
@@ -110,6 +116,7 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
                         aria-label="Delete tobacco"
                         color="danger"
                         size="sm"
+                        type="button"
                         variant="light"
                         onPress={() => removeField(idx)}
                       >
@@ -132,6 +139,7 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
                     color="primary"
                     size="sm"
                     startContent={<Icon icon="akar-icons:plus" width={16} />}
+                    type="button"
                     variant="light"
                     onPress={() => addField({ percentage: restTotal })}
                   >
@@ -140,12 +148,12 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
                 </div>
               </ModalBody>
               <ModalFooter>
-                <Button variant="light" onPress={onClose}>
+                <Button type="button" variant="light" onPress={onClose}>
                   Cancel
                 </Button>
                 <Button
                   color="primary"
-                  isDisabled={hasErrorTotal}
+                  isDisabled={hasErrorTotal || hasEmptyName}
                   type="submit"
                 >
                   Save
