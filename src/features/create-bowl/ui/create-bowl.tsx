@@ -39,6 +39,10 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
     setTobaccos(next);
   };
 
+  const removeField = (index: number) => {
+    setTobaccos(tobaccos.filter((_, idx) => idx !== index));
+  };
+
   const total = tobaccos.reduce((sum, t) => sum + t.percentage, 0);
   const restTotal = 100 - total;
   const hasErrorTotal = total !== 100;
@@ -65,13 +69,24 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
           <ModalBody>
             {tobaccos.map((t, idx) => (
               <div key={idx} className="flex flex-col gap-2">
-                <Input
-                  isRequired
-                  label="Tobacco"
-                  size="sm"
-                  value={t.name}
-                  onChange={(e) => updateField(idx, "name", e.target.value)}
-                />
+                <div className="flex items-end gap-2">
+                  <Input
+                    className="flex-1"
+                    isRequired
+                    label="Tobacco"
+                    size="sm"
+                    value={t.name}
+                    onChange={(e) => updateField(idx, "name", e.target.value)}
+                  />
+                  <Button
+                    color="danger"
+                    size="sm"
+                    variant="light"
+                    onPress={() => removeField(idx)}
+                  >
+                    Delete
+                  </Button>
+                </div>
                 <Slider
                   label="Percentage"
                   maxValue={100}
