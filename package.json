@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heroui/react": "2.8.2",
+    "@iconify/react": "^4.1.1",
     "@react-aria/ssr": "3.9.10",
     "@react-aria/visually-hidden": "3.8.26",
     "@uidotdev/usehooks": "^2.4.1",

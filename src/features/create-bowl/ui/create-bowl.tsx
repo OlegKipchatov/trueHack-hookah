@@ -13,6 +13,7 @@ import {
   ModalFooter,
   Slider,
 } from "@heroui/react";
+import { Icon } from "@iconify/react";
 
 export type CreateBowlProps = {
   onCreate: (bowl: Bowl) => void;
@@ -74,17 +75,21 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
                     className="flex-1"
                     isRequired
                     label="Tobacco"
+                    labelPlacement="outside"
+                    placeholder="pineapple"
                     size="sm"
                     value={t.name}
                     onChange={(e) => updateField(idx, "name", e.target.value)}
                   />
                   <Button
+                    aria-label="Delete tobacco"
                     color="danger"
+                    isIconOnly
                     size="sm"
                     variant="light"
                     onPress={() => removeField(idx)}
                   >
-                    Delete
+                    <Icon icon="mdi:trash" />
                   </Button>
                 </div>
                 <Slider
