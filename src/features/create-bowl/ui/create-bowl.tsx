@@ -23,7 +23,7 @@ export type CreateBowlProps = {
 export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
   const [tobaccos, setTobaccos] = useState<BowlTobacco[]>([
-    { name: "", percentage: 0 },
+    { name: "", percentage: 100 },
   ]);
 
   const addField = ({ percentage }: { percentage: number }) => {
@@ -37,12 +37,28 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
   ) => {
     const next = [...tobaccos];
 
-    next[index][field] = value;
+    if (field === "percentage") {
+      const max = next[index].percentage + restTotal;
+      const clamped = Math.max(0, Math.min(value as number, max));
+
+      next[index].percentage = clamped;
+    } else {
+      next[index][field] = value;
+    }
     setTobaccos(next);
   };
 
   const removeField = (index: number) => {
-    setTobaccos(tobaccos.filter((_, idx) => idx !== index));
+    const next = tobaccos.filter((_, idx) => idx !== index);
+
+    if (next.length === 0) {
+      setTobaccos([{ name: "", percentage: 100 }]);
+    } else {
+      if (next.length === 1) {
+        next[0].percentage = 100;
+      }
+      setTobaccos(next);
+    }
   };
 
   const total = tobaccos.reduce((sum, t) => sum + t.percentage, 0);
@@ -56,7 +72,7 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
     };
 
     onCreate(bowl);
-    setTobaccos([{ name: "", percentage: 0 }]);
+    setTobaccos([{ name: "", percentage: 100 }]);
     onClose();
   };
 
