@@ -72,8 +72,8 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
               <div key={idx} className="flex flex-col gap-2">
                 <div className="flex items-end gap-2">
                   <Input
-                    className="flex-1"
                     isRequired
+                    className="flex-1"
                     label="Tobacco"
                     labelPlacement="outside"
                     placeholder="pineapple"
@@ -82,9 +82,9 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
                     onChange={(e) => updateField(idx, "name", e.target.value)}
                   />
                   <Button
+                    isIconOnly
                     aria-label="Delete tobacco"
                     color="danger"
-                    isIconOnly
                     size="sm"
                     variant="light"
                     onPress={() => removeField(idx)}
