@@ -23,7 +23,7 @@ export type CreateBowlProps = {
 export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
   const [tobaccos, setTobaccos] = useState<BowlTobacco[]>([
-    { name: "", percentage: 0 },
+    { name: "", percentage: 100 },
   ]);
 
   const addField = ({ percentage }: { percentage: number }) => {
@@ -49,7 +49,16 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
   };
 
   const removeField = (index: number) => {
-    setTobaccos(tobaccos.filter((_, idx) => idx !== index));
+    const next = tobaccos.filter((_, idx) => idx !== index);
+
+    if (next.length === 0) {
+      setTobaccos([{ name: "", percentage: 100 }]);
+    } else {
+      if (next.length === 1) {
+        next[0].percentage = 100;
+      }
+      setTobaccos(next);
+    }
   };
 
   const total = tobaccos.reduce((sum, t) => sum + t.percentage, 0);
@@ -63,7 +72,7 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
     };
 
     onCreate(bowl);
-    setTobaccos([{ name: "", percentage: 0 }]);
+    setTobaccos([{ name: "", percentage: 100 }]);
     onClose();
   };
 
@@ -106,7 +115,7 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
                     </div>
                     <Slider
                       label="Percentage"
-                      maxValue={t.percentage + restTotal}
+                      maxValue={100}
                       size="sm"
                       value={t.percentage}
                       onChange={(value) =>
