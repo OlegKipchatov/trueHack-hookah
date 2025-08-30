@@ -1,7 +1,7 @@
 import NextLink from "next/link";
 
 import {
-  HeroUINavbar,
+  Navbar as HeroUINavbar,
   NavbarContent,
   NavbarMenuToggle,
   NavbarBrand,
