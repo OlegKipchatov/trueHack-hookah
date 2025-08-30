@@ -75,8 +75,8 @@ export const CreateBowl = ({ onCreate }: CreateBowlProps) => {
                   label="Percentage"
                   maxValue={100}
                   value={t.percentage}
-                  onChange={(value: number) =>
-                    updateField(idx, 'percentage', value)
+                  onChange={(value) =>
+                    updateField(idx, 'percentage', value as number)
                   }
                 />
               </div>
