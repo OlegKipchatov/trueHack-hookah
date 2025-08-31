@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@heroui/react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import { useBowls } from "@/entities/bowl";
 import { UpsertBowl } from "@/features/upsert-bowl";
@@ -15,8 +15,11 @@ const UserPage = ({}: UserPageProps) => {
   const [search, setSearch] = useState("");
   const [flavors, setFlavors] = useState<string[]>([]);
 
-  const addFlavor = (name: string) =>
-    setFlavors((prev) => (prev.includes(name) ? prev : [...prev, name]));
+  const addFlavor = useCallback(
+    (name: string) =>
+      setFlavors((prev) => (prev.includes(name) ? prev : [...prev, name])),
+    [],
+  );
   const removeFlavor = (name: string) =>
     setFlavors((prev) => prev.filter((f) => f !== name));
 
