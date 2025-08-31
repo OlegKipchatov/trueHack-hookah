@@ -8,7 +8,7 @@ import { UpsertBowl } from "@/features/upsert-bowl";
 export type UserPageProps = {};
 
 const UserPage = ({}: UserPageProps) => {
-  const { bowls, addBowl, updateBowl } = useBowls();
+  const { bowls, addBowl, updateBowl, removeBowl } = useBowls();
 
   return (
     <section className="p-4">
@@ -21,7 +21,9 @@ const UserPage = ({}: UserPageProps) => {
           <UpsertBowl
             key={bowl.id}
             bowl={bowl}
-            trigger={<BowlCard bowl={bowl} />}
+            trigger={
+              <BowlCard bowl={bowl} onRemove={() => removeBowl(bowl.id)} />
+            }
             onSubmit={updateBowl}
           />
         ))}
