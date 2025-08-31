@@ -1,7 +1,6 @@
 import type { Bowl } from "../../entities/bowl";
 
-import { test } from "node:test";
-import assert from "node:assert/strict";
+import { describe, expect, it } from "vitest";
 
 import { filterBowls } from "./filter-bowls.ts";
 
@@ -12,16 +11,18 @@ const bowls: Bowl[] = [
 
 const flavors: string[] = [];
 
-test("filterBowls matches regardless of search case", () => {
-  const result = filterBowls(bowls, "mInT", flavors);
+describe("filterBowls", () => {
+  it("matches regardless of search case", () => {
+    const result = filterBowls(bowls, "mInT", flavors);
 
-  assert.equal(result.length, 1);
-  assert.equal(result[0].id, "1");
-});
+    expect(result.length).toBe(1);
+    expect(result[0].id).toBe("1");
+  });
 
-test("filterBowls matches for uppercase query", () => {
-  const result = filterBowls(bowls, "BLUE", flavors);
+  it("matches for uppercase query", () => {
+    const result = filterBowls(bowls, "BLUE", flavors);
 
-  assert.equal(result.length, 1);
-  assert.equal(result[0].id, "2");
+    expect(result.length).toBe(1);
+    expect(result[0].id).toBe("2");
+  });
 });
