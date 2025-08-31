@@ -1,7 +1,8 @@
 "use client";
 
-import { CreateBowl } from "@/features/create-bowl";
-import { EditBowl } from "@/features/edit-bowl";
+import { Button } from "@heroui/react";
+
+import { UpsertBowl } from "@/features/upsert-bowl";
 import { useBowls, BowlCard } from "@/entities/bowl";
 
 export type UserPageProps = {};
@@ -11,12 +12,15 @@ const UserPage = ({}: UserPageProps) => {
 
   return (
     <section className="p-4">
-      <CreateBowl onCreate={addBowl} />
+      <UpsertBowl
+        trigger={<Button color="primary">Create Bowl</Button>}
+        onSubmit={addBowl}
+      />
       <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
         {bowls.map((bowl) => (
-          <EditBowl key={bowl.id} bowl={bowl} onSave={updateBowl}>
+          <UpsertBowl key={bowl.id} bowl={bowl} onSubmit={updateBowl}>
             <BowlCard bowl={bowl} />
-          </EditBowl>
+          </UpsertBowl>
         ))}
       </div>
     </section>

@@ -22,19 +22,31 @@ import {
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
 
-export type EditBowlProps = {
-  bowl: Bowl;
-  onSave: (bowl: Bowl) => void;
-  children: ReactElement;
+export type UpsertBowlProps = {
+  bowl?: Bowl;
+  onSubmit: (bowl: Bowl) => void;
+  trigger?: ReactElement;
+  children?: ReactElement;
 };
 
-export const EditBowl = ({ bowl, onSave, children }: EditBowlProps) => {
+export const UpsertBowl = ({
+  bowl,
+  onSubmit,
+  trigger,
+  children,
+}: UpsertBowlProps) => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
-  const [tobaccos, setTobaccos] = useState<BowlTobacco[]>(bowl.tobaccos);
+  const [tobaccos, setTobaccos] = useState<BowlTobacco[]>(
+    bowl?.tobaccos ?? [{ name: "", percentage: 100 }],
+  );
 
   useEffect(() => {
-    setTobaccos(bowl.tobaccos);
+    if (bowl) setTobaccos(bowl.tobaccos);
   }, [bowl]);
+
+  const total = tobaccos.reduce((sum, t) => sum + t.percentage, 0);
+  const restTotal = 100 - total;
+  const hasErrorTotal = total !== 100;
 
   const addField = ({ percentage }: { percentage: number }) => {
     setTobaccos([...tobaccos, { name: "", percentage }]);
@@ -55,6 +67,7 @@ export const EditBowl = ({ bowl, onSave, children }: EditBowlProps) => {
     } else {
       next[index][field] = value;
     }
+
     setTobaccos(next);
   };
 
@@ -71,29 +84,34 @@ export const EditBowl = ({ bowl, onSave, children }: EditBowlProps) => {
     }
   };
 
-  const total = tobaccos.reduce((sum, t) => sum + t.percentage, 0);
-  const restTotal = 100 - total;
-  const hasErrorTotal = total !== 100;
-
   const submit = () => {
-    const updated: Bowl = { ...bowl, tobaccos };
+    const next: Bowl = bowl
+      ? { ...bowl, tobaccos }
+      : { id: crypto.randomUUID(), tobaccos };
 
-    onSave(updated);
+    onSubmit(next);
+    if (!bowl) setTobaccos([{ name: "", percentage: 100 }]);
     onClose();
   };
 
-  const trigger = isValidElement(children)
-    ? cloneElement(children, { onEdit: onOpen })
-    : null;
+  const triggerEl =
+    trigger && isValidElement(trigger)
+      ? cloneElement(trigger, { onPress: onOpen })
+      : null;
+  const childEl =
+    children && isValidElement(children)
+      ? cloneElement(children, { onEdit: onOpen })
+      : null;
 
   return (
     <>
-      {trigger}
+      {triggerEl}
+      {childEl}
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader>Edit Bowl</ModalHeader>
+              <ModalHeader>{bowl ? "Edit Bowl" : "Create Bowl"}</ModalHeader>
               <ModalBody>
                 {tobaccos.map((t, idx) => (
                   <div key={idx} className="flex flex-col gap-2">
