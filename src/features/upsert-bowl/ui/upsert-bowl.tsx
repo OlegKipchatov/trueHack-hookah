@@ -25,12 +25,16 @@ export type UpsertBowlProps = {
 
 export const UpsertBowl = ({ bowl, onSubmit, trigger }: UpsertBowlProps) => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
+  const [name, setName] = useState(bowl ? bowl.name : "");
   const [tobaccos, setTobaccos] = useState<BowlTobacco[]>(
     bowl ? bowl.tobaccos : [{ name: "", percentage: 100 }],
   );
 
   useEffect(() => {
-    if (bowl) setTobaccos(bowl.tobaccos);
+    if (bowl) {
+      setTobaccos(bowl.tobaccos);
+      setName(bowl.name);
+    }
   }, [bowl]);
 
   const addField = ({ percentage }: { percentage: number }) => {
@@ -71,15 +75,17 @@ export const UpsertBowl = ({ bowl, onSubmit, trigger }: UpsertBowlProps) => {
   const total = tobaccos.reduce((sum, t) => sum + t.percentage, 0);
   const restTotal = 100 - total;
   const hasErrorTotal = total !== 100;
+  const hasErrorName = name.trim() === "";
 
   const submit = () => {
     const result: Bowl = bowl
-      ? { ...bowl, tobaccos }
-      : { id: crypto.randomUUID(), tobaccos };
+      ? { ...bowl, name, tobaccos }
+      : { id: crypto.randomUUID(), name, tobaccos };
 
     onSubmit(result);
     if (!bowl) {
       setTobaccos([{ name: "", percentage: 100 }]);
+      setName("");
     }
     onClose();
   };
@@ -105,6 +111,15 @@ export const UpsertBowl = ({ bowl, onSubmit, trigger }: UpsertBowlProps) => {
             <>
               <ModalHeader>{bowl ? "Edit Bowl" : "Create Bowl"}</ModalHeader>
               <ModalBody>
+                <Input
+                  isRequired
+                  label="Name"
+                  labelPlacement="outside"
+                  placeholder="My mix"
+                  size="sm"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
                 {tobaccos.map((t, idx) => (
                   <div key={idx} className="flex flex-col gap-2">
                     <div className="flex items-end gap-2">
@@ -160,7 +175,7 @@ export const UpsertBowl = ({ bowl, onSubmit, trigger }: UpsertBowlProps) => {
                 </Button>
                 <Button
                   color="primary"
-                  isDisabled={hasErrorTotal}
+                  isDisabled={hasErrorTotal || hasErrorName}
                   onPress={submit}
                 >
                   Save

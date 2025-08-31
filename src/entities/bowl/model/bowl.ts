@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect } from "react";
+
 import { useLocalStorage } from "@/shared/lib/useLocalStorage";
 
 export type BowlTobacco = {
@@ -9,11 +11,16 @@ export type BowlTobacco = {
 
 export type Bowl = {
   id: string;
+  name: string;
   tobaccos: BowlTobacco[];
 };
 
 export const useBowls = () => {
   const [bowls, setBowls] = useLocalStorage<Bowl[]>("bowls", []);
+
+  useEffect(() => {
+    setBowls((prev) => prev.map((b) => ({ ...b, name: b.name ?? "" })));
+  }, [setBowls]);
 
   const addBowl = (bowl: Bowl) => {
     setBowls((prev) => [...prev, bowl]);

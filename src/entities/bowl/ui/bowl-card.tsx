@@ -14,7 +14,7 @@ export const BowlCard = ({ bowl, onEdit, onRemove }: BowlCardProps) => {
   return (
     <Card>
       <CardHeader className="flex items-center justify-between">
-        <span>Bowl</span>
+        <span>{bowl.name}</span>
         {(onEdit || onRemove) && (
           <div className="flex gap-2">
             {onEdit && (
