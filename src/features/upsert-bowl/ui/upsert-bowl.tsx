@@ -20,7 +20,7 @@ import { Icon } from "@iconify/react";
 export type UpsertBowlProps = {
   bowl?: Bowl;
   onSubmit: (bowl: Bowl) => void;
-  trigger?: ReactElement;
+  trigger?: ReactElement<any>;
 };
 
 export const UpsertBowl = ({ bowl, onSubmit, trigger }: UpsertBowlProps) => {
@@ -85,7 +85,7 @@ export const UpsertBowl = ({ bowl, onSubmit, trigger }: UpsertBowlProps) => {
   };
 
   const triggerNode = trigger ? (
-    cloneElement(trigger, {
+    cloneElement(trigger as ReactElement<any>, {
       onClick: onOpen,
       onEdit: onOpen,
       onPress: onOpen,
