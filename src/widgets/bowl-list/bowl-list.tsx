@@ -4,6 +4,8 @@ import type { Bowl } from "@/entities/bowl";
 
 import { useMemo } from "react";
 
+import { filterBowls } from "./filter-bowls";
+
 import { BowlCard } from "@/entities/bowl";
 import { UpsertBowl } from "@/features/upsert-bowl";
 
@@ -25,12 +27,7 @@ export const BowlList = ({
   onUpdate,
 }: BowlListProps) => {
   const filteredBowls = useMemo(
-    () =>
-      bowls.filter(
-        (b) =>
-          b.name.includes(search) &&
-          flavors.every((f) => b.tobaccos.some((t) => t.name === f)),
-      ),
+    () => filterBowls(bowls, search, flavors),
     [bowls, search, flavors],
   );
 

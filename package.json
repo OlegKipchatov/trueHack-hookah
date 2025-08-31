@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "lint": "eslint",
-    "lint:fix": "eslint --fix"
+    "lint:fix": "eslint --fix",
+    "test": "node --test --experimental-strip-types"
   },
   "dependencies": {
     "@heroui/react": "2.8.2",
