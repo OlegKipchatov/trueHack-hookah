@@ -1,8 +1,9 @@
 "use client";
 
 import type { Bowl, BowlTobacco } from "@/entities/bowl";
+import type { ReactElement } from "react";
 
-import { useEffect, useState } from "react";
+import { cloneElement, useEffect, useState } from "react";
 import {
   Button,
   Input,
@@ -16,17 +17,20 @@ import {
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
 
-export type EditBowlProps = {
-  bowl: Bowl;
-  onSave: (bowl: Bowl) => void;
+export type UpsertBowlProps = {
+  bowl?: Bowl;
+  onSubmit: (bowl: Bowl) => void;
+  trigger?: ReactElement;
 };
 
-export const EditBowl = ({ bowl, onSave }: EditBowlProps) => {
+export const UpsertBowl = ({ bowl, onSubmit, trigger }: UpsertBowlProps) => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
-  const [tobaccos, setTobaccos] = useState<BowlTobacco[]>(bowl.tobaccos);
+  const [tobaccos, setTobaccos] = useState<BowlTobacco[]>(
+    bowl ? bowl.tobaccos : [{ name: "", percentage: 100 }],
+  );
 
   useEffect(() => {
-    setTobaccos(bowl.tobaccos);
+    if (bowl) setTobaccos(bowl.tobaccos);
   }, [bowl]);
 
   const addField = ({ percentage }: { percentage: number }) => {
@@ -69,22 +73,37 @@ export const EditBowl = ({ bowl, onSave }: EditBowlProps) => {
   const hasErrorTotal = total !== 100;
 
   const submit = () => {
-    const updated: Bowl = { ...bowl, tobaccos };
+    const result: Bowl = bowl
+      ? { ...bowl, tobaccos }
+      : { id: crypto.randomUUID(), tobaccos };
 
-    onSave(updated);
+    onSubmit(result);
+    if (!bowl) {
+      setTobaccos([{ name: "", percentage: 100 }]);
+    }
     onClose();
   };
 
+  const triggerNode = trigger ? (
+    cloneElement(trigger, {
+      onClick: onOpen,
+      onEdit: onOpen,
+      onPress: onOpen,
+    })
+  ) : (
+    <Button color="primary" onPress={onOpen}>
+      {bowl ? "Edit Bowl" : "Create Bowl"}
+    </Button>
+  );
+
   return (
     <>
-      <Button color="primary" onPress={onOpen}>
-        Edit Bowl
-      </Button>
+      {triggerNode}
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader>Edit Bowl</ModalHeader>
+              <ModalHeader>{bowl ? "Edit Bowl" : "Create Bowl"}</ModalHeader>
               <ModalBody>
                 {tobaccos.map((t, idx) => (
                   <div key={idx} className="flex flex-col gap-2">
