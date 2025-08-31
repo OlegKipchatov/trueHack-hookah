@@ -13,6 +13,9 @@ const UserPage = ({}: UserPageProps) => {
   const [search, setSearch] = useState("");
   const [flavors, setFlavors] = useState<string[]>([]);
 
+  const addFlavor = (name: string) =>
+    setFlavors((prev) => (prev.includes(name) ? prev : [...prev, name]));
+
   return (
     <section className="p-4">
       <UpsertBowl
@@ -42,7 +45,11 @@ const UserPage = ({}: UserPageProps) => {
       )}
       <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
         {bowls
-          .filter((b) => b.name.includes(search))
+          .filter(
+            (b) =>
+              b.name.includes(search) &&
+              flavors.every((f) => b.tobaccos.some((t) => t.name === f)),
+          )
           .map((bowl) => (
             <UpsertBowl
               key={bowl.id}
@@ -51,11 +58,7 @@ const UserPage = ({}: UserPageProps) => {
                 <BowlCard
                   bowl={bowl}
                   onRemove={() => removeBowl(bowl.id)}
-                  onTobaccoClick={(name) =>
-                    setFlavors((prev) =>
-                      prev.includes(name) ? prev : [...prev, name],
-                    )
-                  }
+                  onTobaccoClick={addFlavor}
                 />
               }
               onSubmit={updateBowl}
