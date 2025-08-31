@@ -8,9 +8,15 @@ export type BowlCardProps = {
   bowl: Bowl;
   onEdit?: () => void;
   onRemove?: () => void;
+  onTobaccoClick?: (name: string) => void;
 };
 
-export const BowlCard = ({ bowl, onEdit, onRemove }: BowlCardProps) => {
+export const BowlCard = ({
+  bowl,
+  onEdit,
+  onRemove,
+  onTobaccoClick,
+}: BowlCardProps) => {
   return (
     <Card>
       <CardHeader className="flex items-center justify-between">
@@ -33,7 +39,11 @@ export const BowlCard = ({ bowl, onEdit, onRemove }: BowlCardProps) => {
       <CardBody>
         <div className="flex gap-4">
           {bowl.tobaccos.map((t) => (
-            <BowlCardChip key={t.name} tobacco={t} />
+            <BowlCardChip
+              key={t.name}
+              tobacco={t}
+              onSelect={() => onTobaccoClick?.(t.name)}
+            />
           ))}
         </div>
       </CardBody>

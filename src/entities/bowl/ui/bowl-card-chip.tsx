@@ -5,9 +5,10 @@ import { useHover } from "@uidotdev/usehooks";
 
 export type BowlCardChipProps = {
   tobacco: BowlTobacco;
+  onSelect?: (name: string) => void;
 };
 
-export const BowlCardChip = ({ tobacco }: BowlCardChipProps) => {
+export const BowlCardChip = ({ tobacco, onSelect }: BowlCardChipProps) => {
   const [ref, isHover] = useHover();
 
   return (
@@ -19,10 +20,11 @@ export const BowlCardChip = ({ tobacco }: BowlCardChipProps) => {
     >
       <Chip
         ref={ref}
-        className="cursor-default"
+        className="cursor-pointer"
         color="primary"
         size="lg"
         variant={isHover ? "solid" : "flat"}
+        onClick={() => onSelect?.(tobacco.name)}
       >
         {tobacco.name}
       </Chip>
