@@ -2,7 +2,13 @@
 
 import type { Bowl, BowlTobacco } from "@/entities/bowl";
 
-import { useEffect, useState } from "react";
+import {
+  type ReactElement,
+  cloneElement,
+  isValidElement,
+  useEffect,
+  useState,
+} from "react";
 import {
   Button,
   Input,
@@ -19,9 +25,10 @@ import { Icon } from "@iconify/react";
 export type EditBowlProps = {
   bowl: Bowl;
   onSave: (bowl: Bowl) => void;
+  children: ReactElement;
 };
 
-export const EditBowl = ({ bowl, onSave }: EditBowlProps) => {
+export const EditBowl = ({ bowl, onSave, children }: EditBowlProps) => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
   const [tobaccos, setTobaccos] = useState<BowlTobacco[]>(bowl.tobaccos);
 
@@ -75,11 +82,13 @@ export const EditBowl = ({ bowl, onSave }: EditBowlProps) => {
     onClose();
   };
 
+  const trigger = isValidElement(children)
+    ? cloneElement(children, { onEdit: onOpen })
+    : null;
+
   return (
     <>
-      <Button color="primary" onPress={onOpen}>
-        Edit Bowl
-      </Button>
+      {trigger}
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
