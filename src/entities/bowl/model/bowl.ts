@@ -19,5 +19,9 @@ export const useBowls = () => {
     setBowls([...bowls, bowl]);
   };
 
-  return { bowls, addBowl } as const;
+  const updateBowl = (bowl: Bowl) => {
+    setBowls(bowls.map((item) => (item.id === bowl.id ? bowl : item)));
+  };
+
+  return { bowls, addBowl, updateBowl } as const;
 };
