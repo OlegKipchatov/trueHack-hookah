@@ -3,11 +3,11 @@ import type { BowlTobacco } from "../model/bowl";
 import { Chip, Badge } from "@heroui/react";
 import { useHover } from "@uidotdev/usehooks";
 
-export type BowlCardProps = {
+export type BowlCardChipProps = {
   tobacco: BowlTobacco;
 };
 
-export const BowlCardChip = ({ tobacco }: BowlCardProps) => {
+export const BowlCardChip = ({ tobacco }: BowlCardChipProps) => {
   const [ref, isHover] = useHover();
 
   return (
