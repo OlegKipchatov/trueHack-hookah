@@ -7,17 +7,27 @@ import { BowlCardChip } from "./bowl-card-chip";
 export type BowlCardProps = {
   bowl: Bowl;
   onEdit?: () => void;
+  onRemove?: () => void;
 };
 
-export const BowlCard = ({ bowl, onEdit }: BowlCardProps) => {
+export const BowlCard = ({ bowl, onEdit, onRemove }: BowlCardProps) => {
   return (
     <Card>
       <CardHeader className="flex items-center justify-between">
         <span>Bowl</span>
-        {onEdit && (
-          <Button size="sm" onPress={onEdit}>
-            Edit
-          </Button>
+        {(onEdit || onRemove) && (
+          <div className="flex gap-2">
+            {onEdit && (
+              <Button size="sm" onPress={onEdit}>
+                Edit
+              </Button>
+            )}
+            {onRemove && (
+              <Button color="danger" size="sm" onPress={onRemove}>
+                Delete
+              </Button>
+            )}
+          </div>
         )}
       </CardHeader>
       <CardBody>
