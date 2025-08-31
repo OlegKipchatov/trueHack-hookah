@@ -8,6 +8,7 @@ import { filterBowls } from "./filter-bowls";
 
 import { BowlCard } from "@/entities/bowl";
 import { UpsertBowl } from "@/features/upsert-bowl";
+import { EmptyMessage } from "@/shared/ui/empty-message";
 
 export type BowlListProps = {
   bowls: Bowl[];
@@ -30,6 +31,24 @@ export const BowlList = ({
     () => filterBowls(bowls, search, flavors),
     [bowls, search, flavors],
   );
+
+  const hasFilters = search.trim().length > 0 || flavors.length > 0;
+
+  if (filteredBowls.length === 0) {
+    if (hasFilters) {
+      return (
+        <EmptyMessage color="warning" variant="solid">
+          Чаши не найдены
+        </EmptyMessage>
+      );
+    }
+
+    return (
+      <EmptyMessage>
+        Чаши ещё не созданы. Создайте свою первую чашу.
+      </EmptyMessage>
+    );
+  }
 
   return (
     <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
