@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import type { BowlTobacco } from '../model/bowl';
 
-const useHoverMock = vi.fn(() => [null, false]);
+const useHoverMock = vi.hoisted(() => vi.fn(() => [null, false]));
 vi.mock('@uidotdev/usehooks', () => ({
   useHover: useHoverMock,
 }));

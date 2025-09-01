@@ -69,10 +69,11 @@ describe('BowlCard', () => {
     const chipsArray = Array.isArray(chips) ? chips : [chips];
 
     expect(chipsArray).toHaveLength(bowl.tobaccos.length);
-    chipsArray.forEach((chip, index) => {
-      const innerChip = chip.props.children;
-      expect(innerChip.props.children).toBe(bowl.tobaccos[index].name);
-      expect(chip.props.content).toBe(`${bowl.tobaccos[index].percentage}%`);
+    chipsArray.forEach((chipElement, index) => {
+      expect(chipElement.props.tobacco.name).toBe(bowl.tobaccos[index].name);
+      expect(chipElement.props.tobacco.percentage).toBe(
+        bowl.tobaccos[index].percentage,
+      );
     });
   });
 });
