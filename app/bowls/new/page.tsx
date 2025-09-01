@@ -1,8 +1,10 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { BowlForm } from '@/features/upsert-bowl/ui/bowl-form';
-import { useBowls, type Bowl } from '@/entities/bowl';
+import { useRouter } from "next/navigation";
+import { Modal, ModalContent, ModalHeader } from "@heroui/react";
+
+import { BowlForm } from "@/features/upsert-bowl/ui/bowl-form";
+import { useBowls, type Bowl } from "@/entities/bowl";
 
 export type NewBowlPageProps = {};
 
@@ -12,13 +14,16 @@ const NewBowlPage = ({}: NewBowlPageProps) => {
 
   const handleSubmit = (bowl: Bowl) => {
     addBowl(bowl);
-    router.push('/user');
+    router.push("/user");
   };
 
   return (
-    <section className="p-4">
-      <BowlForm onSubmit={handleSubmit} />
-    </section>
+    <Modal defaultOpen hideCloseButton isDismissable={false} motionProps={{}}>
+      <ModalContent>
+        <ModalHeader>Create Bowl</ModalHeader>
+        <BowlForm onSubmit={handleSubmit} />
+      </ModalContent>
+    </Modal>
   );
 };
 
