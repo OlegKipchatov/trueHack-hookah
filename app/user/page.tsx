@@ -11,7 +11,7 @@ import { BowlList } from "@/widgets/bowl-list";
 export type UserPageProps = {};
 
 const UserPage = ({}: UserPageProps) => {
-  const { bowls, addBowl, updateBowl, removeBowl } = useBowls();
+  const { bowls, addBowl, removeBowl } = useBowls();
   const [search, setSearch] = useState("");
   const [flavors, setFlavors] = useState<string[]>([]);
 
@@ -41,7 +41,6 @@ const UserPage = ({}: UserPageProps) => {
         search={search}
         onAddFlavor={addFlavor}
         onRemove={removeBowl}
-        onUpdate={updateBowl}
       />
     </section>
   );

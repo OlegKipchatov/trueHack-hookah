@@ -19,7 +19,7 @@ describe("BowlCardChip", () => {
 
     const chip = element.props.children;
 
-    chip.props.onClick();
+    chip.props.onClick({ stopPropagation: () => {} });
 
     expect(onSelect).toHaveBeenCalledWith(tobacco.name);
   });
