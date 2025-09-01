@@ -1,3 +1,4 @@
+import React from "react";
 import type { BowlTobacco } from "../model/bowl";
 
 import { Chip, Badge } from "@heroui/react";

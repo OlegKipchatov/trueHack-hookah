@@ -1,3 +1,4 @@
+import React from "react";
 import type { Bowl } from "../model/bowl";
 
 import { Card, CardHeader, CardBody, Button } from "@heroui/react";
