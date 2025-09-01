@@ -8,6 +8,11 @@ import { UpsertBowl } from "@/features/upsert-bowl";
 import { BowlDetails } from "@/widgets/bowl-details";
 
 export type BowlPageProps = {};
+export type BowlPageParams = { id: string };
+
+export const generateStaticParams = async (): Promise<BowlPageParams[]> => {
+  return [];
+};
 
 const BowlPage = ({}: BowlPageProps) => {
   const params = useParams<{ id: string }>();
