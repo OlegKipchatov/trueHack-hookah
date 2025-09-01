@@ -1,18 +1,20 @@
-import { describe, it, expect, vi } from 'vitest';
-import type { Bowl } from '../model/bowl';
-import { BowlCard } from './bowl-card';
+import type { Bowl } from "../model/bowl";
 
-describe('BowlCard', () => {
+import { describe, it, expect, vi } from "vitest";
+
+import { BowlCard } from "./bowl-card";
+
+describe("BowlCard", () => {
   const bowl: Bowl = {
-    id: '1',
-    name: 'Test bowl',
+    id: "1",
+    name: "Test bowl",
     tobaccos: [
-      { name: 'Alpha', percentage: 50 },
-      { name: 'Beta', percentage: 50 },
+      { name: "Alpha", percentage: 50 },
+      { name: "Beta", percentage: 50 },
     ],
   };
 
-  it('hides action buttons when callbacks are missing', () => {
+  it("hides action buttons when callbacks are missing", () => {
     const element = BowlCard({ bowl });
 
     const cardHeader = element.props.children[0];
@@ -21,7 +23,7 @@ describe('BowlCard', () => {
     expect(actions).toBeFalsy();
   });
 
-  it('calls onEdit when Edit button is pressed', () => {
+  it("calls onEdit when Edit button is pressed", () => {
     const onEdit = vi.fn();
     const element = BowlCard({ bowl, onEdit, onRemove: vi.fn() });
 
@@ -34,7 +36,7 @@ describe('BowlCard', () => {
     expect(onEdit).toHaveBeenCalled();
   });
 
-  it('calls onRemove when Delete button is pressed', () => {
+  it("calls onRemove when Delete button is pressed", () => {
     const onRemove = vi.fn();
     const element = BowlCard({ bowl, onRemove, onEdit: vi.fn() });
 
@@ -47,7 +49,7 @@ describe('BowlCard', () => {
     expect(onRemove).toHaveBeenCalled();
   });
 
-  it('calls onTobaccoClick when tobacco chip is selected', () => {
+  it("calls onTobaccoClick when tobacco chip is selected", () => {
     const onTobaccoClick = vi.fn();
     const element = BowlCard({ bowl, onTobaccoClick });
 
@@ -60,7 +62,7 @@ describe('BowlCard', () => {
     expect(onTobaccoClick).toHaveBeenCalledWith(bowl.tobaccos[0].name);
   });
 
-  it('renders proper amount of chips with correct content', () => {
+  it("renders proper amount of chips with correct content", () => {
     const element = BowlCard({ bowl });
 
     const cardBody = element.props.children[1];
