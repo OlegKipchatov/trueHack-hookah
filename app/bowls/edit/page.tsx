@@ -1,7 +1,6 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { Alert } from "@heroui/react";
 
 import { Page } from "@/shared/ui/page";
 import { PageTitle } from "@/shared/ui/page-title";
@@ -23,14 +22,8 @@ const EditBowlPage = ({}: EditBowlPageProps) => {
     router.push("/user");
   };
 
-  const status = !isLoading && !bowl && (
-    <Alert color="danger" variant="solid">
-      Чаша для редактирования не найдена
-    </Alert>
-  );
-
   return (
-    <Page isLoading={isLoading} status={status}>
+    <Page isLoading={isLoading}>
       {bowl && (
         <>
           <PageTitle withBackButton>Edit Bowl</PageTitle>
