@@ -3,8 +3,10 @@
 import type { Bowl, BowlTobacco } from "@/entities/bowl";
 
 import { useEffect, useState } from "react";
-import { Button, Form, Input, Slider } from "@heroui/react";
+import { Form, Input, Slider } from "@heroui/react";
 import { Icon } from "@iconify/react";
+
+import { Button } from "@/shared/ui/button";
 
 export type BowlFormProps = {
   bowl?: Bowl;
@@ -105,6 +107,7 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
                 isIconOnly
                 aria-label="Delete tobacco"
                 color="danger"
+                hint="Delete tobacco"
                 size="sm"
                 variant="light"
                 onPress={() => removeField(idx)}
@@ -138,6 +141,13 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
       <div className="flex justify-end">
         <Button
           color="primary"
+          hint={
+            hasErrorName
+              ? "Name is required"
+              : hasErrorTotal
+                ? "Total must be 100%"
+                : undefined
+          }
           isDisabled={hasErrorTotal || hasErrorName}
           type="submit"
           onPress={submit}
