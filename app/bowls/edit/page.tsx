@@ -5,7 +5,7 @@ import { Alert, Button } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { Suspense } from "react";
 
-import { BowlForm } from "@/features/upsert-bowl/ui/bowl-form";
+import { BowlForm } from "@/features/upsert-bowl";
 import { useBowls, type Bowl } from "@/entities/bowl";
 
 export type EditBowlPageProps = {};

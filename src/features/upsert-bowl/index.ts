@@ -1,2 +1,2 @@
-export { UpsertBowl } from "./ui/upsert-bowl";
-export type { UpsertBowlProps } from "./ui/upsert-bowl";
+export { BowlForm } from "./ui/bowl-form";
+export type { BowlFormProps } from "./ui/bowl-form";
