@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Modal, ModalContent, ModalHeader } from "@heroui/react";
 
 import { BowlForm } from "@/features/upsert-bowl/ui/bowl-form";
@@ -9,7 +9,8 @@ import { useBowls, type Bowl } from "@/entities/bowl";
 export type EditBowlPageProps = {};
 
 const EditBowlPage = ({}: EditBowlPageProps) => {
-  const { id } = useParams<{ id: string }>();
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
   const { bowls, updateBowl } = useBowls();
   const router = useRouter();
 
@@ -35,3 +36,4 @@ const EditBowlPage = ({}: EditBowlPageProps) => {
 };
 
 export default EditBowlPage;
+
