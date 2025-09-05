@@ -1,20 +1,20 @@
 "use client";
 
-import { useSearchParams, useRouter } from "next/navigation";
-import { Alert } from "@heroui/react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 
 import { Page } from "@/shared/ui/page";
 import { PageTitle } from "@/shared/ui/page-title";
 import { BowlForm } from "@/features/upsert-bowl";
 import { useBowls, type Bowl } from "@/entities/bowl";
+import { EmptyMessage } from "@/shared/ui/empty-message";
 
 export type EditBowlPageProps = {};
 
-const Edit = () => {
+const EditBowlContent = ({}: EditBowlPageProps) => {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
-  const { bowls, updateBowl } = useBowls();
+  const { bowls, updateBowl, isLoading } = useBowls();
   const router = useRouter();
 
   const bowl = bowls.find((b) => b.id === id);
@@ -24,28 +24,24 @@ const Edit = () => {
     router.push("/user");
   };
 
-  if (!bowl) {
-    return (
-      <Page>
-        <Alert color="danger" variant="solid">
-          Чаша для редактирования не найдена
-        </Alert>
-      </Page>
-    );
-  }
+  const status = !isLoading && !bowl && (
+    <EmptyMessage color="danger" variant="solid">
+      Чаша для редактирования не найдена
+    </EmptyMessage>
+  );
 
   return (
-    <Page>
+    <Page isLoading={isLoading} status={status}>
       <PageTitle withBackButton>Edit Bowl</PageTitle>
-      <BowlForm bowl={bowl} onSubmit={handleSubmit} />
+      {bowl && <BowlForm bowl={bowl} onSubmit={handleSubmit} />}
     </Page>
   );
 };
 
-const EditBowlPage = ({}: EditBowlPageProps) => {
+const EditBowlPage = (props: EditBowlPageProps) => {
   return (
     <Suspense>
-      <Edit />
+      <EditBowlContent {...props} />
     </Suspense>
   );
 };

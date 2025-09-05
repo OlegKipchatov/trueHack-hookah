@@ -13,7 +13,7 @@ import { BowlList } from "@/widgets/bowl-list";
 export type UserPageProps = {};
 
 const UserPage = ({}: UserPageProps) => {
-  const { bowls, removeBowl } = useBowls();
+  const { bowls, removeBowl, isLoading } = useBowls();
   const [search, setSearch] = useState("");
   const [flavors, setFlavors] = useState<string[]>([]);
 
@@ -26,7 +26,7 @@ const UserPage = ({}: UserPageProps) => {
     setFlavors((prev) => prev.filter((f) => f !== name));
 
   return (
-    <Page>
+    <Page isLoading={isLoading}>
       <div className="mb-4 flex items-center justify-between">
         <PageTitle className="mb-0">Your Bowls</PageTitle>
         <Link href="/bowls/new">
