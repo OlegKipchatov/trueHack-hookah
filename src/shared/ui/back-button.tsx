@@ -1,8 +1,6 @@
 "use client";
 
-import type { MouseEvent } from "react";
-
-import Router from "next/router";
+import { useRouter } from "next/navigation";
 import { Button } from "@heroui/react";
 import { Icon } from "@iconify/react";
 
@@ -11,9 +9,14 @@ export type BackButtonProps = {
 };
 
 export const BackButton = ({ className }: BackButtonProps) => {
-  const goBack = (evt: MouseEvent<HTMLButtonElement>) => {
-    evt.preventDefault();
-    Router.back();
+  const router = useRouter();
+
+  const goBack = () => {
+    if (window.history.length > 1) {
+      router.back();
+    } else {
+      router.push("/user");
+    }
   };
 
   return (
