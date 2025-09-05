@@ -12,18 +12,14 @@ export type BowlCardProps = {
   onTobaccoClick?: (name: string) => void;
 };
 
-export const BowlCard = ({
-  bowl,
-  onRemove,
-  onTobaccoClick,
-}: BowlCardProps) => {
+export const BowlCard = ({ bowl, onRemove, onTobaccoClick }: BowlCardProps) => {
   return (
     <Card>
       <CardHeader className="flex items-center justify-between">
         <span>{bowl.name}</span>
         <div className="flex gap-2">
-          <Link href={`/bowls/${bowl.id}/edit`}>
-            <Button aria-label="Edit" isIconOnly size="sm">
+          <Link href={`/bowls/edit/?id=${bowl.id}`}>
+            <Button isIconOnly aria-label="Edit" size="sm">
               <Icon icon="akar-icons:edit" width={16} />
             </Button>
           </Link>

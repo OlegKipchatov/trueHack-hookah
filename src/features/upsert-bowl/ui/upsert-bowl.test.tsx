@@ -23,6 +23,7 @@ describe("UpsertBowl", () => {
     expect(screen.getAllByPlaceholderText("pineapple").length).toBe(2);
 
     const deleteButtons = screen.getAllByLabelText("Delete tobacco");
+
     fireEvent.click(deleteButtons[1]);
 
     expect(screen.getAllByPlaceholderText("pineapple").length).toBe(1);
@@ -32,7 +33,10 @@ describe("UpsertBowl", () => {
     render(<UpsertBowl onSubmit={vi.fn()} />);
     openModal();
 
-    const saveBtn = screen.getByRole("button", { name: /save/i }) as HTMLButtonElement;
+    const saveBtn = screen.getByRole("button", {
+      name: /save/i,
+    }) as HTMLButtonElement;
+
     expect(saveBtn.disabled).toBe(true);
 
     fireEvent.change(screen.getByPlaceholderText("My mix"), {
@@ -46,6 +50,7 @@ describe("UpsertBowl", () => {
 
   it("resets fields after successful creation", () => {
     const onSubmit = vi.fn();
+
     vi.spyOn(globalThis.crypto, "randomUUID").mockReturnValue("uuid");
 
     render(<UpsertBowl onSubmit={onSubmit} />);
@@ -63,13 +68,15 @@ describe("UpsertBowl", () => {
     });
 
     fireEvent.click(screen.getByRole("button", { name: /create bowl/i }));
-    expect((screen.getByPlaceholderText("My mix") as HTMLInputElement).value).toBe("");
+    expect(
+      (screen.getByPlaceholderText("My mix") as HTMLInputElement).value,
+    ).toBe("");
 
     const tobaccoInputs = screen.getAllByPlaceholderText("pineapple");
+
     expect(tobaccoInputs.length).toBe(1);
     expect((tobaccoInputs[0] as HTMLInputElement).value).toBe("");
 
     expect((screen.getByRole("slider") as HTMLInputElement).value).toBe("100");
   });
 });
-
