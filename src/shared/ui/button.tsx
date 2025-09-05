@@ -14,7 +14,7 @@ export const Button = ({ hint, children, ...props }: ButtonProps) => {
   );
 
   return hint ? (
-    <Tooltip showArrow content={hint} placement="top-start">
+    <Tooltip showArrow content={hint} placement="top-end">
       <span className="inline-flex">{button}</span>
     </Tooltip>
   ) : (
