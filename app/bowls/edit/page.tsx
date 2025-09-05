@@ -23,9 +23,11 @@ const EditBowlPage = ({}: EditBowlPageProps) => {
 
   if (!bowl) {
     return (
-      <Alert color="danger" variant="solid">
-        Чаша для редактирования не найдена
-      </Alert>
+      <div className="p-6">
+        <Alert color="danger" variant="solid">
+          Чаша для редактирования не найдена
+        </Alert>
+      </div>
     );
   }
 
@@ -40,4 +42,3 @@ const EditBowlPage = ({}: EditBowlPageProps) => {
 };
 
 export default EditBowlPage;
-
