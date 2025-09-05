@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { Modal, ModalContent, ModalHeader } from "@heroui/react";
+import { Alert, Modal, ModalContent, ModalHeader } from "@heroui/react";
 
 import { BowlForm } from "@/features/upsert-bowl/ui/bowl-form";
 import { useBowls, type Bowl } from "@/entities/bowl";
@@ -22,7 +22,11 @@ const EditBowlPage = ({}: EditBowlPageProps) => {
   };
 
   if (!bowl) {
-    return null;
+    return (
+      <Alert color="danger" variant="solid">
+        Чаша для редактирования не найдена
+      </Alert>
+    );
   }
 
   return (
