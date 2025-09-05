@@ -20,7 +20,7 @@ const Loading = () => (
 export const Page = ({ children, className, status, isLoading }: PageProps) => {
   return (
     <section className={clsx("p-6", className)}>
-      {status}
+      {status && <div className="mb-4">{status}</div>}
       <Suspense fallback={<Loading />}>
         {isLoading ? <Loading /> : children}
       </Suspense>

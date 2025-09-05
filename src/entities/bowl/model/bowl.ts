@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { useLocalStorage } from "@/shared/lib/useLocalStorage";
 
@@ -17,9 +17,11 @@ export type Bowl = {
 
 export const useBowls = () => {
   const [bowls, setBowls] = useLocalStorage<Bowl[]>("bowls", []);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     setBowls((prev) => prev.map((b) => ({ ...b, name: b.name ?? "" })));
+    setIsLoading(false);
   }, [setBowls]);
 
   const addBowl = (bowl: Bowl) => {
@@ -34,5 +36,5 @@ export const useBowls = () => {
     setBowls((prev) => prev.filter((item) => item.id !== id));
   };
 
-  return { bowls, addBowl, updateBowl, removeBowl } as const;
+  return { bowls, addBowl, updateBowl, removeBowl, isLoading } as const;
 };
