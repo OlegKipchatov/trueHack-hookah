@@ -13,6 +13,7 @@ describe("BowlFilters", () => {
     });
 
     const input = element.props.children[0];
+
     input.props.onChange({ target: { value: "mint" } });
 
     expect(onSearchChange).toHaveBeenCalledWith("mint");
@@ -32,6 +33,7 @@ describe("BowlFilters", () => {
     const chip = Array.isArray(wrapper.props.children)
       ? wrapper.props.children[0]
       : wrapper.props.children;
+
     chip.props.onClose();
 
     expect(onRemoveFlavor).toHaveBeenCalledWith("Mint");
@@ -47,14 +49,15 @@ describe("BowlFilters", () => {
     });
 
     const wrapper = element.props.children[1];
+
     expect(wrapper).toBeTruthy();
 
     const chips = wrapper.props.children;
     const chipsArray = Array.isArray(chips) ? chips : [chips];
+
     expect(chipsArray).toHaveLength(flavors.length);
     chipsArray.forEach((chip, index) => {
       expect(chip.props.children).toBe(flavors[index]);
     });
   });
 });
-
