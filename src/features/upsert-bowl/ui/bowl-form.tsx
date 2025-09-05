@@ -2,8 +2,8 @@
 
 import type { Bowl, BowlTobacco } from "@/entities/bowl";
 
-import { useEffect, useState, type FormEvent, type MouseEvent } from "react";
-import { Button, Input, Slider } from "@heroui/react";
+import { useEffect, useState } from "react";
+import { Button, Form, Input, Slider } from "@heroui/react";
 import { Icon } from "@iconify/react";
 
 export type BowlFormProps = {
@@ -64,10 +64,7 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
   const hasErrorTotal = total !== 100;
   const hasErrorName = name.trim() === "";
 
-  const submit = (
-    e: FormEvent<HTMLFormElement> | MouseEvent<HTMLButtonElement>,
-  ) => {
-    e.preventDefault();
+  const submit = () => {
     const result: Bowl = bowl
       ? { ...bowl, name, tobaccos }
       : { id: crypto.randomUUID(), name, tobaccos };
@@ -80,8 +77,8 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
   };
 
   return (
-    <form onSubmit={submit}>
-      <div>
+    <Form className="items-stretch gap-4" onSubmit={submit}>
+      <div className="flex flex-col items-stretch gap-4">
         <Input
           isRequired
           label="Name"
@@ -138,16 +135,16 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
           </Button>
         </div>
       </div>
-      <div>
+      <div className="flex justify-end">
         <Button
           color="primary"
           isDisabled={hasErrorTotal || hasErrorName}
           type="submit"
-          onClick={submit}
+          onPress={submit}
         >
           Save
         </Button>
       </div>
-    </form>
+    </Form>
   );
 };

@@ -1,12 +1,17 @@
+"use client";
+
 import { Link } from "@heroui/react";
+
+import { Page } from "@/shared/ui/page";
+import { PageTitle } from "@/shared/ui/page-title";
 
 export type HomePageProps = {};
 
 const HomePage = ({}: HomePageProps) => {
   return (
-    <section className="flex flex-col items-center justify-center text-center p-4">
-      <h1 className="text-5xl font-bold">BowlBuilder</h1>
-      <h2 className="mt-4 text-lg max-w-xl">
+    <Page className="flex flex-col items-center justify-center text-center">
+      <PageTitle>BowlBuilder</PageTitle>
+      <h2 className="text-lg max-w-xl">
         Сервис для создания и сохранения собственных миксов для кальянных чаш
       </h2>
       <p className="mt-8 text-sm font-medium tracking-wide text-gray-500">
@@ -24,7 +29,7 @@ const HomePage = ({}: HomePageProps) => {
         </Link>{" "}
         и следите за обновлениями.
       </p>
-    </section>
+    </Page>
   );
 };
 
