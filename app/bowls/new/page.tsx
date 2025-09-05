@@ -1,7 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Modal, ModalContent, ModalHeader } from "@heroui/react";
+import { Button } from "@heroui/react";
+import { Icon } from "@iconify/react";
 
 import { BowlForm } from "@/features/upsert-bowl/ui/bowl-form";
 import { useBowls, type Bowl } from "@/entities/bowl";
@@ -18,12 +19,20 @@ const NewBowlPage = ({}: NewBowlPageProps) => {
   };
 
   return (
-    <Modal defaultOpen hideCloseButton isDismissable={false} motionProps={{}}>
-      <ModalContent>
-        <ModalHeader>Create Bowl</ModalHeader>
-        <BowlForm onSubmit={handleSubmit} />
-      </ModalContent>
-    </Modal>
+    <section>
+      <div className="mb-4 flex items-center gap-2">
+        <Button
+          isIconOnly
+          aria-label="Back"
+          variant="light"
+          onPress={() => router.push("/user")}
+        >
+          <Icon icon="akar-icons:arrow-left" width={16} />
+        </Button>
+        <h1>Create Bowl</h1>
+      </div>
+      <BowlForm onSubmit={handleSubmit} />
+    </section>
   );
 };
 
