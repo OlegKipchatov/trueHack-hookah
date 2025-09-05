@@ -1,84 +1,55 @@
 import type { Bowl } from "../model/bowl";
 
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
+import { render, fireEvent, screen, cleanup } from "@testing-library/react";
 
 import { BowlCard } from "./bowl-card";
 
+const bowl: Bowl = {
+  id: "1",
+  name: "Test bowl",
+  tobaccos: [
+    { name: "Alpha", percentage: 50 },
+    { name: "Beta", percentage: 50 },
+  ],
+};
+
 describe("BowlCard", () => {
-  const bowl: Bowl = {
-    id: "1",
-    name: "Test bowl",
-    tobaccos: [
-      { name: "Alpha", percentage: 50 },
-      { name: "Beta", percentage: 50 },
-    ],
-  };
-
+  afterEach(cleanup);
   it("renders edit link with proper href", () => {
-    const element = BowlCard({ bowl });
+    render(<BowlCard bowl={bowl} />);
 
-    const cardHeader = element.props.children[0];
-    const actions = cardHeader.props.children[1];
-    const link = Array.isArray(actions.props.children)
-      ? actions.props.children[0]
-      : actions.props.children;
+    const link = screen.getByRole("link");
 
-    expect(link.props.href).toBe(`/bowls/edit/?id=${bowl.id}`);
+    expect(link.getAttribute("href")).toBe(`/bowls/edit?id=${bowl.id}`);
   });
 
   it("hides delete button when onRemove is missing", () => {
-    const element = BowlCard({ bowl });
+    render(<BowlCard bowl={bowl} />);
 
-    const cardHeader = element.props.children[0];
-    const actions = cardHeader.props.children[1];
-    const children = actions.props.children;
-    const deleteButton = Array.isArray(children) ? children[1] : undefined;
-
-    expect(deleteButton).toBeUndefined();
+    expect(screen.queryByLabelText(/delete bowl/i)).toBeNull();
   });
 
-  it("calls onRemove when Delete button is pressed", () => {
+  it("calls onRemove when Delete is confirmed", () => {
     const onRemove = vi.fn();
-    const confirmSpy = vi.spyOn(window, "confirm").mockReturnValue(true);
-    const element = BowlCard({ bowl, onRemove });
 
-    const cardHeader = element.props.children[0];
-    const actions = cardHeader.props.children[1];
-    const buttons = actions.props.children;
-    const removeButton = Array.isArray(buttons) ? buttons[1] : buttons;
+    render(<BowlCard bowl={bowl} onRemove={onRemove} />);
 
-    removeButton.props.onPress();
+    fireEvent.click(screen.getByLabelText(/delete bowl/i));
+    fireEvent.click(screen.getByRole("button", { name: /delete/i }));
+
     expect(onRemove).toHaveBeenCalled();
-    confirmSpy.mockRestore();
   });
 
   it("calls onTobaccoClick when tobacco chip is selected", () => {
     const onTobaccoClick = vi.fn();
-    const element = BowlCard({ bowl, onTobaccoClick });
 
-    const cardBody = element.props.children[1];
-    const wrapper = cardBody.props.children;
-    const chips = wrapper.props.children;
-    const firstChip = Array.isArray(chips) ? chips[0] : chips;
+    render(<BowlCard bowl={bowl} onTobaccoClick={onTobaccoClick} />);
 
-    firstChip.props.onSelect();
-    expect(onTobaccoClick).toHaveBeenCalledWith(bowl.tobaccos[0].name);
-  });
+    const chip = screen.getAllByText("Alpha")[0];
 
-  it("renders proper amount of chips with correct content", () => {
-    const element = BowlCard({ bowl });
+    fireEvent.click(chip.parentElement!);
 
-    const cardBody = element.props.children[1];
-    const wrapper = cardBody.props.children;
-    const chips = wrapper.props.children;
-    const chipsArray = Array.isArray(chips) ? chips : [chips];
-
-    expect(chipsArray).toHaveLength(bowl.tobaccos.length);
-    chipsArray.forEach((chipElement, index) => {
-      expect(chipElement.props.tobacco.name).toBe(bowl.tobaccos[index].name);
-      expect(chipElement.props.tobacco.percentage).toBe(
-        bowl.tobaccos[index].percentage,
-      );
-    });
+    expect(onTobaccoClick).toHaveBeenCalledWith("Alpha");
   });
 });

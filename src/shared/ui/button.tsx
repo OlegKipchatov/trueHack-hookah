@@ -13,5 +13,11 @@ export const Button = ({ hint, children, ...props }: ButtonProps) => {
     </HeroButton>
   );
 
-  return hint ? <Tooltip content={hint}>{button}</Tooltip> : button;
+  return hint ? (
+    <Tooltip content={hint} placement="top-start" showArrow>
+      {button}
+    </Tooltip>
+  ) : (
+    button
+  );
 };

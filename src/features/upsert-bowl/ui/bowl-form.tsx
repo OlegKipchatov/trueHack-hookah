@@ -110,11 +110,7 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
                 hint="Delete tobacco"
                 size="sm"
                 variant="light"
-                onPress={() => {
-                  if (window.confirm("Are you sure?")) {
-                    removeField(idx);
-                  }
-                }}
+                onPress={() => removeField(idx)}
               >
                 <Icon icon="akar-icons:cross" width={16} />
               </Button>
@@ -150,7 +146,7 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
               ? "Name is required"
               : hasErrorTotal
                 ? "Total must be 100%"
-                : undefined
+                : "Save bowl"
           }
           isDisabled={hasErrorTotal || hasErrorName}
           type="submit"
