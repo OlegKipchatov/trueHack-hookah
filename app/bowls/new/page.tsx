@@ -1,9 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Button } from "@heroui/react";
-import { Icon } from "@iconify/react";
 
+import { Page } from "@/shared/ui/page";
+import { PageTitle } from "@/shared/ui/page-title";
 import { BowlForm } from "@/features/upsert-bowl";
 import { useBowls, type Bowl } from "@/entities/bowl";
 
@@ -19,20 +19,10 @@ const NewBowlPage = ({}: NewBowlPageProps) => {
   };
 
   return (
-    <section>
-      <div className="mb-4 flex items-center gap-2">
-        <Button
-          isIconOnly
-          aria-label="Back"
-          variant="light"
-          onPress={() => router.push("/user")}
-        >
-          <Icon icon="akar-icons:arrow-left" width={16} />
-        </Button>
-        <h1>Create Bowl</h1>
-      </div>
+    <Page>
+      <PageTitle withBackButton>Create Bowl</PageTitle>
       <BowlForm onSubmit={handleSubmit} />
-    </section>
+    </Page>
   );
 };
 

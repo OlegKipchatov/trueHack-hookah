@@ -4,6 +4,8 @@ import { Button } from "@heroui/react";
 import Link from "next/link";
 import { useCallback, useState } from "react";
 
+import { Page } from "@/shared/ui/page";
+import { PageTitle } from "@/shared/ui/page-title";
 import { useBowls } from "@/entities/bowl";
 import { BowlFilters } from "@/features/bowl-filters";
 import { BowlList } from "@/widgets/bowl-list";
@@ -24,10 +26,13 @@ const UserPage = ({}: UserPageProps) => {
     setFlavors((prev) => prev.filter((f) => f !== name));
 
   return (
-    <section className="p-4">
-      <Link href="/bowls/new">
-        <Button color="primary">Create Bowl</Button>
-      </Link>
+    <Page>
+      <div className="mb-4 flex items-center justify-between">
+        <PageTitle className="mb-0">Your Bowls</PageTitle>
+        <Link href="/bowls/new">
+          <Button color="primary">Create Bowl</Button>
+        </Link>
+      </div>
       <BowlFilters
         flavors={flavors}
         search={search}
@@ -41,7 +46,7 @@ const UserPage = ({}: UserPageProps) => {
         onAddFlavor={addFlavor}
         onRemove={removeBowl}
       />
-    </section>
+    </Page>
   );
 };
 

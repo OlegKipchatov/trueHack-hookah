@@ -2,6 +2,9 @@
 
 import { useEffect } from "react";
 
+import { Page } from "@/shared/ui/page";
+import { PageTitle } from "@/shared/ui/page-title";
+
 export type ErrorPageProps = {
   error: Error;
   reset: () => void;
@@ -15,8 +18,8 @@ const ErrorPage = ({ error, reset }: ErrorPageProps) => {
   }, [error]);
 
   return (
-    <div>
-      <h2>Something went wrong!</h2>
+    <Page>
+      <PageTitle>Something went wrong!</PageTitle>
       <button
         onClick={
           // Attempt to recover by trying to re-render the segment
@@ -25,7 +28,7 @@ const ErrorPage = ({ error, reset }: ErrorPageProps) => {
       >
         Try again
       </button>
-    </div>
+    </Page>
   );
 };
 

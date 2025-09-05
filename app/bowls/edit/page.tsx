@@ -1,10 +1,11 @@
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { Alert, Button } from "@heroui/react";
-import { Icon } from "@iconify/react";
+import { Alert } from "@heroui/react";
 import { Suspense } from "react";
 
+import { Page } from "@/shared/ui/page";
+import { PageTitle } from "@/shared/ui/page-title";
 import { BowlForm } from "@/features/upsert-bowl";
 import { useBowls, type Bowl } from "@/entities/bowl";
 
@@ -25,29 +26,19 @@ const Edit = () => {
 
   if (!bowl) {
     return (
-      <div className="p-6">
+      <Page>
         <Alert color="danger" variant="solid">
           Чаша для редактирования не найдена
         </Alert>
-      </div>
+      </Page>
     );
   }
 
   return (
-    <section className="p-6">
-      <div className="mb-4 flex items-center gap-2">
-        <Button
-          isIconOnly
-          aria-label="Back"
-          variant="light"
-          onPress={() => router.push("/user")}
-        >
-          <Icon icon="akar-icons:arrow-left" width={16} />
-        </Button>
-        <h1>Edit Bowl</h1>
-      </div>
+    <Page>
+      <PageTitle withBackButton>Edit Bowl</PageTitle>
       <BowlForm bowl={bowl} onSubmit={handleSubmit} />
-    </section>
+    </Page>
   );
 };
 
