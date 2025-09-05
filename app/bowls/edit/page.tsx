@@ -2,13 +2,14 @@
 
 import { useSearchParams, useRouter } from "next/navigation";
 import { Alert, Modal, ModalContent, ModalHeader } from "@heroui/react";
+import { Suspense } from "react";
 
 import { BowlForm } from "@/features/upsert-bowl/ui/bowl-form";
 import { useBowls, type Bowl } from "@/entities/bowl";
 
 export type EditBowlPageProps = {};
 
-const EditBowlPage = ({}: EditBowlPageProps) => {
+const Edit = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const { bowls, updateBowl } = useBowls();
@@ -38,6 +39,14 @@ const EditBowlPage = ({}: EditBowlPageProps) => {
         <BowlForm bowl={bowl} onSubmit={handleSubmit} />
       </ModalContent>
     </Modal>
+  );
+};
+
+const EditBowlPage = ({}: EditBowlPageProps) => {
+  return (
+    <Suspense>
+      <Edit />;
+    </Suspense>
   );
 };
 
