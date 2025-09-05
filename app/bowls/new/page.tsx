@@ -10,7 +10,7 @@ import { useBowls, type Bowl } from "@/entities/bowl";
 export type NewBowlPageProps = {};
 
 const NewBowlPage = ({}: NewBowlPageProps) => {
-  const { addBowl, isLoading } = useBowls();
+  const { addBowl } = useBowls();
   const router = useRouter();
 
   const handleSubmit = (bowl: Bowl) => {
@@ -19,7 +19,7 @@ const NewBowlPage = ({}: NewBowlPageProps) => {
   };
 
   return (
-    <Page isLoading={isLoading}>
+    <Page>
       <PageTitle withBackButton>Create Bowl</PageTitle>
       <BowlForm onSubmit={handleSubmit} />
     </Page>
