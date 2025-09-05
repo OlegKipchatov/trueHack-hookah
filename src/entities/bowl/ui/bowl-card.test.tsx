@@ -39,6 +39,7 @@ describe("BowlCard", () => {
 
   it("calls onRemove when Delete button is pressed", () => {
     const onRemove = vi.fn();
+    const confirmSpy = vi.spyOn(window, "confirm").mockReturnValue(true);
     const element = BowlCard({ bowl, onRemove });
 
     const cardHeader = element.props.children[0];
@@ -48,6 +49,7 @@ describe("BowlCard", () => {
 
     removeButton.props.onPress();
     expect(onRemove).toHaveBeenCalled();
+    confirmSpy.mockRestore();
   });
 
   it("calls onTobaccoClick when tobacco chip is selected", () => {

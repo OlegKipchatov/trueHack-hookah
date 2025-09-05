@@ -1,10 +1,12 @@
 import type { Bowl } from "../model/bowl";
 
-import { Card, CardHeader, CardBody, Button } from "@heroui/react";
+import { Card, CardHeader, CardBody } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
 
 import { BowlCardChip } from "./bowl-card-chip";
+
+import { Button } from "@/shared/ui/button";
 
 export type BowlCardProps = {
   bowl: Bowl;
@@ -19,13 +21,29 @@ export const BowlCard = ({ bowl, onRemove, onTobaccoClick }: BowlCardProps) => {
         <span>{bowl.name}</span>
         <div className="flex gap-2">
           <Link href={`/bowls/edit/?id=${bowl.id}`}>
-            <Button isIconOnly aria-label="Edit" size="sm">
+            <Button
+              isIconOnly
+              aria-label="Edit bowl"
+              hint="Edit bowl"
+              size="sm"
+            >
               <Icon icon="akar-icons:edit" width={16} />
             </Button>
           </Link>
           {onRemove && (
-            <Button color="danger" size="sm" onPress={onRemove}>
-              Delete
+            <Button
+              isIconOnly
+              aria-label="Delete bowl"
+              color="danger"
+              hint="Delete bowl"
+              size="sm"
+              onPress={() => {
+                if (window.confirm("Are you sure?")) {
+                  onRemove();
+                }
+              }}
+            >
+              <Icon icon="akar-icons:cross" width={16} />
             </Button>
           )}
         </div>

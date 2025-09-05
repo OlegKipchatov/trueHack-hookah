@@ -1,8 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Button } from "@heroui/react";
 import { Icon } from "@iconify/react";
+
+import { Button } from "./button";
 
 export type BackButtonProps = {
   className?: string;
@@ -24,6 +25,7 @@ export const BackButton = ({ className }: BackButtonProps) => {
       isIconOnly
       aria-label="Back"
       className={className}
+      hint="Back"
       variant="light"
       onPress={goBack}
     >

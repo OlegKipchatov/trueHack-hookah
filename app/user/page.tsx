@@ -1,9 +1,9 @@
 "use client";
 
-import { Button } from "@heroui/react";
 import Link from "next/link";
 import { useCallback, useState } from "react";
 
+import { Button } from "@/shared/ui/button";
 import { Page } from "@/shared/ui/page";
 import { PageTitle } from "@/shared/ui/page-title";
 import { useBowls } from "@/entities/bowl";
