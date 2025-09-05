@@ -23,7 +23,7 @@ describe("BowlCard", () => {
       ? actions.props.children[0]
       : actions.props.children;
 
-    expect(link.props.href).toBe(`/bowls/${bowl.id}/edit`);
+    expect(link.props.href).toBe(`/bowls/edit/?id=${bowl.id}`);
   });
 
   it("hides delete button when onRemove is missing", () => {
