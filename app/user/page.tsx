@@ -1,17 +1,17 @@
 "use client";
 
 import { Button } from "@heroui/react";
+import Link from "next/link";
 import { useCallback, useState } from "react";
 
 import { useBowls } from "@/entities/bowl";
-import { UpsertBowl } from "@/features/upsert-bowl";
 import { BowlFilters } from "@/features/bowl-filters";
 import { BowlList } from "@/widgets/bowl-list";
 
 export type UserPageProps = {};
 
 const UserPage = ({}: UserPageProps) => {
-  const { bowls, addBowl, updateBowl, removeBowl } = useBowls();
+  const { bowls, removeBowl } = useBowls();
   const [search, setSearch] = useState("");
   const [flavors, setFlavors] = useState<string[]>([]);
 
@@ -25,10 +25,9 @@ const UserPage = ({}: UserPageProps) => {
 
   return (
     <section className="p-4">
-      <UpsertBowl
-        trigger={<Button color="primary">Create Bowl</Button>}
-        onSubmit={addBowl}
-      />
+      <Link href="/bowls/new">
+        <Button color="primary">Create Bowl</Button>
+      </Link>
       <BowlFilters
         flavors={flavors}
         search={search}
@@ -41,7 +40,6 @@ const UserPage = ({}: UserPageProps) => {
         search={search}
         onAddFlavor={addFlavor}
         onRemove={removeBowl}
-        onUpdate={updateBowl}
       />
     </section>
   );

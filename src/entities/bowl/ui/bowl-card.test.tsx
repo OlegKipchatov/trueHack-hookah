@@ -14,31 +14,32 @@ describe("BowlCard", () => {
     ],
   };
 
-  it("hides action buttons when callbacks are missing", () => {
+  it("renders edit link with proper href", () => {
     const element = BowlCard({ bowl });
 
     const cardHeader = element.props.children[0];
     const actions = cardHeader.props.children[1];
+    const link = Array.isArray(actions.props.children)
+      ? actions.props.children[0]
+      : actions.props.children;
 
-    expect(actions).toBeFalsy();
+    expect(link.props.href).toBe(`/bowls/${bowl.id}/edit`);
   });
 
-  it("calls onEdit when Edit button is pressed", () => {
-    const onEdit = vi.fn();
-    const element = BowlCard({ bowl, onEdit, onRemove: vi.fn() });
+  it("hides delete button when onRemove is missing", () => {
+    const element = BowlCard({ bowl });
 
     const cardHeader = element.props.children[0];
     const actions = cardHeader.props.children[1];
-    const buttons = actions.props.children;
-    const editButton = Array.isArray(buttons) ? buttons[0] : buttons;
+    const children = actions.props.children;
+    const deleteButton = Array.isArray(children) ? children[1] : undefined;
 
-    editButton.props.onPress();
-    expect(onEdit).toHaveBeenCalled();
+    expect(deleteButton).toBeUndefined();
   });
 
   it("calls onRemove when Delete button is pressed", () => {
     const onRemove = vi.fn();
-    const element = BowlCard({ bowl, onRemove, onEdit: vi.fn() });
+    const element = BowlCard({ bowl, onRemove });
 
     const cardHeader = element.props.children[0];
     const actions = cardHeader.props.children[1];
