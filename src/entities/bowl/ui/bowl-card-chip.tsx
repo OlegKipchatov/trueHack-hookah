@@ -24,7 +24,10 @@ export const BowlCardChip = ({ tobacco, onSelect }: BowlCardChipProps) => {
         color="primary"
         size="lg"
         variant={isHover ? "solid" : "flat"}
-        onClick={() => onSelect?.(tobacco.name)}
+        onClick={(e) => {
+          e.stopPropagation();
+          onSelect?.(tobacco.name);
+        }}
       >
         {tobacco.name}
       </Chip>

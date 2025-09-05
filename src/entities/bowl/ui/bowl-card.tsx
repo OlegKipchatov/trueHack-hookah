@@ -9,6 +9,7 @@ export type BowlCardProps = {
   onEdit?: () => void;
   onRemove?: () => void;
   onTobaccoClick?: (name: string) => void;
+  onSelect?: () => void;
 };
 
 export const BowlCard = ({
@@ -16,20 +17,34 @@ export const BowlCard = ({
   onEdit,
   onRemove,
   onTobaccoClick,
+  onSelect,
 }: BowlCardProps) => {
   return (
-    <Card>
+    <Card isPressable={!!onSelect} onPress={onSelect}>
       <CardHeader className="flex items-center justify-between">
         <span>{bowl.name}</span>
         {(onEdit || onRemove) && (
           <div className="flex gap-2">
             {onEdit && (
-              <Button size="sm" onPress={onEdit}>
+              <Button
+                size="sm"
+                onPress={(e) => {
+                  e.stopPropagation();
+                  onEdit?.();
+                }}
+              >
                 Edit
               </Button>
             )}
             {onRemove && (
-              <Button color="danger" size="sm" onPress={onRemove}>
+              <Button
+                color="danger"
+                size="sm"
+                onPress={(e) => {
+                  e.stopPropagation();
+                  onRemove?.();
+                }}
+              >
                 Delete
               </Button>
             )}

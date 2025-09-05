@@ -32,7 +32,7 @@ describe("BowlCard", () => {
     const buttons = actions.props.children;
     const editButton = Array.isArray(buttons) ? buttons[0] : buttons;
 
-    editButton.props.onPress();
+    editButton.props.onPress({ stopPropagation: () => {} });
     expect(onEdit).toHaveBeenCalled();
   });
 
@@ -45,7 +45,7 @@ describe("BowlCard", () => {
     const buttons = actions.props.children;
     const removeButton = Array.isArray(buttons) ? buttons[1] : buttons;
 
-    removeButton.props.onPress();
+    removeButton.props.onPress({ stopPropagation: () => {} });
     expect(onRemove).toHaveBeenCalled();
   });
 
