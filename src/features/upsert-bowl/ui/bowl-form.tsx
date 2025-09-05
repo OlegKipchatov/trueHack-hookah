@@ -146,7 +146,7 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
               ? "Name is required"
               : hasErrorTotal
                 ? "Total must be 100%"
-                : "Save bowl"
+                : undefined
           }
           isDisabled={hasErrorTotal || hasErrorName}
           type="submit"
