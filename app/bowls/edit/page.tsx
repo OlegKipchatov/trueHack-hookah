@@ -1,7 +1,8 @@
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { Alert, Modal, ModalContent, ModalHeader } from "@heroui/react";
+import { Alert, Button } from "@heroui/react";
+import { Icon } from "@iconify/react";
 import { Suspense } from "react";
 
 import { BowlForm } from "@/features/upsert-bowl/ui/bowl-form";
@@ -33,19 +34,27 @@ const Edit = () => {
   }
 
   return (
-    <Modal defaultOpen hideCloseButton isDismissable={false} motionProps={{}}>
-      <ModalContent>
-        <ModalHeader>Edit Bowl</ModalHeader>
-        <BowlForm bowl={bowl} onSubmit={handleSubmit} />
-      </ModalContent>
-    </Modal>
+    <section className="p-6">
+      <div className="mb-4 flex items-center gap-2">
+        <Button
+          isIconOnly
+          aria-label="Back"
+          variant="light"
+          onPress={() => router.push("/user")}
+        >
+          <Icon icon="akar-icons:arrow-left" width={16} />
+        </Button>
+        <h1>Edit Bowl</h1>
+      </div>
+      <BowlForm bowl={bowl} onSubmit={handleSubmit} />
+    </section>
   );
 };
 
 const EditBowlPage = ({}: EditBowlPageProps) => {
   return (
     <Suspense>
-      <Edit />;
+      <Edit />
     </Suspense>
   );
 };
