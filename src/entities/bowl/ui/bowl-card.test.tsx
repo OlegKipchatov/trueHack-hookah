@@ -19,9 +19,23 @@ describe("BowlCard", () => {
   it("renders edit link with proper href", () => {
     render(<BowlCard bowl={bowl} />);
 
-    const link = screen.getByRole("link");
+    const editLink = screen
+      .getAllByRole("link")
+      .find(
+        (item) => item.getAttribute("href") === `/bowls/edit?id=${bowl.id}`,
+      );
 
-    expect(link.getAttribute("href")).toBe(`/bowls/edit?id=${bowl.id}`);
+    expect(editLink).toBeDefined();
+  });
+
+  it("links to bowl details", () => {
+    render(<BowlCard bowl={bowl} />);
+
+    const detailLinks = screen
+      .getAllByRole("link")
+      .filter((item) => item.getAttribute("href") === `/bowls/${bowl.id}`);
+
+    expect(detailLinks.length).toBeGreaterThan(0);
   });
 
   it("hides delete button when onRemove is missing", () => {

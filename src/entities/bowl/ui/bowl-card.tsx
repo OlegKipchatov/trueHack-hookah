@@ -28,13 +28,19 @@ export type BowlCardProps = {
 
 export const BowlCard = ({ bowl, onRemove, onTobaccoClick }: BowlCardProps) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const detailHref = `/bowls/${bowl.id}`;
 
   return (
     <>
       <Card>
-        <CardHeader className="flex items-center justify-between">
-          <span>{bowl.name}</span>
-          <div className="flex gap-2">
+        <CardHeader className="flex items-center justify-between gap-3">
+          <Link
+            className="flex-1 truncate rounded-md text-left text-base font-semibold leading-tight transition-colors hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+            href={detailHref}
+          >
+            {bowl.name}
+          </Link>
+          <div className="flex shrink-0 gap-2">
             <Link href={`/bowls/edit?id=${bowl.id}`}>
               <Button
                 isIconOnly
@@ -59,14 +65,22 @@ export const BowlCard = ({ bowl, onRemove, onTobaccoClick }: BowlCardProps) => {
             )}
           </div>
         </CardHeader>
-        <CardBody>
-          <div className="flex gap-4">
+        <CardBody className="relative">
+          <Link
+            aria-label={`Open bowl ${bowl.name}`}
+            className="absolute inset-0 z-0 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+            href={detailHref}
+          >
+            <span className="sr-only">Open bowl {bowl.name}</span>
+          </Link>
+          <div className="pointer-events-none relative z-10 flex flex-wrap gap-4">
             {bowl.tobaccos.map((t) => (
-              <BowlCardChip
-                key={t.name}
-                tobacco={t}
-                onSelect={() => onTobaccoClick?.(t.name)}
-              />
+              <div key={t.name} className="pointer-events-auto">
+                <BowlCardChip
+                  tobacco={t}
+                  onSelect={() => onTobaccoClick?.(t.name)}
+                />
+              </div>
             ))}
           </div>
         </CardBody>
