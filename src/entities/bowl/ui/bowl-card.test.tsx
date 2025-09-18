@@ -43,7 +43,7 @@ describe("BowlCard", () => {
       name: new RegExp(bowl.name),
     });
 
-    expect(detailLink.getAttribute("href")).toBe(`/bowls/${bowl.id}`);
+    expect(detailLink.getAttribute("href")).toBe(`/bowl?id=${bowl.id}`);
   });
 
   it("hides delete button when onRemove is missing", () => {

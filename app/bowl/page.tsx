@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   Modal,
   ModalBody,
@@ -18,19 +18,19 @@ import { EmptyMessage } from "@/shared/ui/empty-message";
 import { Page } from "@/shared/ui/page";
 import { PageTitle } from "@/shared/ui/page-title";
 
-export type BowlDetailPageProps = {};
+export type BowlPageProps = {};
 
-const BowlDetailPage = ({}: BowlDetailPageProps) => {
-  const params = useParams<{ id: string }>();
-  const id = params?.id;
+const BowlPage = ({}: BowlPageProps) => {
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
   const router = useRouter();
   const { bowls, removeBowl, isLoading } = useBowls();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const bowl = bowls.find((item) => item.id === id);
+  const bowl = id ? bowls.find((item) => item.id === id) : undefined;
 
   const status =
-    !isLoading && !bowl ? (
+    !isLoading && (!id || !bowl) ? (
       <EmptyMessage color="danger" variant="solid">
         Чаша не найдена
       </EmptyMessage>
@@ -129,4 +129,4 @@ const BowlDetailPage = ({}: BowlDetailPageProps) => {
   );
 };
 
-export default BowlDetailPage;
+export default BowlPage;

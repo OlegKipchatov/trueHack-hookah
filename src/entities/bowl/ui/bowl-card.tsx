@@ -30,7 +30,7 @@ export type BowlCardProps = {
 export const BowlCard = ({ bowl, onRemove, onTobaccoClick }: BowlCardProps) => {
   const router = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const detailHref = `/bowls/${bowl.id}`;
+  const detailHref = `/bowl?id=${bowl.id}`;
 
   const handleActionClick = (event: MouseEvent<HTMLElement>) => {
     event.preventDefault();
