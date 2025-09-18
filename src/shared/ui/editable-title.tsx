@@ -2,9 +2,7 @@
 
 import type { KeyboardEvent } from "react";
 
-import { useEffect, useRef, useState } from "react";
 import { Input } from "@heroui/react";
-import clsx from "clsx";
 
 export type EditableTitleProps = {
   value: string;
@@ -19,27 +17,14 @@ export const EditableTitle = ({
   placeholder,
   className,
 }: EditableTitleProps) => {
-  const [editing, setEditing] = useState(false);
-  const ref = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (editing) {
-      ref.current?.focus();
-    }
-  }, [editing]);
-
-  const stopEditing = () => setEditing(false);
-
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      stopEditing();
     }
   };
 
-  return editing ? (
+  return (
     <Input
-      ref={ref}
       className={className}
       classNames={{
         inputWrapper: "bg-transparent! px-0",
@@ -49,20 +34,8 @@ export const EditableTitle = ({
       size="lg"
       value={value}
       variant="flat"
-      onBlur={stopEditing}
       onChange={(e) => onChange(e.target.value)}
       onKeyDown={handleKeyDown}
     />
-  ) : (
-    <button
-      className={clsx(
-        "bg-transparent cursor-text p-0 text-left text-3xl font-bold h-12",
-        className,
-      )}
-      type="button"
-      onClick={() => setEditing(true)}
-    >
-      {value || placeholder}
-    </button>
   );
 };
