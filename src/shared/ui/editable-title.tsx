@@ -41,10 +41,14 @@ export const EditableTitle = ({
     <Input
       ref={ref}
       className={className}
+      classNames={{
+        inputWrapper: "bg-transparent! px-0",
+        input: "text-3xl font-bold",
+      }}
       placeholder={placeholder}
       size="lg"
       value={value}
-      variant="underlined"
+      variant="flat"
       onBlur={stopEditing}
       onChange={(e) => onChange(e.target.value)}
       onKeyDown={handleKeyDown}
@@ -52,7 +56,7 @@ export const EditableTitle = ({
   ) : (
     <button
       className={clsx(
-        "bg-transparent cursor-text p-0 text-left text-3xl font-bold",
+        "bg-transparent cursor-text p-0 text-left text-3xl font-bold h-12",
         className,
       )}
       type="button"
