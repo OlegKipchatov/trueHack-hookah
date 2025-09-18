@@ -7,6 +7,7 @@ import { Form, Input, Slider } from "@heroui/react";
 import { Icon } from "@iconify/react";
 
 import { Button } from "@/shared/ui/button";
+import { EditableTitle } from "@/shared/ui/editable-title";
 
 export type BowlFormProps = {
   bowl?: Bowl;
@@ -81,15 +82,7 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
   return (
     <Form className="items-stretch gap-4" onSubmit={submit}>
       <div className="flex flex-col items-stretch gap-4">
-        <Input
-          isRequired
-          label="Name"
-          labelPlacement="outside"
-          placeholder="My mix"
-          size="sm"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+        <EditableTitle placeholder="My mix" value={name} onChange={setName} />
         {tobaccos.map((t, idx) => (
           <div key={idx} className="flex flex-col gap-2">
             <div className="flex items-end gap-2">
