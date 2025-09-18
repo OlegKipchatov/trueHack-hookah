@@ -33,7 +33,7 @@ describe("BowlCard", () => {
 
     const detailLinks = screen
       .getAllByRole("link")
-      .filter((item) => item.getAttribute("href") === `/bowls/${bowl.id}`);
+      .filter((item) => item.getAttribute("href") === `/bowl?id=${bowl.id}`);
 
     expect(detailLinks.length).toBeGreaterThan(0);
   });

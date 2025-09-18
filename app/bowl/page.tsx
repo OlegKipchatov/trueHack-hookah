@@ -1,6 +1,8 @@
 "use client";
+
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import {
   Modal,
   ModalBody,
@@ -12,7 +14,6 @@ import {
 import { Icon } from "@iconify/react";
 
 import { useBowls } from "@/entities/bowl";
-import { BowlCardChip } from "@/entities/bowl/ui/bowl-card-chip";
 import { Button } from "@/shared/ui/button";
 import { EmptyMessage } from "@/shared/ui/empty-message";
 import { Page } from "@/shared/ui/page";
@@ -20,16 +21,14 @@ import { PageTitle } from "@/shared/ui/page-title";
 
 export type BowlDetailPageProps = {};
 
-const BowlDetailPage = ({}: BowlDetailPageProps) => {
-  const params = useParams<{ id?: string | string[] }>();
+const BowlDetailContent = ({}: BowlDetailPageProps) => {
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
   const router = useRouter();
   const { bowls, removeBowl, isLoading } = useBowls();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const param = params?.id;
-  const bowlId = Array.isArray(param) ? param[0] : (param ?? "");
-
-  const bowl = bowls.find((item) => item.id === bowlId);
+  const bowl = bowls.find((item) => item.id === id);
 
   const status =
     !isLoading && !bowl ? (
@@ -57,35 +56,47 @@ const BowlDetailPage = ({}: BowlDetailPageProps) => {
               <div className="flex gap-2">
                 <Link href={`/bowls/edit?id=${bowl.id}`}>
                   <Button
-                    color="primary"
-                    startContent={<Icon icon="akar-icons:edit" width={16} />}
+                    isIconOnly
+                    aria-label="Edit bowl"
+                    hint="Edit bowl"
+                    size="sm"
                   >
-                    Edit
+                    <Icon icon="akar-icons:edit" width={16} />
                   </Button>
                 </Link>
                 <Button
+                  isIconOnly
+                  aria-label="Delete bowl"
                   color="danger"
-                  startContent={<Icon icon="akar-icons:cross" width={16} />}
+                  hint="Delete bowl"
+                  size="sm"
                   onPress={onOpen}
                 >
-                  Delete
+                  <Icon icon="akar-icons:cross" width={16} />
                 </Button>
               </div>
             </div>
-            <section>
-              <h2 className="mb-3 text-lg font-semibold">Tobaccos</h2>
-              {bowl.tobaccos.length > 0 ? (
-                <div className="flex flex-wrap gap-3">
-                  {bowl.tobaccos.map((tobacco) => (
-                    <BowlCardChip key={tobacco.name} tobacco={tobacco} />
-                  ))}
-                </div>
-              ) : (
-                <EmptyMessage className="mt-2 w-full max-w-md text-left">
-                  В этой чаше нет табаков
-                </EmptyMessage>
-              )}
-            </section>
+            {bowl.tobaccos.length > 0 ? (
+              <ul className="flex w-full max-w-md flex-col gap-3">
+                {bowl.tobaccos.map((tobacco) => (
+                  <li
+                    key={tobacco.name}
+                    className="flex items-center justify-between rounded-large border border-default-200 bg-content1 px-4 py-3"
+                  >
+                    <span className="text-base font-medium text-default-700">
+                      {tobacco.name}
+                    </span>
+                    <span className="text-sm text-default-500">
+                      {tobacco.percentage}%
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <EmptyMessage className="mt-2 w-full max-w-md text-left">
+                В этой чаше нет табаков
+              </EmptyMessage>
+            )}
           </>
         )}
       </Page>
@@ -116,6 +127,14 @@ const BowlDetailPage = ({}: BowlDetailPageProps) => {
         </ModalContent>
       </Modal>
     </>
+  );
+};
+
+const BowlDetailPage = (props: BowlDetailPageProps) => {
+  return (
+    <Suspense>
+      <BowlDetailContent {...props} />
+    </Suspense>
   );
 };
 

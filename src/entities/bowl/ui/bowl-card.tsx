@@ -28,62 +28,51 @@ export type BowlCardProps = {
 
 export const BowlCard = ({ bowl, onRemove, onTobaccoClick }: BowlCardProps) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const detailHref = `/bowls/${bowl.id}`;
+  const detailHref = `/bowl?id=${bowl.id}`;
 
   return (
     <>
-      <Card>
-        <CardHeader className="flex items-center justify-between gap-3">
-          <Link
-            className="flex-1 truncate rounded-md text-left text-base font-semibold leading-tight transition-colors hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
-            href={detailHref}
-          >
-            {bowl.name}
-          </Link>
-          <div className="flex shrink-0 gap-2">
-            <Link href={`/bowls/edit?id=${bowl.id}`}>
-              <Button
-                isIconOnly
-                aria-label="Edit bowl"
-                hint="Edit bowl"
-                size="sm"
-              >
-                <Icon icon="akar-icons:edit" width={16} />
-              </Button>
-            </Link>
-            {onRemove && (
-              <Button
-                isIconOnly
-                aria-label="Delete bowl"
-                color="danger"
-                hint="Delete bowl"
-                size="sm"
-                onPress={onOpen}
-              >
-                <Icon icon="akar-icons:cross" width={16} />
-              </Button>
-            )}
-          </div>
+      <Card className="relative overflow-visible">
+        <CardHeader
+          as={Link}
+          className="flex w-full items-center px-4 py-3 pr-16 text-left text-base font-semibold leading-tight transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+          href={detailHref}
+        >
+          <span className="truncate">{bowl.name}</span>
         </CardHeader>
-        <CardBody className="relative">
-          <Link
-            aria-label={`Open bowl ${bowl.name}`}
-            className="absolute inset-0 z-0 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
-            href={detailHref}
-          >
-            <span className="sr-only">Open bowl {bowl.name}</span>
-          </Link>
-          <div className="pointer-events-none relative z-10 flex flex-wrap gap-4">
-            {bowl.tobaccos.map((t) => (
-              <div key={t.name} className="pointer-events-auto">
-                <BowlCardChip
-                  tobacco={t}
-                  onSelect={() => onTobaccoClick?.(t.name)}
-                />
-              </div>
-            ))}
-          </div>
+        <CardBody className="flex flex-wrap gap-4 px-4 pb-4 pt-0">
+          {bowl.tobaccos.map((t) => (
+            <BowlCardChip
+              key={t.name}
+              tobacco={t}
+              onSelect={() => onTobaccoClick?.(t.name)}
+            />
+          ))}
         </CardBody>
+        <div className="pointer-events-auto absolute right-4 top-3 z-10 flex gap-2">
+          <Link href={`/bowls/edit?id=${bowl.id}`}>
+            <Button
+              isIconOnly
+              aria-label="Edit bowl"
+              hint="Edit bowl"
+              size="sm"
+            >
+              <Icon icon="akar-icons:edit" width={16} />
+            </Button>
+          </Link>
+          {onRemove && (
+            <Button
+              isIconOnly
+              aria-label="Delete bowl"
+              color="danger"
+              hint="Delete bowl"
+              size="sm"
+              onPress={onOpen}
+            >
+              <Icon icon="akar-icons:cross" width={16} />
+            </Button>
+          )}
+        </div>
       </Card>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
