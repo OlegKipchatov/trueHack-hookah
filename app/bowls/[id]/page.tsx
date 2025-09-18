@@ -1,8 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense } from "react";
+import { useRouter, useParams } from "next/navigation";
 import {
   Modal,
   ModalBody,
@@ -21,9 +20,9 @@ import { PageTitle } from "@/shared/ui/page-title";
 
 export type BowlDetailPageProps = {};
 
-const BowlDetailContent = ({}: BowlDetailPageProps) => {
-  const searchParams = useSearchParams();
-  const id = searchParams.get("id");
+const BowlDetailPage = ({}: BowlDetailPageProps) => {
+  const params = useParams<{ id: string }>();
+  const id = params?.id;
   const router = useRouter();
   const { bowls, removeBowl, isLoading } = useBowls();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -77,11 +76,11 @@ const BowlDetailContent = ({}: BowlDetailPageProps) => {
               </div>
             </div>
             {bowl.tobaccos.length > 0 ? (
-              <ul className="flex w-full max-w-md flex-col gap-3">
+              <ul className="w-full max-w-md divide-y divide-default-200 overflow-hidden rounded-large border border-default-200 bg-content1">
                 {bowl.tobaccos.map((tobacco) => (
                   <li
                     key={tobacco.name}
-                    className="flex items-center justify-between rounded-large border border-default-200 bg-content1 px-4 py-3"
+                    className="flex items-center justify-between px-4 py-3"
                   >
                     <span className="text-base font-medium text-default-700">
                       {tobacco.name}
@@ -127,14 +126,6 @@ const BowlDetailContent = ({}: BowlDetailPageProps) => {
         </ModalContent>
       </Modal>
     </>
-  );
-};
-
-const BowlDetailPage = (props: BowlDetailPageProps) => {
-  return (
-    <Suspense>
-      <BowlDetailContent {...props} />
-    </Suspense>
   );
 };
 

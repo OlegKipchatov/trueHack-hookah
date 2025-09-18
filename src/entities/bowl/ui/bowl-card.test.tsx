@@ -5,6 +5,14 @@ import { render, fireEvent, screen, cleanup } from "@testing-library/react";
 
 import { BowlCard } from "./bowl-card";
 
+const push = vi.fn();
+
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({
+    push,
+  }),
+}));
+
 const bowl: Bowl = {
   id: "1",
   name: "Test bowl",
@@ -15,27 +23,27 @@ const bowl: Bowl = {
 };
 
 describe("BowlCard", () => {
-  afterEach(cleanup);
-  it("renders edit link with proper href", () => {
+  afterEach(() => {
+    cleanup();
+    vi.clearAllMocks();
+  });
+
+  it("navigates to edit page when edit action is pressed", () => {
     render(<BowlCard bowl={bowl} />);
 
-    const editLink = screen
-      .getAllByRole("link")
-      .find(
-        (item) => item.getAttribute("href") === `/bowls/edit?id=${bowl.id}`,
-      );
+    fireEvent.click(screen.getByLabelText(/edit bowl/i));
 
-    expect(editLink).toBeDefined();
+    expect(push).toHaveBeenCalledWith(`/bowls/edit?id=${bowl.id}`);
   });
 
   it("links to bowl details", () => {
     render(<BowlCard bowl={bowl} />);
 
-    const detailLinks = screen
-      .getAllByRole("link")
-      .filter((item) => item.getAttribute("href") === `/bowl?id=${bowl.id}`);
+    const detailLink = screen.getByRole("link", {
+      name: new RegExp(bowl.name),
+    });
 
-    expect(detailLinks.length).toBeGreaterThan(0);
+    expect(detailLink.getAttribute("href")).toBe(`/bowls/${bowl.id}`);
   });
 
   it("hides delete button when onRemove is missing", () => {
@@ -55,14 +63,12 @@ describe("BowlCard", () => {
     expect(onRemove).toHaveBeenCalled();
   });
 
-  it("calls onTobaccoClick when tobacco chip is selected", () => {
+  it("calls onTobaccoClick when tobacco entry is selected", () => {
     const onTobaccoClick = vi.fn();
 
     render(<BowlCard bowl={bowl} onTobaccoClick={onTobaccoClick} />);
 
-    const chip = screen.getAllByText("Alpha")[0];
-
-    fireEvent.click(chip.parentElement!);
+    fireEvent.click(screen.getByText(/Alpha — 50%/));
 
     expect(onTobaccoClick).toHaveBeenCalledWith("Alpha");
   });
