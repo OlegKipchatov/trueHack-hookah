@@ -13,7 +13,7 @@ import {
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { colors } from "@heroui/theme";
-import { Cell, Pie, PieChart, type PieLabelRenderProps } from "recharts";
+import { Cell, Pie, PieChart } from "recharts";
 
 import { useBowls } from "@/entities/bowl";
 import { Button } from "@/shared/ui/button";
@@ -38,16 +38,6 @@ const getTobaccoName = (name: string, index: number) => {
   }
 
   return `Табак ${index + 1}`;
-};
-
-const renderPieLabel = ({ name, percent }: PieLabelRenderProps) => {
-  if (!name) {
-    return null;
-  }
-
-  const percentage = Math.round((percent ?? 0) * 100);
-
-  return `${name} ${percentage}%`;
 };
 
 export type ViewBowlPageProps = {};
@@ -121,7 +111,7 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
                     return (
                       <li
                         key={`${tobaccoName}-${index}`}
-                        className="flex items-center justify-between gap-4 border-b border-gray-200 py-3 text-lg dark:border-gray-700"
+                        className="flex items-center justify-between gap-4 border-b border-zinc-200 py-3 text-lg dark:border-zinc-700"
                       >
                         <span className="flex-1 text-left">{tobaccoName}</span>
                         <span className="min-w-[3.5rem] text-right">
@@ -132,19 +122,13 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
                   })}
                 </ul>
               </div>
-              <div className="mx-auto w-full max-w-md md:ml-auto md:mr-0 md:w-1/2 md:max-w-lg">
-                <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900">
+              <div className="mx-auto w-full max-w-md md:w-1/2 md:max-w-lg">
+                <div className="flex flex-col items-center rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
                   <PieChart height={360} width={360}>
                     <Pie
                       data={chartData}
                       dataKey="value"
                       innerRadius={90}
-                      label={renderPieLabel}
-                      labelStyle={{
-                        fill: colors.zinc[700] ?? "#3f3f46",
-                        fontSize: "0.875rem",
-                        fontWeight: 600,
-                      }}
                       nameKey="name"
                       outerRadius={150}
                       paddingAngle={2}
@@ -157,6 +141,28 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
                       ))}
                     </Pie>
                   </PieChart>
+                  <ul className="mt-6 flex w-full flex-col items-center gap-3">
+                    {chartData.map((entry, index) => (
+                      <li
+                        key={`${entry.name}-${index}`}
+                        className="mx-auto flex w-full max-w-xs items-center gap-3 text-sm font-medium text-zinc-600 dark:text-zinc-200"
+                      >
+                        <span
+                          className="h-2.5 w-2.5 rounded-full"
+                          style={{
+                            backgroundColor:
+                              TOBACCO_COLORS[index % TOBACCO_COLORS.length],
+                          }}
+                        />
+                        <span className="flex-1 truncate text-center">
+                          {entry.name}
+                        </span>
+                        <span className="min-w-[3rem] text-right text-zinc-700 dark:text-zinc-100">
+                          {entry.value}%
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             </div>
