@@ -12,12 +12,24 @@ import {
   useDisclosure,
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
+import { Cell, Pie, PieChart } from "recharts";
 
 import { useBowls } from "@/entities/bowl";
 import { Button } from "@/shared/ui/button";
 import { EmptyMessage } from "@/shared/ui/empty-message";
 import { Page } from "@/shared/ui/page";
 import { PageTitle } from "@/shared/ui/page-title";
+
+const TOBACCO_COLORS = [
+  "#F87171",
+  "#60A5FA",
+  "#34D399",
+  "#FBBF24",
+  "#A78BFA",
+  "#F472B6",
+  "#38BDF8",
+  "#FB7185",
+];
 
 export type ViewBowlPageProps = {};
 
@@ -29,6 +41,15 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const bowl = bowls.find((item) => item.id === id);
+  const tobaccos = bowl?.tobaccos ?? [];
+  const hasTobaccos = tobaccos.length > 0;
+  const chartData = tobaccos.map((tobacco, index) => ({
+    name:
+      tobacco.name && tobacco.name.trim().length > 0
+        ? tobacco.name
+        : `Табак ${index + 1}`,
+    value: tobacco.percentage,
+  }));
 
   const status = !isLoading && !bowl && (
     <EmptyMessage color="danger" variant="solid">
@@ -74,18 +95,45 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
               </Button>
             </div>
           </div>
-          {bowl.tobaccos.length > 0 ? (
-            <ul className="mx-auto w-full max-w-xl">
-              {bowl.tobaccos.map((tobacco) => (
-                <li
-                  key={tobacco.name}
-                  className="flex items-center justify-between border-b border-gray-200 py-3 text-lg dark:border-gray-700"
-                >
-                  <span>{tobacco.name}</span>
-                  <span>{tobacco.percentage}%</span>
-                </li>
-              ))}
-            </ul>
+          {hasTobaccos ? (
+            <div className="mt-6 flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
+              <div className="mx-auto w-full max-w-md md:mx-0 md:w-1/2 md:max-w-lg">
+                <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900">
+                  <PieChart height={360} width={360}>
+                    <Pie
+                      data={chartData}
+                      dataKey="value"
+                      innerRadius={90}
+                      nameKey="name"
+                      outerRadius={150}
+                      paddingAngle={2}
+                    >
+                      {chartData.map((entry, index) => (
+                        <Cell
+                          key={`${entry.name}-${index}`}
+                          fill={TOBACCO_COLORS[index % TOBACCO_COLORS.length]}
+                        />
+                      ))}
+                    </Pie>
+                  </PieChart>
+                </div>
+              </div>
+              <div className="md:flex md:w-1/2 md:justify-end">
+                <ul className="mx-auto w-full max-w-xl md:ml-auto md:mr-0">
+                  {tobaccos.map((tobacco, index) => (
+                    <li
+                      key={`${tobacco.name}-${index}`}
+                      className="flex items-center justify-between gap-4 border-b border-gray-200 py-3 text-lg dark:border-gray-700"
+                    >
+                      <span className="flex-1 text-left">{tobacco.name}</span>
+                      <span className="min-w-[3.5rem] text-right">
+                        {tobacco.percentage}%
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           ) : (
             <EmptyMessage>Табаки отсутствуют</EmptyMessage>
           )}
