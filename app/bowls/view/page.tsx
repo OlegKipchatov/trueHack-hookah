@@ -75,13 +75,14 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
             </div>
           </div>
           {bowl.tobaccos.length > 0 ? (
-            <ul className="mx-auto w-full max-w-xl text-center">
+            <ul className="mx-auto w-full max-w-xl">
               {bowl.tobaccos.map((tobacco) => (
                 <li
                   key={tobacco.name}
-                  className="border-b border-gray-200 py-3 text-lg last:border-b-0 dark:border-gray-700"
+                  className="flex items-center justify-between border-b border-gray-200 py-3 text-lg dark:border-gray-700"
                 >
-                  {tobacco.name} — {tobacco.percentage}%
+                  <span>{tobacco.name}</span>
+                  <span>{tobacco.percentage}%</span>
                 </li>
               ))}
             </ul>
