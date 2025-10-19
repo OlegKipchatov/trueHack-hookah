@@ -132,7 +132,7 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
             color={usePercentages ? "primary" : "default"}
             hint={usePercentages ? "Disable percentages" : "Enable percentages"}
             size="sm"
-            variant={usePercentages ? "flat" : "bordered"}
+            variant={usePercentages ? "solid" : "bordered"}
             onPress={() => setUsePercentages((prev) => !prev)}
           >
             <Icon icon="akar-icons:percentage" width={16} />
