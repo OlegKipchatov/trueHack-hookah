@@ -37,6 +37,18 @@ describe("BowlCard", () => {
     expect(push).toHaveBeenCalledTimes(1);
   });
 
+  it("shows tobacco percentages when enabled", () => {
+    render(<BowlCard bowl={{ ...bowl, usePercentages: true }} />);
+
+    expect(screen.getAllByText(/50%/)).toHaveLength(2);
+  });
+
+  it("hides tobacco percentages when disabled", () => {
+    render(<BowlCard bowl={{ ...bowl, usePercentages: false }} />);
+
+    expect(screen.queryByText(/50%/)).toBeNull();
+  });
+
   it("navigates to bowl view when card is pressed", () => {
     render(<BowlCard bowl={bowl} />);
 

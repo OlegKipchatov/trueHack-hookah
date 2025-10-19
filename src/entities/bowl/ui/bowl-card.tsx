@@ -80,6 +80,7 @@ export const BowlCard = ({ bowl, onRemove, onTobaccoClick }: BowlCardProps) => {
             {bowl.tobaccos.map((t) => (
               <BowlCardChip
                 key={t.name}
+                showPercentages={bowl.usePercentages !== false}
                 tobacco={t}
                 onSelect={() => onTobaccoClick?.(t.name)}
               />
