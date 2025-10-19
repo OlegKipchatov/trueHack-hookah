@@ -79,7 +79,6 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
         value: tobacco.percentage!,
       }))
     : [];
-  const hasPercentages = chartData.length > 0;
 
   const status = !isLoading && !bowl && (
     <EmptyMessage color="danger" variant="solid">
@@ -151,51 +150,47 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
               </div>
               <div className="mx-auto w-full max-w-md md:w-1/2 md:max-w-lg">
                 {usePercentages ? (
-                  hasPercentages ? (
-                    <div className="flex flex-col items-center rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
-                      <PieChart height={360} width={360}>
-                        <Pie
-                          data={chartData}
-                          dataKey="value"
-                          innerRadius={90}
-                          nameKey="name"
-                          outerRadius={150}
-                          paddingAngle={2}
-                        >
-                          {chartData.map((entry, index) => (
-                            <Cell
-                              key={`${entry.name}-${index}`}
-                              fill={
-                                TOBACCO_COLORS[index % TOBACCO_COLORS.length]
-                              }
-                            />
-                          ))}
-                        </Pie>
-                      </PieChart>
-                      <ul className="mt-6 flex w-full flex-col items-center gap-3">
+                  <div className="flex flex-col items-center rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
+                    <PieChart height={360} width={360}>
+                      <Pie
+                        data={chartData}
+                        dataKey="value"
+                        innerRadius={90}
+                        nameKey="name"
+                        outerRadius={150}
+                        paddingAngle={2}
+                      >
                         {chartData.map((entry, index) => (
-                          <li
+                          <Cell
                             key={`${entry.name}-${index}`}
-                            className="mx-auto flex w-full max-w-xs items-center gap-3 text-sm font-medium text-zinc-600 dark:text-zinc-200"
-                          >
-                            <span
-                              className="h-2.5 w-2.5 rounded-full"
-                              style={{
-                                backgroundColor:
-                                  TOBACCO_COLORS[index % TOBACCO_COLORS.length],
-                              }}
-                            />
-                            <span className="flex-1 truncate text-center">
-                              {entry.name}
-                            </span>
-                            <span className="min-w-[3rem] text-right text-zinc-700 dark:text-zinc-100">
-                              {entry.value}%
-                            </span>
-                          </li>
+                            fill={TOBACCO_COLORS[index % TOBACCO_COLORS.length]}
+                          />
                         ))}
-                      </ul>
-                    </div>
-                  ) : null
+                      </Pie>
+                    </PieChart>
+                    <ul className="mt-6 flex w-full flex-col items-center gap-3">
+                      {chartData.map((entry, index) => (
+                        <li
+                          key={`${entry.name}-${index}`}
+                          className="mx-auto flex w-full max-w-xs items-center gap-3 text-sm font-medium text-zinc-600 dark:text-zinc-200"
+                        >
+                          <span
+                            className="h-2.5 w-2.5 rounded-full"
+                            style={{
+                              backgroundColor:
+                                TOBACCO_COLORS[index % TOBACCO_COLORS.length],
+                            }}
+                          />
+                          <span className="flex-1 truncate text-center">
+                            {entry.name}
+                          </span>
+                          <span className="min-w-[3rem] text-right text-zinc-700 dark:text-zinc-100">
+                            {entry.value}%
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 ) : (
                   <DisabledPercentagesBanner
                     onPress={() => router.push(`/bowls/edit?id=${bowl.id}`)}
