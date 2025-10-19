@@ -74,21 +74,10 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
   const hasTobaccos = tobaccos.length > 0;
   const usePercentages = bowl?.usePercentages ?? true;
   const chartData = usePercentages
-    ? tobaccos.reduce<{ name: string; value: number }[]>(
-        (acc, tobacco, index) => {
-          if (typeof tobacco.percentage !== "number") {
-            return acc;
-          }
-
-          acc.push({
-            name: getTobaccoName(tobacco.name, index),
-            value: tobacco.percentage,
-          });
-
-          return acc;
-        },
-        [],
-      )
+    ? tobaccos.map((tobacco, index) => ({
+        name: getTobaccoName(tobacco.name, index),
+        value: tobacco.percentage!,
+      }))
     : [];
   const hasPercentages = chartData.length > 0;
 
@@ -142,8 +131,7 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
                 <ul className="mx-auto w-full max-w-xl md:ml-0 md:mr-auto">
                   {tobaccos.map((tobacco, index) => {
                     const tobaccoName = getTobaccoName(tobacco.name, index);
-                    const showPercentage =
-                      usePercentages && typeof tobacco.percentage === "number";
+                    const showPercentage = usePercentages;
 
                     return (
                       <li
