@@ -1,5 +1,6 @@
 import type { BowlTobacco } from "../model/bowl";
 
+import { Chip, Badge } from "@heroui/react";
 import { describe, it, expect, vi } from "vitest";
 
 const useHoverMock = vi.hoisted(() => vi.fn(() => [null, false]));
@@ -41,9 +42,22 @@ describe("BowlCardChip", () => {
     expect(chip.props.variant).toBe("flat");
   });
 
-  it("shows tobacco percentage in badge", () => {
+  it("wraps chip in badge when percentages are shown", () => {
     const element = BowlCardChip({ tobacco });
 
+    expect(element.type).toBe(Badge);
     expect(element.props.content).toBe(`${tobacco.percentage}%`);
+  });
+
+  it("returns chip when percentages are hidden", () => {
+    const element = BowlCardChip({ tobacco, showPercentages: false });
+
+    expect(element.type).toBe(Chip);
+  });
+
+  it("returns chip when percentage is missing", () => {
+    const element = BowlCardChip({ tobacco: { name: "Alpha" } });
+
+    expect(element.type).toBe(Chip);
   });
 });

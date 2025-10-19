@@ -6,34 +6,47 @@ import { useHover } from "@uidotdev/usehooks";
 export type BowlCardChipProps = {
   tobacco: BowlTobacco;
   onSelect?: (name: string) => void;
+  showPercentages?: boolean;
 };
 
-export const BowlCardChip = ({ tobacco, onSelect }: BowlCardChipProps) => {
+export const BowlCardChip = ({
+  tobacco,
+  onSelect,
+  showPercentages = true,
+}: BowlCardChipProps) => {
   const [ref, isHover] = useHover();
 
-  return (
-    <Badge
-      color="secondary"
-      content={`${tobacco.percentage}%`}
-      size="sm"
-      variant="faded"
+  const chip = (
+    <Chip
+      ref={ref}
+      className="cursor-pointer"
+      color="primary"
+      size="lg"
+      variant={isHover ? "solid" : "flat"}
+      onClick={(event) => {
+        if (event) {
+          event.stopPropagation();
+          event.preventDefault();
+        }
+        onSelect?.(tobacco.name);
+      }}
     >
-      <Chip
-        ref={ref}
-        className="cursor-pointer"
-        color="primary"
-        size="lg"
-        variant={isHover ? "solid" : "flat"}
-        onClick={(event) => {
-          if (event) {
-            event.stopPropagation();
-            event.preventDefault();
-          }
-          onSelect?.(tobacco.name);
-        }}
-      >
-        {tobacco.name}
-      </Chip>
-    </Badge>
+      {tobacco.name}
+    </Chip>
   );
+
+  if (showPercentages && typeof tobacco.percentage === "number") {
+    return (
+      <Badge
+        color="secondary"
+        content={`${tobacco.percentage}%`}
+        size="sm"
+        variant="faded"
+      >
+        {chip}
+      </Badge>
+    );
+  }
+
+  return chip;
 };
