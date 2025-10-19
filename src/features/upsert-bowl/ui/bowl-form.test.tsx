@@ -1,0 +1,139 @@
+import type { Bowl } from "@/entities/bowl";
+
+import { afterEach, describe, expect, it, vi } from "vitest";
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
+
+import { BowlForm } from "./bowl-form";
+
+describe("BowlForm", () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  it("submits with percentages enabled", () => {
+    const bowl: Bowl = {
+      id: "1",
+      name: "My mix",
+      tobaccos: [
+        { name: "Mint", percentage: 60 },
+        { name: "Lime", percentage: 40 },
+      ],
+      usePercentages: true,
+    };
+    const onSubmit = vi.fn();
+
+    render(<BowlForm bowl={bowl} onSubmit={onSubmit} />);
+
+    expect(
+      screen.getAllByRole("slider", { name: /percentage/i }).length,
+    ).toBeGreaterThan(0);
+
+    const saveButton = screen.getByRole("button", { name: /save/i });
+    const form = saveButton.closest("form");
+
+    expect(form).not.toBeNull();
+
+    fireEvent.submit(form!);
+
+    expect(onSubmit).toHaveBeenCalledWith({ ...bowl });
+  });
+
+  it("allows saving when percentages are disabled", async () => {
+    const bowl: Bowl = {
+      id: "2",
+      name: "Custom mix",
+      tobaccos: [
+        { name: "Berry", percentage: 60 },
+        { name: "Peach", percentage: 60 },
+      ],
+      usePercentages: true,
+    };
+    const onSubmit = vi.fn();
+
+    render(<BowlForm bowl={bowl} onSubmit={onSubmit} />);
+
+    const saveButton = screen.getByRole("button", { name: /save/i });
+
+    expect((saveButton as HTMLButtonElement).disabled).toBe(true);
+
+    const toggle = screen.getByRole("button", { name: /toggle percentages/i });
+
+    expect(toggle.getAttribute("aria-pressed")).toBe("true");
+
+    fireEvent.click(toggle);
+    expect(toggle.getAttribute("aria-pressed")).toBe("false");
+
+    expect(screen.queryByRole("slider", { name: /percentage/i })).toBeNull();
+    await waitFor(() => {
+      const refreshedButton = screen.getByRole("button", {
+        name: /save/i,
+      }) as HTMLButtonElement;
+
+      expect(refreshedButton.disabled).toBe(false);
+    });
+
+    const form = screen.getByRole("button", { name: /save/i }).closest("form");
+
+    expect(form).not.toBeNull();
+
+    fireEvent.submit(form!);
+
+    expect(onSubmit).toHaveBeenCalledWith({ ...bowl, usePercentages: false });
+  });
+
+  it("restores slider values when re-enabling percentages", () => {
+    const bowl: Bowl = {
+      id: "3",
+      name: "Floral mix",
+      tobaccos: [
+        { name: "Rose", percentage: 25 },
+        { name: "Jasmine", percentage: 75 },
+      ],
+      usePercentages: true,
+    };
+    const onSubmit = vi.fn();
+
+    render(<BowlForm bowl={bowl} onSubmit={onSubmit} />);
+
+    const slidersBeforeToggle = screen.getAllByRole("slider", {
+      name: /percentage/i,
+    });
+
+    expect(slidersBeforeToggle.length).toBeGreaterThan(0);
+
+    const toggle = screen.getByRole("button", { name: /toggle percentages/i });
+
+    expect(toggle.getAttribute("aria-pressed")).toBe("true");
+
+    fireEvent.click(toggle);
+    expect(toggle.getAttribute("aria-pressed")).toBe("false");
+    expect(screen.queryByRole("slider", { name: /percentage/i })).toBeNull();
+
+    fireEvent.click(toggle);
+    expect(toggle.getAttribute("aria-pressed")).toBe("true");
+
+    const slidersAfterToggle = screen.getAllByRole("slider", {
+      name: /percentage/i,
+    });
+
+    expect(slidersAfterToggle.length).toBeGreaterThan(0);
+
+    const saveButton = screen.getByRole("button", { name: /save/i });
+    const form = saveButton.closest("form");
+
+    expect(form).not.toBeNull();
+
+    fireEvent.submit(form!);
+
+    expect(onSubmit).toHaveBeenCalledTimes(1);
+    const submittedBowl = onSubmit.mock.calls[0][0] as Bowl;
+
+    expect(submittedBowl.tobaccos[0]?.percentage).toBe(25);
+  });
+});

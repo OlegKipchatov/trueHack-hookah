@@ -6,13 +6,14 @@ import { useLocalStorage } from "@/shared/lib/useLocalStorage";
 
 export type BowlTobacco = {
   name: string;
-  percentage: number;
+  percentage?: number;
 };
 
 export type Bowl = {
   id: string;
   name: string;
   tobaccos: BowlTobacco[];
+  usePercentages?: boolean;
 };
 
 export const useBowls = () => {
@@ -20,7 +21,13 @@ export const useBowls = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setBowls((prev) => prev.map((b) => ({ ...b, name: b.name ?? "" })));
+    setBowls((prev) =>
+      prev.map((b) => ({
+        ...b,
+        name: b.name ?? "",
+        usePercentages: b.usePercentages ?? true,
+      })),
+    );
     setIsLoading(false);
   }, [setBowls]);
 

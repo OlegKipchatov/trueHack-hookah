@@ -15,20 +15,34 @@ export type BowlFormProps = {
 };
 
 export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
+  const initialUsePercentages = bowl?.usePercentages ?? true;
+  const [usePercentages, setUsePercentages] = useState(initialUsePercentages);
   const [name, setName] = useState(bowl ? bowl.name : "");
-  const [tobaccos, setTobaccos] = useState<BowlTobacco[]>(
-    bowl ? bowl.tobaccos : [{ name: "", percentage: 100 }],
+  const [tobaccos, setTobaccos] = useState<BowlTobacco[]>(() =>
+    bowl
+      ? bowl.tobaccos
+      : [{ name: "", percentage: initialUsePercentages ? 100 : undefined }],
   );
 
   useEffect(() => {
     if (bowl) {
       setTobaccos(bowl.tobaccos);
       setName(bowl.name);
+      setUsePercentages(bowl.usePercentages ?? true);
     }
   }, [bowl]);
 
-  const addField = ({ percentage }: { percentage: number }) => {
-    setTobaccos([...tobaccos, { name: "", percentage }]);
+  const addField = () => {
+    setTobaccos((prev) => {
+      if (!usePercentages) {
+        return [...prev, { name: "", percentage: undefined }];
+      }
+
+      const total = prev.reduce((sum, t) => sum + (t.percentage ?? 0), 0);
+      const percentage = Math.max(0, 100 - total);
+
+      return [...prev, { name: "", percentage }];
+    });
   };
 
   const updateField = <K extends keyof BowlTobacco>(
@@ -36,53 +50,94 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
     field: K,
     value: BowlTobacco[K],
   ) => {
-    const next = [...tobaccos];
+    setTobaccos((prev) => {
+      const next = [...prev];
 
-    if (field === "percentage") {
-      const max = next[index].percentage + restTotal;
-      const clamped = Math.max(0, Math.min(value as number, max));
+      if (field === "percentage") {
+        if (!usePercentages) {
+          next[index].percentage = value as number;
 
-      next[index].percentage = clamped;
-    } else {
-      next[index][field] = value;
-    }
-    setTobaccos(next);
+          return next;
+        }
+
+        const othersTotal = prev.reduce((sum, tobacco, idx) => {
+          if (idx === index) {
+            return sum;
+          }
+
+          return sum + (tobacco.percentage ?? 0);
+        }, 0);
+        const max = Math.max(0, 100 - othersTotal);
+        const clamped = Math.max(0, Math.min(value as number, max));
+
+        next[index].percentage = clamped;
+      } else {
+        next[index][field] = value;
+      }
+
+      return next;
+    });
   };
 
   const removeField = (index: number) => {
-    const next = tobaccos.filter((_, idx) => idx !== index);
+    setTobaccos((prev) => {
+      const next = prev.filter((_, idx) => idx !== index);
 
-    if (next.length === 0) {
-      setTobaccos([{ name: "", percentage: 100 }]);
-    } else {
-      if (next.length === 1) {
-        next[0].percentage = 100;
+      if (next.length === 0) {
+        return [{ name: "", percentage: usePercentages ? 100 : undefined }];
       }
-      setTobaccos(next);
-    }
+
+      if (usePercentages && next.length === 1) {
+        const [first] = next;
+
+        return [{ ...first, percentage: 100 }];
+      }
+
+      return next;
+    });
   };
 
-  const total = tobaccos.reduce((sum, t) => sum + t.percentage, 0);
-  const restTotal = 100 - total;
-  const hasErrorTotal = total !== 100;
+  const total = tobaccos.reduce((sum, t) => sum + (t.percentage ?? 0), 0);
+  const hasErrorTotal = usePercentages ? total !== 100 : false;
   const hasErrorName = name.trim() === "";
 
   const submit = () => {
     const result: Bowl = bowl
-      ? { ...bowl, name, tobaccos }
-      : { id: crypto.randomUUID(), name, tobaccos };
+      ? { ...bowl, name, tobaccos, usePercentages }
+      : { id: crypto.randomUUID(), name, tobaccos, usePercentages };
 
     onSubmit(result);
     if (!bowl) {
       setTobaccos([{ name: "", percentage: 100 }]);
       setName("");
+      setUsePercentages(true);
     }
   };
 
   return (
     <Form className="items-stretch gap-4" onSubmit={submit}>
       <div className="flex flex-col items-stretch gap-4">
-        <EditableTitle placeholder="My mix" value={name} onChange={setName} />
+        <div className="flex items-center gap-4">
+          <EditableTitle
+            className="flex-1"
+            placeholder="My mix"
+            value={name}
+            onChange={setName}
+          />
+          <Button
+            isIconOnly
+            aria-label="Toggle percentages"
+            aria-pressed={usePercentages}
+            className="ml-auto"
+            color={usePercentages ? "primary" : "default"}
+            hint={usePercentages ? "Disable percentages" : "Enable percentages"}
+            size="sm"
+            variant={usePercentages ? "flat" : "bordered"}
+            onPress={() => setUsePercentages((prev) => !prev)}
+          >
+            <Icon icon="akar-icons:percentage" width={16} />
+          </Button>
+        </div>
         {tobaccos.map((t, idx) => (
           <div key={idx} className="flex flex-col gap-2">
             <div className="flex items-end gap-2">
@@ -108,15 +163,17 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
                 <Icon icon="akar-icons:cross" width={16} />
               </Button>
             </div>
-            <Slider
-              label="Percentage"
-              maxValue={100}
-              size="sm"
-              value={t.percentage}
-              onChange={(value) =>
-                updateField(idx, "percentage", value as number)
-              }
-            />
+            {usePercentages && (
+              <Slider
+                label="Percentage"
+                maxValue={100}
+                size="sm"
+                value={t.percentage ?? 0}
+                onChange={(value) =>
+                  updateField(idx, "percentage", value as number)
+                }
+              />
+            )}
           </div>
         ))}
         <div>
@@ -125,7 +182,7 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
             size="sm"
             startContent={<Icon icon="akar-icons:plus" width={16} />}
             variant="light"
-            onPress={() => addField({ percentage: restTotal })}
+            onPress={addField}
           >
             Add Tobacco
           </Button>
