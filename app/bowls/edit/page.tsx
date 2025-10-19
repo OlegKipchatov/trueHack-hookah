@@ -21,7 +21,7 @@ const EditBowlContent = ({}: EditBowlPageProps) => {
 
   const handleSubmit = (b: Bowl) => {
     updateBowl(b);
-    router.push("/user");
+    router.push(`/bowls/view?id=${b.id}`);
   };
 
   const status = !isLoading && !bowl && (

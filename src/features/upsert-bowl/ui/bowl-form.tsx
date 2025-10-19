@@ -2,7 +2,7 @@
 
 import type { Bowl, BowlTobacco } from "@/entities/bowl";
 
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Form, Input, Slider } from "@heroui/react";
 import { Icon } from "@iconify/react";
 
@@ -114,8 +114,13 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
     }
   };
 
+  const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    submit();
+  };
+
   return (
-    <Form className="items-stretch gap-4" onSubmit={submit}>
+    <Form className="items-stretch gap-4" onSubmit={handleFormSubmit}>
       <div className="flex flex-col items-stretch gap-4">
         <div className="flex items-center gap-4">
           <EditableTitle
