@@ -40,6 +40,29 @@ const getTobaccoName = (name: string, index: number) => {
   return `Табак ${index + 1}`;
 };
 
+export type DisabledPercentagesBannerProps = {
+  onPress: () => void;
+};
+
+const DisabledPercentagesBanner = ({
+  onPress,
+}: DisabledPercentagesBannerProps) => {
+  return (
+    <Button
+      className="group flex w-full flex-col rounded-3xl border border-dashed border-zinc-300 bg-zinc-50 p-0 shadow-none transition-colors hover:border-zinc-400 hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 dark:border-zinc-700 dark:bg-zinc-900 dark:hover:border-zinc-500 dark:hover:bg-zinc-800"
+      variant="light"
+      onPress={onPress}
+    >
+      <span className="flex w-full flex-1 flex-col items-center justify-center gap-2 px-8 py-12 text-center text-base font-medium text-zinc-700 transition-colors group-hover:text-zinc-900 dark:text-zinc-200 dark:group-hover:text-white">
+        <Icon icon="akar-icons:edit" width={28} />
+        <span className="max-w-[18rem] text-balance text-lg">
+          Проценты для этой чаши отключены. Нажмите, чтобы настроить их.
+        </span>
+      </span>
+    </Button>
+  );
+};
+
 export type ViewBowlPageProps = {};
 
 const ViewBowlContent = ({}: ViewBowlPageProps) => {
@@ -122,10 +145,8 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
                 <ul className="mx-auto w-full max-w-xl md:ml-0 md:mr-auto">
                   {tobaccos.map((tobacco, index) => {
                     const tobaccoName = getTobaccoName(tobacco.name, index);
-                    const percentageLabel =
-                      usePercentages && typeof tobacco.percentage === "number"
-                        ? `${tobacco.percentage}%`
-                        : "—";
+                    const showPercentage =
+                      usePercentages && typeof tobacco.percentage === "number";
 
                     return (
                       <li
@@ -133,9 +154,11 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
                         className="flex items-center justify-between gap-4 border-b border-zinc-200 py-3 text-lg dark:border-zinc-700"
                       >
                         <span className="flex-1 text-left">{tobaccoName}</span>
-                        <span className="min-w-[3.5rem] text-right">
-                          {percentageLabel}
-                        </span>
+                        {showPercentage && (
+                          <span className="min-w-[3.5rem] text-right">
+                            {tobacco.percentage}%
+                          </span>
+                        )}
                       </li>
                     );
                   })}
@@ -193,20 +216,9 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
                     </EmptyMessage>
                   )
                 ) : (
-                  <Button
-                    className="flex w-full flex-col rounded-2xl border border-dashed border-zinc-300 bg-transparent p-0 text-left shadow-none transition-colors hover:border-zinc-400 dark:border-zinc-700 dark:hover:border-zinc-500"
-                    variant="light"
+                  <DisabledPercentagesBanner
                     onPress={() => router.push(`/bowls/edit?id=${bowl.id}`)}
-                  >
-                    <EmptyMessage
-                      className="mt-0 w-full rounded-2xl border-none bg-transparent py-6 text-base"
-                      color="primary"
-                      variant="flat"
-                    >
-                      Проценты для этой чаши отключены. Нажмите, чтобы настроить
-                      их.
-                    </EmptyMessage>
-                  </Button>
+                  />
                 )}
               </div>
             </div>
