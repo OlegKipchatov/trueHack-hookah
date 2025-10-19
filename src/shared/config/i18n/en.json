@@ -40,6 +40,10 @@
   "bowlCard.confirm": "Delete",
   "bowlList.noResults": "No bowls found",
   "bowlList.empty": "No bowls yet. Create your first bowl.",
+  "bowlView.notFound": "Bowl not found",
+  "bowlView.noTobaccos": "No tobaccos added",
+  "bowlView.tobaccoFallback": "Tobacco {index}",
+  "bowlView.disabledPercentagesHint": "Percentages for this bowl are disabled. Tap to configure them.",
   "error.title": "Something went wrong!",
   "error.tryAgain": "Try again"
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import type { AbstractIntlMessages } from "next-intl";
 
 import {
   createContext,
@@ -10,6 +11,10 @@ import {
   useMemo,
   useState,
 } from "react";
+import {
+  NextIntlClientProvider,
+  useTranslations as useIntlTranslations,
+} from "next-intl";
 
 import { useLocalStorage } from "../useLocalStorage";
 
@@ -18,7 +23,7 @@ import en from "@/shared/config/i18n/en.json";
 const SUPPORTED_LANGUAGES = ["en", "ru"] as const;
 
 export type Language = (typeof SUPPORTED_LANGUAGES)[number];
-export type TranslationDictionary = Record<string, string>;
+export type TranslationDictionary = AbstractIntlMessages;
 
 const LANGUAGE_STORAGE_KEY = "app-language";
 const DEFAULT_LANGUAGE: Language = "en";
@@ -39,19 +44,18 @@ const dictionaryLoaders: Record<
     ),
 };
 
-export type I18nContextValue = {
+export type LanguageContextValue = {
   language: Language;
   setLanguage: (language: Language) => void;
-  t: (key: string) => string;
 };
 
-const defaultContextValue: I18nContextValue = {
+const defaultContextValue: LanguageContextValue = {
   language: DEFAULT_LANGUAGE,
   setLanguage: () => undefined,
-  t: (key: string) => fallbackDictionary[key] ?? key,
 };
 
-const I18nContext = createContext<I18nContextValue>(defaultContextValue);
+const LanguageContext =
+  createContext<LanguageContextValue>(defaultContextValue);
 
 export type I18nProviderProps = {
   children: ReactNode;
@@ -100,11 +104,6 @@ export const I18nProvider = ({ children }: I18nProviderProps) => {
     document.documentElement.lang = language;
   }, [language]);
 
-  const translate = useCallback(
-    (key: string) => dictionary[key] ?? key,
-    [dictionary],
-  );
-
   const changeLanguage = useCallback(
     (nextLanguage: Language) => {
       if (!SUPPORTED_LANGUAGES.includes(nextLanguage)) {
@@ -118,16 +117,26 @@ export const I18nProvider = ({ children }: I18nProviderProps) => {
     [setStoredLanguage],
   );
 
-  const value = useMemo<I18nContextValue>(
+  const contextValue = useMemo<LanguageContextValue>(
     () => ({
       language,
       setLanguage: changeLanguage,
-      t: translate,
     }),
-    [changeLanguage, language, translate],
+    [changeLanguage, language],
   );
 
-  return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
+  return (
+    <LanguageContext.Provider value={contextValue}>
+      <NextIntlClientProvider locale={language} messages={dictionary}>
+        {children}
+      </NextIntlClientProvider>
+    </LanguageContext.Provider>
+  );
 };
 
-export const useTranslation = () => useContext(I18nContext);
+export const useTranslation = () => {
+  const translate = useIntlTranslations();
+  const { language, setLanguage } = useContext(LanguageContext);
+
+  return { language, setLanguage, t: translate };
+};

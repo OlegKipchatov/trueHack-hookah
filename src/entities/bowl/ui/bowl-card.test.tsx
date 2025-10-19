@@ -3,6 +3,44 @@ import type { Bowl } from "../model/bowl";
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { render, fireEvent, screen, cleanup } from "@testing-library/react";
 
+import en from "@/shared/config/i18n/en.json";
+
+const enDictionary = en as Record<string, string>;
+
+const interpolate = (
+  template: string,
+  values?: Record<string, unknown>,
+) =>
+  template.replace(/\{(\w+)\}/g, (_, placeholder: string) => {
+    if (!values) {
+      return `{${placeholder}}`;
+    }
+
+    const value = values[placeholder];
+
+    if (value === undefined || value === null) {
+      return "";
+    }
+
+    return String(value);
+  });
+
+vi.mock("@/shared/lib/i18n/provider", () => ({
+  useTranslation: () => ({
+    t: (key: string, values?: Record<string, unknown>) => {
+      const template = enDictionary[key];
+
+      if (!template) {
+        return key;
+      }
+
+      return interpolate(template, values);
+    },
+    language: "en",
+    setLanguage: vi.fn(),
+  }),
+}));
+
 const push = vi.fn();
 
 vi.mock("next/navigation", () => ({

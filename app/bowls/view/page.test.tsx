@@ -3,6 +3,44 @@ import type { ReactNode } from "react";
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
+import ru from "@/shared/config/i18n/ru.json";
+
+const ruDictionary = ru as Record<string, string>;
+
+const interpolate = (
+  template: string,
+  values?: Record<string, unknown>,
+) =>
+  template.replace(/\{(\w+)\}/g, (_, placeholder: string) => {
+    if (!values) {
+      return `{${placeholder}}`;
+    }
+
+    const value = values[placeholder];
+
+    if (value === undefined || value === null) {
+      return "";
+    }
+
+    return String(value);
+  });
+
+vi.mock("@/shared/lib/i18n/provider", () => ({
+  useTranslation: () => ({
+    t: (key: string, values?: Record<string, unknown>) => {
+      const template = ruDictionary[key];
+
+      if (!template) {
+        return key;
+      }
+
+      return interpolate(template, values);
+    },
+    language: "ru",
+    setLanguage: vi.fn(),
+  }),
+}));
+
 import ViewBowlPage from "./page";
 
 const push = vi.fn();

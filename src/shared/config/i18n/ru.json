@@ -40,6 +40,10 @@
   "bowlCard.confirm": "Удалить",
   "bowlList.noResults": "Чаши не найдены",
   "bowlList.empty": "Чаши ещё не созданы. Создайте свою первую чашу.",
+  "bowlView.notFound": "Чаша не найдена",
+  "bowlView.noTobaccos": "Табаки отсутствуют",
+  "bowlView.tobaccoFallback": "Табак {index}",
+  "bowlView.disabledPercentagesHint": "Проценты для этой чаши отключены. Нажмите, чтобы настроить их.",
   "error.title": "Что-то пошло не так!",
   "error.tryAgain": "Попробовать снова"
 }
