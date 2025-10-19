@@ -49,15 +49,12 @@ const DisabledPercentagesBanner = ({
 }: DisabledPercentagesBannerProps) => {
   return (
     <Button
-      className="group flex w-full flex-col rounded-3xl border border-dashed border-zinc-300 bg-zinc-50 p-0 shadow-none transition-colors hover:border-zinc-400 hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 dark:border-zinc-700 dark:bg-zinc-900 dark:hover:border-zinc-500 dark:hover:bg-zinc-800"
+      className="group flex h-[200px] w-full flex-col items-center justify-center gap-4 rounded-3xl border border-dashed border-zinc-300 bg-zinc-50 p-8 text-center shadow-none transition-colors hover:border-zinc-400 hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 dark:border-zinc-700 dark:bg-zinc-900 dark:hover:border-zinc-500 dark:hover:bg-zinc-800"
       variant="light"
       onPress={onPress}
     >
-      <span className="flex w-full flex-1 flex-col items-center justify-center gap-2 px-8 py-12 text-center text-base font-medium text-zinc-700 transition-colors group-hover:text-zinc-900 dark:text-zinc-200 dark:group-hover:text-white">
-        <Icon icon="akar-icons:edit" width={28} />
-        <span className="max-w-[18rem] text-balance text-lg">
-          Проценты для этой чаши отключены. Нажмите, чтобы настроить их.
-        </span>
+      <span className="max-w-[18rem] text-balance text-lg font-medium text-zinc-700 transition-colors group-hover:text-zinc-900 dark:text-zinc-200 dark:group-hover:text-white">
+        Проценты для этой чаши отключены. Нажмите, чтобы настроить их.
       </span>
     </Button>
   );
@@ -210,11 +207,7 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
                         ))}
                       </ul>
                     </div>
-                  ) : (
-                    <EmptyMessage className="mt-0 w-full" variant="flat">
-                      Проценты для табаков не указаны
-                    </EmptyMessage>
-                  )
+                  ) : null
                 ) : (
                   <DisabledPercentagesBanner
                     onPress={() => router.push(`/bowls/edit?id=${bowl.id}`)}
