@@ -2,6 +2,8 @@
 
 import { Input, Chip } from "@heroui/react";
 
+import { useTranslation } from "@/shared/lib/i18n/provider";
+
 export type BowlFiltersProps = {
   search: string;
   onSearchChange: (value: string) => void;
@@ -15,11 +17,13 @@ export const BowlFilters = ({
   flavors,
   onRemoveFlavor,
 }: BowlFiltersProps) => {
+  const { t: translate } = useTranslation();
+
   return (
     <>
       <Input
         className="mt-4 max-w-xs"
-        placeholder="Search bowls"
+        placeholder={translate("filters.searchPlaceholder")}
         size="sm"
         value={search}
         onChange={(e) => onSearchChange(e.target.value)}

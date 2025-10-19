@@ -6,6 +6,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { Form, Input, Slider } from "@heroui/react";
 import { Icon } from "@iconify/react";
 
+import { useTranslation } from "@/shared/lib/i18n/provider";
 import { Button } from "@/shared/ui/button";
 import { EditableTitle } from "@/shared/ui/editable-title";
 
@@ -23,6 +24,7 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
       ? bowl.tobaccos
       : [{ name: "", percentage: initialUsePercentages ? 100 : undefined }],
   );
+  const { t: translate } = useTranslation();
 
   useEffect(() => {
     if (bowl) {
@@ -125,17 +127,21 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
         <div className="flex items-center gap-4">
           <EditableTitle
             className="flex-1"
-            placeholder="My mix"
+            placeholder={translate("bowlForm.placeholder")}
             value={name}
             onChange={setName}
           />
           <Button
             isIconOnly
-            aria-label="Toggle percentages"
+            aria-label={translate("bowlForm.togglePercentages")}
             aria-pressed={usePercentages}
             className="ml-auto"
             color={usePercentages ? "primary" : "default"}
-            hint={usePercentages ? "Disable percentages" : "Enable percentages"}
+            hint={
+              usePercentages
+                ? translate("bowlForm.disablePercentages")
+                : translate("bowlForm.enablePercentages")
+            }
             size="sm"
             variant={usePercentages ? "solid" : "bordered"}
             onPress={() => setUsePercentages((prev) => !prev)}
@@ -143,24 +149,24 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
             <Icon icon="akar-icons:percentage" width={16} />
           </Button>
         </div>
-        {tobaccos.map((t, idx) => (
+        {tobaccos.map((tobacco, idx) => (
           <div key={idx} className="flex flex-col gap-2">
             <div className="flex items-end gap-2">
               <Input
                 isRequired
                 className="flex-1"
-                label="Tobacco"
+                label={translate("bowlForm.tobaccoLabel")}
                 labelPlacement="outside"
-                placeholder="pineapple"
+                placeholder={translate("bowlForm.tobaccoPlaceholder")}
                 size="sm"
-                value={t.name}
+                value={tobacco.name}
                 onChange={(e) => updateField(idx, "name", e.target.value)}
               />
               <Button
                 isIconOnly
-                aria-label="Delete tobacco"
+                aria-label={translate("bowlForm.deleteTobacco")}
                 color="danger"
-                hint="Delete tobacco"
+                hint={translate("bowlForm.deleteTobacco")}
                 size="sm"
                 variant="light"
                 onPress={() => removeField(idx)}
@@ -170,10 +176,10 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
             </div>
             {usePercentages && (
               <Slider
-                label="Percentage"
+                label={translate("bowlForm.percentageLabel")}
                 maxValue={100}
                 size="sm"
-                value={t.percentage ?? 0}
+                value={tobacco.percentage ?? 0}
                 onChange={(value) =>
                   updateField(idx, "percentage", value as number)
                 }
@@ -189,7 +195,7 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
             variant="light"
             onPress={addField}
           >
-            Add Tobacco
+            {translate("bowlForm.addTobacco")}
           </Button>
         </div>
       </div>
@@ -198,16 +204,16 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
           color="primary"
           hint={
             hasErrorName
-              ? "Name is required"
+              ? translate("bowlForm.nameRequired")
               : hasErrorTotal
-                ? "Total must be 100%"
+                ? translate("bowlForm.totalMustBe100")
                 : undefined
           }
           isDisabled={hasErrorTotal || hasErrorName}
           type="submit"
           onPress={submit}
         >
-          Save
+          {translate("bowlForm.save")}
         </Button>
       </div>
     </Form>

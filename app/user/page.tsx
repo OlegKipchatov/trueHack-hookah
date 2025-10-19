@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCallback, useState } from "react";
 
+import { useTranslation } from "@/shared/lib/i18n/provider";
 import { Button } from "@/shared/ui/button";
 import { Page } from "@/shared/ui/page";
 import { PageTitle } from "@/shared/ui/page-title";
@@ -16,6 +17,7 @@ const UserPage = ({}: UserPageProps) => {
   const { bowls, removeBowl, isLoading } = useBowls();
   const [search, setSearch] = useState("");
   const [flavors, setFlavors] = useState<string[]>([]);
+  const { t: translate } = useTranslation();
 
   const addFlavor = useCallback(
     (name: string) =>
@@ -28,9 +30,9 @@ const UserPage = ({}: UserPageProps) => {
   return (
     <Page isLoading={isLoading}>
       <div className="mb-4 flex items-center justify-between">
-        <PageTitle className="mb-0">Your Bowls</PageTitle>
+        <PageTitle className="mb-0">{translate("user.title")}</PageTitle>
         <Link href="/bowls/new">
-          <Button color="primary">Create Bowl</Button>
+          <Button color="primary">{translate("user.create")}</Button>
         </Link>
       </div>
       <BowlFilters
