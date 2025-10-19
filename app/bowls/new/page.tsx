@@ -15,7 +15,7 @@ const NewBowlPage = ({}: NewBowlPageProps) => {
 
   const handleSubmit = (bowl: Bowl) => {
     addBowl(bowl);
-    router.push("/user");
+    router.push(`/bowls/view?id=${bowl.id}`);
   };
 
   return (
