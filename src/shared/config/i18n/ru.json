@@ -1,49 +1,75 @@
 {
-  "app.name": "BowlBuilder",
-  "app.tagline": "Сервис для создания и сохранения собственных миксов для кальянных чаш",
-  "app.cta": "Создайте свою идеальную чашу.",
-  "app.followPrefix": "Подписывайтесь на",
-  "app.followLink": "канал разработки",
-  "app.followSuffix": "и следите за обновлениями.",
-  "navbar.profile": "Профиль",
-  "navbar.brand": "BowlBuilder",
-  "filters.searchPlaceholder": "Поиск чаш",
-  "bowlForm.placeholder": "Мой микс",
-  "bowlForm.togglePercentages": "Переключить проценты",
-  "bowlForm.disablePercentages": "Отключить проценты",
-  "bowlForm.enablePercentages": "Включить проценты",
-  "bowlForm.tobaccoLabel": "Табак",
-  "bowlForm.tobaccoPlaceholder": "ананас",
-  "bowlForm.deleteTobacco": "Удалить табак",
-  "bowlForm.percentageLabel": "Процент",
-  "bowlForm.addTobacco": "Добавить табак",
-  "bowlForm.nameRequired": "Название обязательно",
-  "bowlForm.totalMustBe100": "Сумма должна быть 100%",
-  "bowlForm.save": "Сохранить",
-  "languageSwitch.switchTo.en": "Переключить на английский",
-  "languageSwitch.switchTo.ru": "Переключить на русский",
-  "languageSwitch.englishShort": "EN",
-  "languageSwitch.russianShort": "RU",
-  "languageSwitch.englishFull": "Английский",
-  "languageSwitch.russianFull": "Русский",
-  "backButton.back": "Назад",
-  "themeSwitch.switchTo": "Переключить на",
-  "themeSwitch.darkMode": "тёмную тему",
-  "themeSwitch.lightMode": "светлую тему",
-  "user.title": "Ваши чаши",
-  "user.create": "Создать чашу",
-  "bowlCard.edit": "Редактировать чашу",
-  "bowlCard.delete": "Удалить чашу",
-  "bowlCard.confirmTitle": "Удалить чашу",
-  "bowlCard.confirmQuestion": "Вы уверены?",
-  "bowlCard.cancel": "Отмена",
-  "bowlCard.confirm": "Удалить",
-  "bowlList.noResults": "Чаши не найдены",
-  "bowlList.empty": "Чаши ещё не созданы. Создайте свою первую чашу.",
-  "bowlView.notFound": "Чаша не найдена",
-  "bowlView.noTobaccos": "Табаки отсутствуют",
-  "bowlView.tobaccoFallback": "Табак {index}",
-  "bowlView.disabledPercentagesHint": "Проценты для этой чаши отключены. Нажмите, чтобы настроить их.",
-  "error.title": "Что-то пошло не так!",
-  "error.tryAgain": "Попробовать снова"
+  "app": {
+    "name": "BowlBuilder",
+    "tagline": "Сервис для создания и сохранения собственных миксов для кальянных чаш",
+    "cta": "Создайте свою идеальную чашу.",
+    "followPrefix": "Подписывайтесь на",
+    "followLink": "канал разработки",
+    "followSuffix": "и следите за обновлениями."
+  },
+  "navbar": {
+    "profile": "Профиль",
+    "brand": "BowlBuilder"
+  },
+  "filters": {
+    "searchPlaceholder": "Поиск чаш"
+  },
+  "bowlForm": {
+    "placeholder": "Мой микс",
+    "togglePercentages": "Переключить проценты",
+    "disablePercentages": "Отключить проценты",
+    "enablePercentages": "Включить проценты",
+    "tobaccoLabel": "Табак",
+    "tobaccoPlaceholder": "ананас",
+    "deleteTobacco": "Удалить табак",
+    "percentageLabel": "Процент",
+    "addTobacco": "Добавить табак",
+    "nameRequired": "Название обязательно",
+    "totalMustBe100": "Сумма должна быть 100%",
+    "save": "Сохранить"
+  },
+  "languageSwitch": {
+    "switchTo": {
+      "en": "Переключить на английский",
+      "ru": "Переключить на русский"
+    },
+    "englishShort": "EN",
+    "russianShort": "RU",
+    "englishFull": "Английский",
+    "russianFull": "Русский"
+  },
+  "backButton": {
+    "back": "Назад"
+  },
+  "themeSwitch": {
+    "switchTo": "Переключить на",
+    "darkMode": "тёмную тему",
+    "lightMode": "светлую тему"
+  },
+  "user": {
+    "title": "Ваши чаши",
+    "create": "Создать чашу"
+  },
+  "bowlCard": {
+    "edit": "Редактировать чашу",
+    "delete": "Удалить чашу",
+    "confirmTitle": "Удалить чашу",
+    "confirmQuestion": "Вы уверены?",
+    "cancel": "Отмена",
+    "confirm": "Удалить"
+  },
+  "bowlList": {
+    "noResults": "Чаши не найдены",
+    "empty": "Чаши ещё не созданы. Создайте свою первую чашу."
+  },
+  "bowlView": {
+    "notFound": "Чаша не найдена",
+    "noTobaccos": "Табаки отсутствуют",
+    "tobaccoFallback": "Табак {index}",
+    "disabledPercentagesHint": "Проценты для этой чаши отключены. Нажмите, чтобы настроить их."
+  },
+  "error": {
+    "title": "Что-то пошло не так!",
+    "tryAgain": "Попробовать снова"
+  }
 }

@@ -3,14 +3,26 @@ import type { Bowl } from "../model/bowl";
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { render, fireEvent, screen, cleanup } from "@testing-library/react";
 
+import { BowlCard } from "./bowl-card";
+
 import en from "@/shared/config/i18n/en.json";
 
-const enDictionary = en as Record<string, string>;
+const enDictionary = en as Record<string, unknown>;
 
-const interpolate = (
-  template: string,
-  values?: Record<string, unknown>,
-) =>
+const resolveKey = (dictionary: Record<string, unknown>, key: string) =>
+  key.split(".").reduce<unknown>((current, segment) => {
+    if (
+      current === undefined ||
+      current === null ||
+      typeof current !== "object"
+    ) {
+      return undefined;
+    }
+
+    return (current as Record<string, unknown>)[segment];
+  }, dictionary);
+
+const interpolate = (template: string, values?: Record<string, unknown>) =>
   template.replace(/\{(\w+)\}/g, (_, placeholder: string) => {
     if (!values) {
       return `{${placeholder}}`;
@@ -28,9 +40,9 @@ const interpolate = (
 vi.mock("@/shared/lib/i18n/provider", () => ({
   useTranslation: () => ({
     t: (key: string, values?: Record<string, unknown>) => {
-      const template = enDictionary[key];
+      const template = resolveKey(enDictionary, key);
 
-      if (!template) {
+      if (typeof template !== "string") {
         return key;
       }
 
@@ -48,8 +60,6 @@ vi.mock("next/navigation", () => ({
     push,
   }),
 }));
-
-import { BowlCard } from "./bowl-card";
 
 const bowl: Bowl = {
   id: "1",

@@ -1,49 +1,75 @@
 {
-  "app.name": "BowlBuilder",
-  "app.tagline": "Service for creating and saving your own hookah bowl mixes",
-  "app.cta": "Create your perfect bowl.",
-  "app.followPrefix": "Subscribe to the",
-  "app.followLink": "development channel",
-  "app.followSuffix": "and stay tuned for updates.",
-  "navbar.profile": "Profile",
-  "navbar.brand": "BowlBuilder",
-  "filters.searchPlaceholder": "Search bowls",
-  "bowlForm.placeholder": "My mix",
-  "bowlForm.togglePercentages": "Toggle percentages",
-  "bowlForm.disablePercentages": "Disable percentages",
-  "bowlForm.enablePercentages": "Enable percentages",
-  "bowlForm.tobaccoLabel": "Tobacco",
-  "bowlForm.tobaccoPlaceholder": "pineapple",
-  "bowlForm.deleteTobacco": "Delete tobacco",
-  "bowlForm.percentageLabel": "Percentage",
-  "bowlForm.addTobacco": "Add Tobacco",
-  "bowlForm.nameRequired": "Name is required",
-  "bowlForm.totalMustBe100": "Total must be 100%",
-  "bowlForm.save": "Save",
-  "languageSwitch.switchTo.en": "Switch to English",
-  "languageSwitch.switchTo.ru": "Switch to Russian",
-  "languageSwitch.englishShort": "EN",
-  "languageSwitch.russianShort": "RU",
-  "languageSwitch.englishFull": "English",
-  "languageSwitch.russianFull": "Russian",
-  "backButton.back": "Back",
-  "themeSwitch.switchTo": "Switch to",
-  "themeSwitch.darkMode": "dark mode",
-  "themeSwitch.lightMode": "light mode",
-  "user.title": "Your Bowls",
-  "user.create": "Create Bowl",
-  "bowlCard.edit": "Edit bowl",
-  "bowlCard.delete": "Delete bowl",
-  "bowlCard.confirmTitle": "Delete bowl",
-  "bowlCard.confirmQuestion": "Are you sure?",
-  "bowlCard.cancel": "Cancel",
-  "bowlCard.confirm": "Delete",
-  "bowlList.noResults": "No bowls found",
-  "bowlList.empty": "No bowls yet. Create your first bowl.",
-  "bowlView.notFound": "Bowl not found",
-  "bowlView.noTobaccos": "No tobaccos added",
-  "bowlView.tobaccoFallback": "Tobacco {index}",
-  "bowlView.disabledPercentagesHint": "Percentages for this bowl are disabled. Tap to configure them.",
-  "error.title": "Something went wrong!",
-  "error.tryAgain": "Try again"
+  "app": {
+    "name": "BowlBuilder",
+    "tagline": "Service for creating and saving your own hookah bowl mixes",
+    "cta": "Create your perfect bowl.",
+    "followPrefix": "Subscribe to the",
+    "followLink": "development channel",
+    "followSuffix": "and stay tuned for updates."
+  },
+  "navbar": {
+    "profile": "Profile",
+    "brand": "BowlBuilder"
+  },
+  "filters": {
+    "searchPlaceholder": "Search bowls"
+  },
+  "bowlForm": {
+    "placeholder": "My mix",
+    "togglePercentages": "Toggle percentages",
+    "disablePercentages": "Disable percentages",
+    "enablePercentages": "Enable percentages",
+    "tobaccoLabel": "Tobacco",
+    "tobaccoPlaceholder": "pineapple",
+    "deleteTobacco": "Delete tobacco",
+    "percentageLabel": "Percentage",
+    "addTobacco": "Add Tobacco",
+    "nameRequired": "Name is required",
+    "totalMustBe100": "Total must be 100%",
+    "save": "Save"
+  },
+  "languageSwitch": {
+    "switchTo": {
+      "en": "Switch to English",
+      "ru": "Switch to Russian"
+    },
+    "englishShort": "EN",
+    "russianShort": "RU",
+    "englishFull": "English",
+    "russianFull": "Russian"
+  },
+  "backButton": {
+    "back": "Back"
+  },
+  "themeSwitch": {
+    "switchTo": "Switch to",
+    "darkMode": "dark mode",
+    "lightMode": "light mode"
+  },
+  "user": {
+    "title": "Your Bowls",
+    "create": "Create Bowl"
+  },
+  "bowlCard": {
+    "edit": "Edit bowl",
+    "delete": "Delete bowl",
+    "confirmTitle": "Delete bowl",
+    "confirmQuestion": "Are you sure?",
+    "cancel": "Cancel",
+    "confirm": "Delete"
+  },
+  "bowlList": {
+    "noResults": "No bowls found",
+    "empty": "No bowls yet. Create your first bowl."
+  },
+  "bowlView": {
+    "notFound": "Bowl not found",
+    "noTobaccos": "No tobaccos added",
+    "tobaccoFallback": "Tobacco {index}",
+    "disabledPercentagesHint": "Percentages for this bowl are disabled. Tap to configure them."
+  },
+  "error": {
+    "title": "Something went wrong!",
+    "tryAgain": "Try again"
+  }
 }
