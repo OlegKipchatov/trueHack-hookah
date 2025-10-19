@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 
+import { useTranslation } from "@/shared/lib/i18n/provider";
 import { Page } from "@/shared/ui/page";
 import { PageTitle } from "@/shared/ui/page-title";
 
@@ -17,16 +18,18 @@ const ErrorPage = ({ error, reset }: ErrorPageProps) => {
     console.error(error);
   }, [error]);
 
+  const { t: translate } = useTranslation();
+
   return (
     <Page>
-      <PageTitle>Something went wrong!</PageTitle>
+      <PageTitle>{translate("error.title")}</PageTitle>
       <button
         onClick={
           // Attempt to recover by trying to re-render the segment
           () => reset()
         }
       >
-        Try again
+        {translate("error.tryAgain")}
       </button>
     </Page>
   );

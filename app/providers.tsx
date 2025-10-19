@@ -7,6 +7,8 @@ import { HeroUIProvider } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 
+import { I18nProvider } from "@/shared/lib/i18n/provider";
+
 export interface ProvidersProps {
   children: ReactNode;
   themeProps?: ThemeProviderProps;
@@ -25,7 +27,9 @@ export const Providers = ({ children, themeProps }: ProvidersProps) => {
 
   return (
     <HeroUIProvider navigate={router.push}>
-      <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
+      <I18nProvider>
+        <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
+      </I18nProvider>
     </HeroUIProvider>
   );
 };

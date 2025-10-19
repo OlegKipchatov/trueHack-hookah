@@ -1,5 +1,13 @@
 import { describe, it, expect, vi } from "vitest";
 
+vi.mock("@/shared/lib/i18n/provider", () => ({
+  useTranslation: () => ({
+    t: (key: string) => key,
+    setLanguage: vi.fn(),
+    language: "en",
+  }),
+}));
+
 import { BowlFilters } from "./bowl-filters";
 
 describe("BowlFilters", () => {

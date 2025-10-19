@@ -5,6 +5,54 @@ import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 import ViewBowlPage from "./page";
 
+import ru from "@/shared/config/i18n/ru.json";
+
+const ruDictionary = ru as Record<string, unknown>;
+
+const resolveKey = (dictionary: Record<string, unknown>, key: string) =>
+  key.split(".").reduce<unknown>((current, segment) => {
+    if (
+      current === undefined ||
+      current === null ||
+      typeof current !== "object"
+    ) {
+      return undefined;
+    }
+
+    return (current as Record<string, unknown>)[segment];
+  }, dictionary);
+
+const interpolate = (template: string, values?: Record<string, unknown>) =>
+  template.replace(/\{(\w+)\}/g, (_, placeholder: string) => {
+    if (!values) {
+      return `{${placeholder}}`;
+    }
+
+    const value = values[placeholder];
+
+    if (value === undefined || value === null) {
+      return "";
+    }
+
+    return String(value);
+  });
+
+vi.mock("@/shared/lib/i18n/provider", () => ({
+  useTranslation: () => ({
+    t: (key: string, values?: Record<string, unknown>) => {
+      const template = resolveKey(ruDictionary, key);
+
+      if (typeof template !== "string") {
+        return key;
+      }
+
+      return interpolate(template, values);
+    },
+    language: "ru",
+    setLanguage: vi.fn(),
+  }),
+}));
+
 const push = vi.fn();
 
 vi.mock("next/link", () => ({
