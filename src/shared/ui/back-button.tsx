@@ -9,13 +9,20 @@ import { useTranslation } from "@/shared/lib/i18n/provider";
 
 export type BackButtonProps = {
   className?: string;
+  href?: string;
 };
 
-export const BackButton = ({ className }: BackButtonProps) => {
+export const BackButton = ({ className, href }: BackButtonProps) => {
   const router = useRouter();
   const { t: translate } = useTranslation();
 
   const goBack = () => {
+    if (href) {
+      router.push(href);
+
+      return;
+    }
+
     if (window.history.length > 1) {
       router.back();
     } else {

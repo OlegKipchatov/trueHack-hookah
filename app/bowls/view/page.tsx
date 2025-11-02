@@ -108,7 +108,7 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
       {bowl && (
         <>
           <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
-            <PageTitle withBackButton className="mb-0">
+            <PageTitle withBackButton backHref="/user" className="mb-0">
               {bowl.name}
             </PageTitle>
             <div className="flex gap-2">
