@@ -46,8 +46,8 @@ export const BowlCard = ({ bowl, onRemove, onTobaccoClick }: BowlCardProps) => {
           <div className="flex gap-2">
             <Button
               isIconOnly
-              aria-label={translate("bowlCard.edit")}
-              hint={translate("bowlCard.edit")}
+              aria-label={translate("bowl.actions.edit")}
+              hint={translate("bowl.actions.edit")}
               size="sm"
               onClick={(event) => {
                 event.stopPropagation();
@@ -62,9 +62,9 @@ export const BowlCard = ({ bowl, onRemove, onTobaccoClick }: BowlCardProps) => {
             {onRemove && (
               <Button
                 isIconOnly
-                aria-label={translate("bowlCard.delete")}
+                aria-label={translate("bowl.delete.title")}
                 color="danger"
-                hint={translate("bowlCard.delete")}
+                hint={translate("bowl.delete.title")}
                 size="sm"
                 onClick={(event) => {
                   event.stopPropagation();
@@ -94,13 +94,13 @@ export const BowlCard = ({ bowl, onRemove, onTobaccoClick }: BowlCardProps) => {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader>{translate("bowlCard.confirmTitle")}</ModalHeader>
+              <ModalHeader>{translate("bowl.delete.title")}</ModalHeader>
               <ModalBody>
-                <p>{translate("bowlCard.confirmQuestion")}</p>
+                <p>{translate("bowl.delete.question")}</p>
               </ModalBody>
               <ModalFooter>
                 <Button variant="light" onPress={onClose}>
-                  {translate("bowlCard.cancel")}
+                  {translate("common.cancel")}
                 </Button>
                 <Button
                   color="danger"
@@ -109,7 +109,7 @@ export const BowlCard = ({ bowl, onRemove, onTobaccoClick }: BowlCardProps) => {
                     onClose();
                   }}
                 >
-                  {translate("bowlCard.confirm")}
+                  {translate("bowl.delete.confirm")}
                 </Button>
               </ModalFooter>
             </>

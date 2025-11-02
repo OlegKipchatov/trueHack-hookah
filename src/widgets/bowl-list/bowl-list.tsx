@@ -37,12 +37,12 @@ export const BowlList = ({
     if (hasFilters) {
       return (
         <EmptyMessage color="warning" variant="solid">
-          {translate("bowlList.noResults")}
+          {translate("bowl.list.noResults")}
         </EmptyMessage>
       );
     }
 
-    return <EmptyMessage>{translate("bowlList.empty")}</EmptyMessage>;
+    return <EmptyMessage>{translate("bowl.list.empty")}</EmptyMessage>;
   }
 
   return (

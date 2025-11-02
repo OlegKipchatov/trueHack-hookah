@@ -32,7 +32,7 @@ const UserPage = ({}: UserPageProps) => {
       <div className="mb-4 flex items-center justify-between">
         <PageTitle className="mb-0">{translate("user.title")}</PageTitle>
         <Link href="/bowls/new">
-          <Button color="primary">{translate("user.create")}</Button>
+          <Button color="primary">{translate("bowl.actions.create")}</Button>
         </Link>
       </div>
       <BowlFilters

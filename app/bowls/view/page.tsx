@@ -42,7 +42,7 @@ const getTobaccoName = (
     return name;
   }
 
-  return translate("bowlView.tobaccoFallback", { index: index + 1 });
+  return translate("bowl.view.tobaccoFallback", { index: index + 1 });
 };
 
 export type DisabledPercentagesBannerProps = {
@@ -56,14 +56,14 @@ const DisabledPercentagesBanner = ({
 
   return (
     <Button
-      aria-label={translate("bowlView.disabledPercentagesHint")}
+      aria-label={translate("bowl.view.disabledPercentagesHint")}
       className="group flex h-[200px] w-full flex-col items-center justify-center gap-4 rounded-3xl border border-dashed border-zinc-300 bg-zinc-50 p-8 text-center shadow-none transition-colors hover:border-zinc-400 hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 dark:border-zinc-700 dark:bg-zinc-900 dark:hover:border-zinc-500 dark:hover:bg-zinc-800"
-      hint={translate("bowlView.disabledPercentagesHint")}
+      hint={translate("bowl.view.disabledPercentagesHint")}
       variant="light"
       onPress={onPress}
     >
       <span className="max-w-[18rem] text-balance text-lg font-medium text-zinc-700 transition-colors group-hover:text-zinc-900 dark:text-zinc-200 dark:group-hover:text-white">
-        {translate("bowlView.disabledPercentagesHint")}
+        {translate("bowl.view.disabledPercentagesHint")}
       </span>
     </Button>
   );
@@ -92,7 +92,7 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
 
   const status = !isLoading && !bowl && (
     <EmptyMessage color="danger" variant="solid">
-      {translate("bowlView.notFound")}
+      {translate("bowl.view.notFound")}
     </EmptyMessage>
   );
 
@@ -115,8 +115,8 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
               <Link href={`/bowls/edit?id=${bowl.id}`}>
                 <Button
                   isIconOnly
-                  aria-label={translate("bowlCard.edit")}
-                  hint={translate("bowlCard.edit")}
+                  aria-label={translate("bowl.actions.edit")}
+                  hint={translate("bowl.actions.edit")}
                   size="sm"
                 >
                   <Icon icon="akar-icons:edit" width={16} />
@@ -124,9 +124,9 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
               </Link>
               <Button
                 isIconOnly
-                aria-label={translate("bowlCard.delete")}
+                aria-label={translate("bowl.delete.title")}
                 color="danger"
-                hint={translate("bowlCard.delete")}
+                hint={translate("bowl.delete.title")}
                 size="sm"
                 onPress={onOpen}
               >
@@ -213,21 +213,19 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
               </div>
             </div>
           ) : (
-            <EmptyMessage>{translate("bowlView.noTobaccos")}</EmptyMessage>
+            <EmptyMessage>{translate("bowl.view.noTobaccos")}</EmptyMessage>
           )}
           <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
             <ModalContent>
               {(onClose) => (
                 <>
-                  <ModalHeader>
-                    {translate("bowlCard.confirmTitle")}
-                  </ModalHeader>
+                  <ModalHeader>{translate("bowl.delete.title")}</ModalHeader>
                   <ModalBody>
-                    <p>{translate("bowlCard.confirmQuestion")}</p>
+                    <p>{translate("bowl.delete.question")}</p>
                   </ModalBody>
                   <ModalFooter>
                     <Button variant="light" onPress={onClose}>
-                      {translate("bowlCard.cancel")}
+                      {translate("common.cancel")}
                     </Button>
                     <Button
                       color="danger"
@@ -236,7 +234,7 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
                         onClose();
                       }}
                     >
-                      {translate("bowlCard.confirm")}
+                      {translate("bowl.delete.confirm")}
                     </Button>
                   </ModalFooter>
                 </>

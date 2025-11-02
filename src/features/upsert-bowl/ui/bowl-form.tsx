@@ -127,20 +127,20 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
         <div className="flex items-center gap-4">
           <EditableTitle
             className="flex-1"
-            placeholder={translate("bowlForm.placeholder")}
+            placeholder={translate("bowl.form.titlePlaceholder")}
             value={name}
             onChange={setName}
           />
           <Button
             isIconOnly
-            aria-label={translate("bowlForm.togglePercentages")}
+            aria-label={translate("bowl.form.togglePercentages")}
             aria-pressed={usePercentages}
             className="ml-auto"
             color={usePercentages ? "primary" : "default"}
             hint={
               usePercentages
-                ? translate("bowlForm.disablePercentages")
-                : translate("bowlForm.enablePercentages")
+                ? translate("bowl.form.disablePercentages")
+                : translate("bowl.form.enablePercentages")
             }
             size="sm"
             variant={usePercentages ? "solid" : "bordered"}
@@ -155,18 +155,18 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
               <Input
                 isRequired
                 className="flex-1"
-                label={translate("bowlForm.tobaccoLabel")}
+                label={translate("bowl.form.tobacco.label")}
                 labelPlacement="outside"
-                placeholder={translate("bowlForm.tobaccoPlaceholder")}
+                placeholder={translate("bowl.form.tobacco.placeholder")}
                 size="sm"
                 value={tobacco.name}
                 onChange={(e) => updateField(idx, "name", e.target.value)}
               />
               <Button
                 isIconOnly
-                aria-label={translate("bowlForm.deleteTobacco")}
+                aria-label={translate("bowl.form.tobacco.delete")}
                 color="danger"
-                hint={translate("bowlForm.deleteTobacco")}
+                hint={translate("bowl.form.tobacco.delete")}
                 size="sm"
                 variant="light"
                 onPress={() => removeField(idx)}
@@ -176,7 +176,7 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
             </div>
             {usePercentages && (
               <Slider
-                label={translate("bowlForm.percentageLabel")}
+                label={translate("bowl.form.percentage.label")}
                 maxValue={100}
                 size="sm"
                 value={tobacco.percentage ?? 0}
@@ -195,7 +195,7 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
             variant="light"
             onPress={addField}
           >
-            {translate("bowlForm.addTobacco")}
+            {translate("bowl.form.tobacco.add")}
           </Button>
         </div>
       </div>
@@ -204,16 +204,16 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
           color="primary"
           hint={
             hasErrorName
-              ? translate("bowlForm.nameRequired")
+              ? translate("form.errors.name")
               : hasErrorTotal
-                ? translate("bowlForm.totalMustBe100")
+                ? translate("form.errors.total")
                 : undefined
           }
           isDisabled={hasErrorTotal || hasErrorName}
           type="submit"
           onPress={submit}
         >
-          {translate("bowlForm.save")}
+          {translate("common.save")}
         </Button>
       </div>
     </Form>

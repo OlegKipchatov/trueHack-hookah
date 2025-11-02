@@ -5,7 +5,10 @@
     "cta": "Создайте свою идеальную чашу.",
     "followPrefix": "Подписывайтесь на",
     "followLink": "канал разработки",
-    "followSuffix": "и следите за обновлениями."
+    "followSuffix": "и следите за обновлениями.",
+    "metadata": {
+      "description": "Сервис для создания и сохранения собственных миксов для кальянных чаш"
+    }
   },
   "navbar": {
     "profile": "Профиль",
@@ -13,20 +16,6 @@
   },
   "filters": {
     "searchPlaceholder": "Поиск чаш"
-  },
-  "bowlForm": {
-    "placeholder": "Мой микс",
-    "togglePercentages": "Переключить проценты",
-    "disablePercentages": "Отключить проценты",
-    "enablePercentages": "Включить проценты",
-    "tobaccoLabel": "Табак",
-    "tobaccoPlaceholder": "ананас",
-    "deleteTobacco": "Удалить табак",
-    "percentageLabel": "Процент",
-    "addTobacco": "Добавить табак",
-    "nameRequired": "Название обязательно",
-    "totalMustBe100": "Сумма должна быть 100%",
-    "save": "Сохранить"
   },
   "languageSwitch": {
     "switchTo": {
@@ -47,26 +36,56 @@
     "lightMode": "светлую тему"
   },
   "user": {
-    "title": "Ваши чаши",
-    "create": "Создать чашу"
+    "title": "Ваши чаши"
   },
-  "bowlCard": {
-    "edit": "Редактировать чашу",
-    "delete": "Удалить чашу",
-    "confirmTitle": "Удалить чашу",
-    "confirmQuestion": "Вы уверены?",
+  "bowl": {
+    "actions": {
+      "create": "Создать чашу",
+      "edit": "Редактировать чашу"
+    },
+    "delete": {
+      "title": "Удалить чашу",
+      "question": "Вы уверены?",
+      "confirm": "Удалить"
+    },
+    "form": {
+      "titlePlaceholder": "Мой микс",
+      "togglePercentages": "Переключить проценты",
+      "disablePercentages": "Отключить проценты",
+      "enablePercentages": "Включить проценты",
+      "tobacco": {
+        "label": "Табак",
+        "placeholder": "ананас",
+        "delete": "Удалить табак",
+        "add": "Добавить табак"
+      },
+      "percentage": {
+        "label": "Процент"
+      }
+    },
+    "list": {
+      "noResults": "Чаши не найдены",
+      "empty": "Чаши ещё не созданы. Создайте свою первую чашу."
+    },
+    "view": {
+      "notFound": "Чаша не найдена",
+      "noTobaccos": "Табаки отсутствуют",
+      "tobaccoFallback": "Табак {index}",
+      "disabledPercentagesHint": "Проценты для этой чаши отключены. Нажмите, чтобы настроить их."
+    },
+    "edit": {
+      "notFound": "Чаша для редактирования не найдена"
+    }
+  },
+  "common": {
     "cancel": "Отмена",
-    "confirm": "Удалить"
+    "save": "Сохранить"
   },
-  "bowlList": {
-    "noResults": "Чаши не найдены",
-    "empty": "Чаши ещё не созданы. Создайте свою первую чашу."
-  },
-  "bowlView": {
-    "notFound": "Чаша не найдена",
-    "noTobaccos": "Табаки отсутствуют",
-    "tobaccoFallback": "Табак {index}",
-    "disabledPercentagesHint": "Проценты для этой чаши отключены. Нажмите, чтобы настроить их."
+  "form": {
+    "errors": {
+      "name": "Название обязательно",
+      "total": "Сумма должна быть 100%"
+    }
   },
   "error": {
     "title": "Что-то пошло не так!",
