@@ -84,7 +84,8 @@ describe("BowlCard", () => {
     expect(screen.getByText(/Strength:/i).textContent).toContain("Strength:");
     expect(screen.getByText(/My rating:/i).textContent).toContain("My rating:");
     expect(screen.getByText("6/10").textContent).toBe("6/10");
-    expect(screen.getByText("4/5").textContent).toBe("4/5");
+    expect(screen.getAllByText("4/5")[0].textContent).toBe("4/5");
+    expect(screen.getAllByLabelText(/My rating/i)).toHaveLength(2);
 
     fireEvent.click(screen.getByLabelText(/edit bowl/i));
 

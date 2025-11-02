@@ -15,7 +15,7 @@ import { Icon } from "@iconify/react";
 import { colors } from "@heroui/theme";
 import { Cell, Pie, PieChart } from "recharts";
 
-import { BOWL_RATING_MAX, BOWL_STRENGTH_MAX, useBowls } from "@/entities/bowl";
+import { BowlRatingBadge, BOWL_STRENGTH_MAX, useBowls } from "@/entities/bowl";
 import { useTranslation } from "@/shared/lib/i18n/provider";
 import { Button } from "@/shared/ui/button";
 import { EmptyMessage } from "@/shared/ui/empty-message";
@@ -109,7 +109,10 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
         <>
           <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
             <PageTitle withBackButton backHref="/user" className="mb-0">
-              {bowl.name}
+              <span className="flex flex-wrap items-center gap-3">
+                <span className="truncate text-balance">{bowl.name}</span>
+                <BowlRatingBadge className="text-base" rating={bowl.rating} />
+              </span>
             </PageTitle>
             <div className="flex gap-2">
               <Link href={`/bowls/edit?id=${bowl.id}`}>
@@ -151,9 +154,7 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
               <span className="text-xs uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
                 {translate("bowl.form.rating.label")}
               </span>
-              <span className="text-lg font-semibold text-zinc-800 dark:text-zinc-100">
-                {bowl.rating}/{BOWL_RATING_MAX}
-              </span>
+              <BowlRatingBadge className="text-lg" rating={bowl.rating} />
             </div>
           </div>
           {hasTobaccos ? (
