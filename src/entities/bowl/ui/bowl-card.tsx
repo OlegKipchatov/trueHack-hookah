@@ -1,7 +1,5 @@
 "use client";
 
-import type { Bowl } from "../model/bowl";
-
 import {
   Card,
   CardHeader,
@@ -15,6 +13,8 @@ import {
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/navigation";
+
+import { BOWL_RATING_MAX, BOWL_STRENGTH_MAX, type Bowl } from "../model/bowl";
 
 import { BowlCardChip } from "./bowl-card-chip";
 
@@ -78,15 +78,35 @@ export const BowlCard = ({ bowl, onRemove, onTobaccoClick }: BowlCardProps) => {
           </div>
         </CardHeader>
         <CardBody>
-          <div className="flex gap-4">
-            {bowl.tobaccos.map((t) => (
-              <BowlCardChip
-                key={t.name}
-                showPercentages={bowl.usePercentages !== false}
-                tobacco={t}
-                onSelect={() => onTobaccoClick?.(t.name)}
-              />
-            ))}
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-wrap items-center gap-4 text-sm text-default-600 dark:text-default-300">
+              <span aria-live="polite" className="flex items-baseline gap-1">
+                <span className="font-medium text-default-700 dark:text-default-100">
+                  {translate("bowl.form.strength.label")}:
+                </span>
+                <span>
+                  {bowl.strength}/{BOWL_STRENGTH_MAX}
+                </span>
+              </span>
+              <span aria-live="polite" className="flex items-baseline gap-1">
+                <span className="font-medium text-default-700 dark:text-default-100">
+                  {translate("bowl.form.rating.label")}:
+                </span>
+                <span>
+                  {bowl.rating}/{BOWL_RATING_MAX}
+                </span>
+              </span>
+            </div>
+            <div className="flex flex-wrap gap-4">
+              {bowl.tobaccos.map((t) => (
+                <BowlCardChip
+                  key={t.name}
+                  showPercentages={bowl.usePercentages !== false}
+                  tobacco={t}
+                  onSelect={() => onTobaccoClick?.(t.name)}
+                />
+              ))}
+            </div>
           </div>
         </CardBody>
       </Card>

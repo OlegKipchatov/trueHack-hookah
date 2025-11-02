@@ -4,6 +4,14 @@ import { useEffect, useState } from "react";
 
 import { useLocalStorage } from "@/shared/lib/useLocalStorage";
 
+export const BOWL_STRENGTH_MIN = 1;
+export const BOWL_STRENGTH_MAX = 10;
+export const DEFAULT_BOWL_STRENGTH = 5;
+
+export const BOWL_RATING_MIN = 1;
+export const BOWL_RATING_MAX = 5;
+export const DEFAULT_BOWL_RATING = 3;
+
 export type BowlTobacco = {
   name: string;
   percentage?: number;
@@ -14,6 +22,8 @@ export type Bowl = {
   name: string;
   tobaccos: BowlTobacco[];
   usePercentages?: boolean;
+  strength: number;
+  rating: number;
 };
 
 export const useBowls = () => {
@@ -21,11 +31,41 @@ export const useBowls = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    const sanitizeMetric = (
+      value: unknown,
+      fallback: number,
+      min: number,
+      max: number,
+    ) => {
+      if (typeof value !== "number" || Number.isNaN(value)) {
+        return fallback;
+      }
+
+      const rounded = Math.round(value);
+
+      if (rounded < min) return min;
+      if (rounded > max) return max;
+
+      return rounded;
+    };
+
     setBowls((prev) =>
       prev.map((b) => ({
         ...b,
         name: b.name ?? "",
         usePercentages: b.usePercentages ?? true,
+        strength: sanitizeMetric(
+          b.strength,
+          DEFAULT_BOWL_STRENGTH,
+          BOWL_STRENGTH_MIN,
+          BOWL_STRENGTH_MAX,
+        ),
+        rating: sanitizeMetric(
+          b.rating,
+          DEFAULT_BOWL_RATING,
+          BOWL_RATING_MIN,
+          BOWL_RATING_MAX,
+        ),
       })),
     );
     setIsLoading(false);

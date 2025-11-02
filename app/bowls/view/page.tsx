@@ -15,7 +15,7 @@ import { Icon } from "@iconify/react";
 import { colors } from "@heroui/theme";
 import { Cell, Pie, PieChart } from "recharts";
 
-import { useBowls } from "@/entities/bowl";
+import { BOWL_RATING_MAX, BOWL_STRENGTH_MAX, useBowls } from "@/entities/bowl";
 import { useTranslation } from "@/shared/lib/i18n/provider";
 import { Button } from "@/shared/ui/button";
 import { EmptyMessage } from "@/shared/ui/empty-message";
@@ -132,6 +132,28 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
               >
                 <Icon icon="akar-icons:cross" width={16} />
               </Button>
+            </div>
+          </div>
+          <div
+            aria-label={translate("bowl.view.details")}
+            className="mt-4 flex flex-wrap items-center gap-6 rounded-2xl border border-zinc-200 bg-white p-4 text-sm text-zinc-600 shadow-sm dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200"
+            role="group"
+          >
+            <div className="flex flex-col">
+              <span className="text-xs uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                {translate("bowl.form.strength.label")}
+              </span>
+              <span className="text-lg font-semibold text-zinc-800 dark:text-zinc-100">
+                {bowl.strength}/{BOWL_STRENGTH_MAX}
+              </span>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-xs uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                {translate("bowl.form.rating.label")}
+              </span>
+              <span className="text-lg font-semibold text-zinc-800 dark:text-zinc-100">
+                {bowl.rating}/{BOWL_RATING_MAX}
+              </span>
             </div>
           </div>
           {hasTobaccos ? (

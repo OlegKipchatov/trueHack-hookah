@@ -12,6 +12,8 @@ const mockBowl: Bowl = {
   name: "New Bowl",
   tobaccos: [],
   usePercentages: false,
+  strength: 5,
+  rating: 3,
 };
 
 vi.mock("next/navigation", () => ({

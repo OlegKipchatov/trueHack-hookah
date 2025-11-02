@@ -82,11 +82,15 @@ vi.mock("@/entities/bowl", () => ({
             name: "Mint",
           },
         ],
+        strength: 4,
+        rating: 3,
       },
     ],
     removeBowl: vi.fn(),
     isLoading: false,
   }),
+  BOWL_STRENGTH_MAX: 10,
+  BOWL_RATING_MAX: 5,
 }));
 
 describe("ViewBowlPage", () => {
@@ -103,6 +107,10 @@ describe("ViewBowlPage", () => {
     });
 
     expect(banner).toBeTruthy();
+    expect(screen.getByText(/Крепость/i).textContent).toContain("Крепость");
+    expect(screen.getByText(/Моя оценка/i).textContent).toContain("Моя оценка");
+    expect(screen.getByText("4/10").textContent).toBe("4/10");
+    expect(screen.getByText("3/5").textContent).toBe("3/5");
 
     fireEvent.click(banner);
 

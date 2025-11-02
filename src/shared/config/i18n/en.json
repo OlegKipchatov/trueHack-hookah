@@ -53,6 +53,14 @@
       "togglePercentages": "Toggle percentages",
       "disablePercentages": "Disable percentages",
       "enablePercentages": "Enable percentages",
+      "strength": {
+        "label": "Strength",
+        "hint": "How intense this bowl feels (1 - very light, 10 - very strong)"
+      },
+      "rating": {
+        "label": "My rating",
+        "hint": "Personal score for this bowl from 1 to 5"
+      },
       "tobacco": {
         "label": "Tobacco",
         "placeholder": "pineapple",
@@ -71,7 +79,8 @@
       "notFound": "Bowl not found",
       "noTobaccos": "No tobaccos added",
       "tobaccoFallback": "Tobacco {index}",
-      "disabledPercentagesHint": "Percentages for this bowl are disabled. Tap to configure them."
+      "disabledPercentagesHint": "Percentages for this bowl are disabled. Tap to configure them.",
+      "details": "Bowl details"
     },
     "edit": {
       "notFound": "Bowl to edit not found"
