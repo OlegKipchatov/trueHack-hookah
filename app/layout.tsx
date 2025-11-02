@@ -6,16 +6,19 @@ import clsx from "clsx";
 
 import { Providers } from "./providers";
 
+import en from "@/shared/config/i18n/en.json";
 import { fontSans } from "@/shared/config/fonts";
 import { Navbar } from "@/widgets/navbar";
 
+const APP_NAME = "BowlBuilder";
+const DEFAULT_APP_DESCRIPTION = en.app.metadata.description;
+
 export const metadata: Metadata = {
   title: {
-    default: "BowlBuilder",
-    template: `%s - BowlBuilder`,
+    default: APP_NAME,
+    template: `%s - ${APP_NAME}`,
   },
-  description:
-    "Сервис для создания и сохранения собственных миксов для кальянных чаш",
+  description: DEFAULT_APP_DESCRIPTION,
   icons: {
     icon: "/favicon.ico",
   },

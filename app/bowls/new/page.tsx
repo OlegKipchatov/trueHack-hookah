@@ -6,12 +6,14 @@ import { Page } from "@/shared/ui/page";
 import { PageTitle } from "@/shared/ui/page-title";
 import { BowlForm } from "@/features/upsert-bowl";
 import { useBowls, type Bowl } from "@/entities/bowl";
+import { useTranslation } from "@/shared/lib/i18n/provider";
 
 export type NewBowlPageProps = {};
 
 const NewBowlPage = ({}: NewBowlPageProps) => {
   const { addBowl } = useBowls();
   const router = useRouter();
+  const { t: translate } = useTranslation();
 
   const handleSubmit = (bowl: Bowl) => {
     addBowl(bowl);
@@ -20,7 +22,7 @@ const NewBowlPage = ({}: NewBowlPageProps) => {
 
   return (
     <Page>
-      <PageTitle withBackButton>Create Bowl</PageTitle>
+      <PageTitle withBackButton>{translate("bowl.actions.create")}</PageTitle>
       <BowlForm onSubmit={handleSubmit} />
     </Page>
   );
