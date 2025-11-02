@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 
 import { BowlCardChip } from "./bowl-card-chip";
 
+import { useTranslation } from "@/shared/lib/i18n/provider";
 import { Button } from "@/shared/ui/button";
 
 export type BowlCardProps = {
@@ -29,6 +30,7 @@ export type BowlCardProps = {
 export const BowlCard = ({ bowl, onRemove, onTobaccoClick }: BowlCardProps) => {
   const router = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { t: translate } = useTranslation();
 
   return (
     <>
@@ -44,8 +46,8 @@ export const BowlCard = ({ bowl, onRemove, onTobaccoClick }: BowlCardProps) => {
           <div className="flex gap-2">
             <Button
               isIconOnly
-              aria-label="Edit bowl"
-              hint="Edit bowl"
+              aria-label={translate("bowlCard.edit")}
+              hint={translate("bowlCard.edit")}
               size="sm"
               onClick={(event) => {
                 event.stopPropagation();
@@ -60,9 +62,9 @@ export const BowlCard = ({ bowl, onRemove, onTobaccoClick }: BowlCardProps) => {
             {onRemove && (
               <Button
                 isIconOnly
-                aria-label="Delete bowl"
+                aria-label={translate("bowlCard.delete")}
                 color="danger"
-                hint="Delete bowl"
+                hint={translate("bowlCard.delete")}
                 size="sm"
                 onClick={(event) => {
                   event.stopPropagation();
@@ -92,13 +94,13 @@ export const BowlCard = ({ bowl, onRemove, onTobaccoClick }: BowlCardProps) => {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader>Delete bowl</ModalHeader>
+              <ModalHeader>{translate("bowlCard.confirmTitle")}</ModalHeader>
               <ModalBody>
-                <p>Are you sure?</p>
+                <p>{translate("bowlCard.confirmQuestion")}</p>
               </ModalBody>
               <ModalFooter>
                 <Button variant="light" onPress={onClose}>
-                  Cancel
+                  {translate("bowlCard.cancel")}
                 </Button>
                 <Button
                   color="danger"
@@ -107,7 +109,7 @@ export const BowlCard = ({ bowl, onRemove, onTobaccoClick }: BowlCardProps) => {
                     onClose();
                   }}
                 >
-                  Delete
+                  {translate("bowlCard.confirm")}
                 </Button>
               </ModalFooter>
             </>

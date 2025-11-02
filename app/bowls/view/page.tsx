@@ -16,6 +16,7 @@ import { colors } from "@heroui/theme";
 import { Cell, Pie, PieChart } from "recharts";
 
 import { useBowls } from "@/entities/bowl";
+import { useTranslation } from "@/shared/lib/i18n/provider";
 import { Button } from "@/shared/ui/button";
 import { EmptyMessage } from "@/shared/ui/empty-message";
 import { Page } from "@/shared/ui/page";
@@ -32,12 +33,16 @@ const TOBACCO_COLORS = [
   colors.zinc[200] ?? "#e4e4e7",
 ];
 
-const getTobaccoName = (name: string, index: number) => {
+const getTobaccoName = (
+  translate: ReturnType<typeof useTranslation>["t"],
+  name: string,
+  index: number,
+) => {
   if (name && name.trim().length > 0) {
     return name;
   }
 
-  return `Табак ${index + 1}`;
+  return translate("bowlView.tobaccoFallback", { index: index + 1 });
 };
 
 export type DisabledPercentagesBannerProps = {
@@ -47,14 +52,18 @@ export type DisabledPercentagesBannerProps = {
 const DisabledPercentagesBanner = ({
   onPress,
 }: DisabledPercentagesBannerProps) => {
+  const { t: translate } = useTranslation();
+
   return (
     <Button
+      aria-label={translate("bowlView.disabledPercentagesHint")}
       className="group flex h-[200px] w-full flex-col items-center justify-center gap-4 rounded-3xl border border-dashed border-zinc-300 bg-zinc-50 p-8 text-center shadow-none transition-colors hover:border-zinc-400 hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 dark:border-zinc-700 dark:bg-zinc-900 dark:hover:border-zinc-500 dark:hover:bg-zinc-800"
+      hint={translate("bowlView.disabledPercentagesHint")}
       variant="light"
       onPress={onPress}
     >
       <span className="max-w-[18rem] text-balance text-lg font-medium text-zinc-700 transition-colors group-hover:text-zinc-900 dark:text-zinc-200 dark:group-hover:text-white">
-        Проценты для этой чаши отключены. Нажмите, чтобы настроить их.
+        {translate("bowlView.disabledPercentagesHint")}
       </span>
     </Button>
   );
@@ -68,6 +77,7 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
   const { bowls, removeBowl, isLoading } = useBowls();
   const router = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { t: translate } = useTranslation();
 
   const bowl = bowls.find((item) => item.id === id);
   const tobaccos = bowl?.tobaccos ?? [];
@@ -75,14 +85,14 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
   const usePercentages = bowl?.usePercentages ?? true;
   const chartData = usePercentages
     ? tobaccos.map((tobacco, index) => ({
-        name: getTobaccoName(tobacco.name, index),
+        name: getTobaccoName(translate, tobacco.name, index),
         value: tobacco.percentage!,
       }))
     : [];
 
   const status = !isLoading && !bowl && (
     <EmptyMessage color="danger" variant="solid">
-      Чаша не найдена
+      {translate("bowlView.notFound")}
     </EmptyMessage>
   );
 
@@ -105,8 +115,8 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
               <Link href={`/bowls/edit?id=${bowl.id}`}>
                 <Button
                   isIconOnly
-                  aria-label="Edit bowl"
-                  hint="Edit bowl"
+                  aria-label={translate("bowlCard.edit")}
+                  hint={translate("bowlCard.edit")}
                   size="sm"
                 >
                   <Icon icon="akar-icons:edit" width={16} />
@@ -114,9 +124,9 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
               </Link>
               <Button
                 isIconOnly
-                aria-label="Delete bowl"
+                aria-label={translate("bowlCard.delete")}
                 color="danger"
-                hint="Delete bowl"
+                hint={translate("bowlCard.delete")}
                 size="sm"
                 onPress={onOpen}
               >
@@ -129,7 +139,11 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
               <div className="md:flex md:w-1/2 md:justify-start">
                 <ul className="mx-auto w-full max-w-xl md:ml-0 md:mr-auto">
                   {tobaccos.map((tobacco, index) => {
-                    const tobaccoName = getTobaccoName(tobacco.name, index);
+                    const tobaccoName = getTobaccoName(
+                      translate,
+                      tobacco.name,
+                      index,
+                    );
                     const showPercentage = usePercentages;
 
                     return (
@@ -199,19 +213,21 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
               </div>
             </div>
           ) : (
-            <EmptyMessage>Табаки отсутствуют</EmptyMessage>
+            <EmptyMessage>{translate("bowlView.noTobaccos")}</EmptyMessage>
           )}
           <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
             <ModalContent>
               {(onClose) => (
                 <>
-                  <ModalHeader>Delete bowl</ModalHeader>
+                  <ModalHeader>
+                    {translate("bowlCard.confirmTitle")}
+                  </ModalHeader>
                   <ModalBody>
-                    <p>Are you sure?</p>
+                    <p>{translate("bowlCard.confirmQuestion")}</p>
                   </ModalBody>
                   <ModalFooter>
                     <Button variant="light" onPress={onClose}>
-                      Cancel
+                      {translate("bowlCard.cancel")}
                     </Button>
                     <Button
                       color="danger"
@@ -220,7 +236,7 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
                         onClose();
                       }}
                     >
-                      Delete
+                      {translate("bowlCard.confirm")}
                     </Button>
                   </ModalFooter>
                 </>

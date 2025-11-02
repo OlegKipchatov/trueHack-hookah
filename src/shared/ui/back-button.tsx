@@ -5,12 +5,15 @@ import { Icon } from "@iconify/react";
 
 import { Button } from "./button";
 
+import { useTranslation } from "@/shared/lib/i18n/provider";
+
 export type BackButtonProps = {
   className?: string;
 };
 
 export const BackButton = ({ className }: BackButtonProps) => {
   const router = useRouter();
+  const { t: translate } = useTranslation();
 
   const goBack = () => {
     if (window.history.length > 1) {
@@ -23,9 +26,9 @@ export const BackButton = ({ className }: BackButtonProps) => {
   return (
     <Button
       isIconOnly
-      aria-label="Back"
+      aria-label={translate("backButton.back")}
       className={className}
-      hint="Back"
+      hint={translate("backButton.back")}
       variant="light"
       onPress={goBack}
     >

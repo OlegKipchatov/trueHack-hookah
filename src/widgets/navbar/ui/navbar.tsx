@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -15,12 +16,18 @@ import {
 
 import { NavbarItemText } from "./navbar-item-text";
 
+import { LanguageSwitch } from "@/features/language-switch";
 import { ThemeSwitch } from "@/features/theme-switch";
+import { useTranslation } from "@/shared/lib/i18n/provider";
 import { Logo } from "@/shared/ui/icons";
 
 export const Navbar = () => {
+  const { t: translate } = useTranslation();
   const pathname = usePathname();
-  const menuItems = [{ href: "/user", label: "Profile" }];
+  const menuItems = useMemo(
+    () => [{ href: "/user", label: translate("navbar.profile") }],
+    [translate],
+  );
 
   return (
     <HeroUINavbar maxWidth="xl" position="sticky">
@@ -28,7 +35,9 @@ export const Navbar = () => {
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-1" href="/">
             <Logo />
-            <p className="font-bold text-inherit">BowlBuilder</p>
+            <p className="font-bold text-inherit">
+              {translate("navbar.brand")}
+            </p>
           </NextLink>
         </NavbarBrand>
       </NavbarContent>
@@ -43,14 +52,18 @@ export const Navbar = () => {
           </NavbarItemText>
         ))}
 
-        <NavbarItem className="hidden sm:flex gap-2">
+        <NavbarItem className="hidden sm:flex items-center gap-2">
+          <LanguageSwitch />
           <ThemeSwitch />
         </NavbarItem>
       </NavbarContent>
 
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
-        <ThemeSwitch />
-        <NavbarMenuToggle />
+        <div className="flex items-center gap-2">
+          <LanguageSwitch />
+          <ThemeSwitch />
+          <NavbarMenuToggle />
+        </div>
       </NavbarContent>
 
       <NavbarMenu>
@@ -69,6 +82,10 @@ export const Navbar = () => {
             </NavbarMenuItem>
           );
         })}
+        <NavbarMenuItem className="flex items-center gap-2">
+          <LanguageSwitch />
+          <ThemeSwitch />
+        </NavbarMenuItem>
       </NavbarMenu>
     </HeroUINavbar>
   );

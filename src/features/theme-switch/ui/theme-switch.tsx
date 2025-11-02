@@ -6,6 +6,7 @@ import { useTheme } from "next-themes";
 import { useIsSSR } from "@react-aria/ssr";
 import clsx from "clsx";
 
+import { useTranslation } from "@/shared/lib/i18n/provider";
 import { SunFilledIcon, MoonFilledIcon } from "@/shared/ui/icons";
 
 export type ThemeSwitchProps = {
@@ -16,10 +17,18 @@ export type ThemeSwitchProps = {
 export const ThemeSwitch = ({ className, classNames }: ThemeSwitchProps) => {
   const { theme, setTheme } = useTheme();
   const isSSR = useIsSSR();
+  const { t: translate } = useTranslation();
 
   const onChange = () => {
     theme === "light" ? setTheme("dark") : setTheme("light");
   };
+
+  const nextTheme = theme === "light" || isSSR ? "dark" : "light";
+  const ariaLabel = `${translate("themeSwitch.switchTo")} ${
+    nextTheme === "dark"
+      ? translate("themeSwitch.darkMode")
+      : translate("themeSwitch.lightMode")
+  }`;
 
   const {
     Component,
@@ -30,7 +39,7 @@ export const ThemeSwitch = ({ className, classNames }: ThemeSwitchProps) => {
     getWrapperProps,
   } = useSwitch({
     isSelected: theme === "light" || isSSR,
-    "aria-label": `Switch to ${theme === "light" || isSSR ? "dark" : "light"} mode`,
+    "aria-label": ariaLabel,
     onChange,
   });
 

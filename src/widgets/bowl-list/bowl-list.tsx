@@ -7,6 +7,7 @@ import { useMemo } from "react";
 import { filterBowls } from "./filter-bowls";
 
 import { BowlCard } from "@/entities/bowl";
+import { useTranslation } from "@/shared/lib/i18n/provider";
 import { EmptyMessage } from "@/shared/ui/empty-message";
 
 export type BowlListProps = {
@@ -28,6 +29,7 @@ export const BowlList = ({
     () => filterBowls(bowls, search, flavors),
     [bowls, search, flavors],
   );
+  const { t: translate } = useTranslation();
 
   const hasFilters = search.trim().length > 0 || flavors.length > 0;
 
@@ -35,16 +37,12 @@ export const BowlList = ({
     if (hasFilters) {
       return (
         <EmptyMessage color="warning" variant="solid">
-          Чаши не найдены
+          {translate("bowlList.noResults")}
         </EmptyMessage>
       );
     }
 
-    return (
-      <EmptyMessage>
-        Чаши ещё не созданы. Создайте свою первую чашу.
-      </EmptyMessage>
-    );
+    return <EmptyMessage>{translate("bowlList.empty")}</EmptyMessage>;
   }
 
   return (
