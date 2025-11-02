@@ -10,16 +10,18 @@ export type PageTitleProps = {
   children: ReactNode;
   className?: string;
   withBackButton?: boolean;
+  backHref?: string;
 };
 
 export const PageTitle = ({
   children,
   className,
   withBackButton = false,
+  backHref,
 }: PageTitleProps) => {
   return (
     <div className={clsx("mb-6 flex items-center gap-2", className)}>
-      {withBackButton && <BackButton />}
+      {withBackButton && <BackButton href={backHref} />}
       <h1 className="text-3xl font-bold">{children}</h1>
     </div>
   );

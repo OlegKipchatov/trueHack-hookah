@@ -20,6 +20,7 @@ const EditBowlContent = ({}: EditBowlPageProps) => {
   const { t: translate } = useTranslation();
 
   const bowl = bowls.find((b) => b.id === id);
+  const backHref = id ? `/bowls/view?id=${id}` : "/user";
 
   const handleSubmit = (b: Bowl) => {
     updateBowl(b);
@@ -34,7 +35,9 @@ const EditBowlContent = ({}: EditBowlPageProps) => {
 
   return (
     <Page isLoading={isLoading} status={status}>
-      <PageTitle withBackButton>{translate("bowl.actions.edit")}</PageTitle>
+      <PageTitle withBackButton backHref={backHref}>
+        {translate("bowl.actions.edit")}
+      </PageTitle>
       {bowl && <BowlForm bowl={bowl} onSubmit={handleSubmit} />}
     </Page>
   );
