@@ -3,7 +3,9 @@
     "name": "BowlBuilder",
     "tagline": "Service for creating and saving your own hookah bowl mixes",
     "cta": "Create your perfect bowl.",
-    "follow": "Subscribe to the <link>development channel</link> and stay tuned for updates."
+    "followPrefix": "Subscribe to the",
+    "followLink": "development channel",
+    "followSuffix": "and stay tuned for updates."
   },
   "navbar": {
     "profile": "Profile",
