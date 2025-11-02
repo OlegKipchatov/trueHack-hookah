@@ -19,16 +19,18 @@ const HomePage = ({}: HomePageProps) => {
         {translate("app.cta")}
       </p>
       <p className="mt-6 text-sm">
-        {translate("app.followPrefix")}{" "}
-        <Link
-          className="underline"
-          href="https://t.me/+BjywrBIpCoQ1YTA6"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          {translate("app.followLink")}
-        </Link>{" "}
-        {translate("app.followSuffix")}
+        {translate.rich("app.follow", {
+          link: (chunks) => (
+            <Link
+              className="underline"
+              href="https://t.me/+BjywrBIpCoQ1YTA6"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              {chunks}
+            </Link>
+          ),
+        })}
       </p>
     </Page>
   );
