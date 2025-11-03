@@ -225,9 +225,103 @@ Cell.displayName = "__RechartsCell";
 
 const Tooltip = () => null;
 
+const ResponsiveContainer = ({
+  width = "100%",
+  height,
+  aspect,
+  children,
+  className,
+  style,
+}) => {
+  const containerRef = React.useRef(null);
+  const [dimensions, setDimensions] = React.useState({ width: 0, height: 0 });
+
+  React.useEffect(() => {
+    const node = containerRef.current;
+
+    if (!node || typeof window === "undefined") {
+      return;
+    }
+
+    const calculate = () => {
+      const bounds = node.getBoundingClientRect();
+      const resolvedWidth =
+        typeof width === "number" ? width : Math.max(bounds.width, 0);
+
+      let resolvedHeight = 0;
+
+      if (typeof height === "number") {
+        resolvedHeight = height;
+      } else if (typeof height === "string") {
+        resolvedHeight = parseFloat(height) || 0;
+      } else if (aspect && resolvedWidth) {
+        resolvedHeight = resolvedWidth / aspect;
+      } else {
+        resolvedHeight = Math.max(bounds.height, 0);
+      }
+
+      setDimensions({
+        width: resolvedWidth,
+        height: resolvedHeight,
+      });
+    };
+
+    calculate();
+
+    if (typeof ResizeObserver !== "undefined") {
+      const observer = new ResizeObserver(calculate);
+      observer.observe(node);
+
+      return () => observer.disconnect();
+    }
+
+    window.addEventListener("resize", calculate);
+
+    return () => {
+      window.removeEventListener("resize", calculate);
+    };
+  }, [width, height, aspect]);
+
+  const resolvedStyle = {
+    width: typeof width === "number" ? `${width}px` : width,
+    height:
+      height != null
+        ? typeof height === "number"
+          ? `${height}px`
+          : height
+        : aspect
+          ? undefined
+          : "100%",
+    position: "relative",
+    ...style,
+  };
+
+  const shouldInjectDimensions =
+    React.isValidElement(children) && dimensions.width && dimensions.height;
+
+  const childWithDimensions = shouldInjectDimensions
+    ? React.cloneElement(children, {
+        ...children.props,
+        width: dimensions.width,
+        height: dimensions.height,
+      })
+    : children;
+
+  return React.createElement(
+    "div",
+    {
+      ref: containerRef,
+      className,
+      style: resolvedStyle,
+    },
+    childWithDimensions,
+  );
+};
+
 module.exports = {
   PieChart,
   Pie,
   Cell,
   Tooltip,
+  ResponsiveContainer,
 };
