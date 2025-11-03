@@ -16,6 +16,7 @@ import {
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/navigation";
 
+import { BowlRatingBadge } from "./bowl-rating-badge";
 import { BowlCardChip } from "./bowl-card-chip";
 
 import { useTranslation } from "@/shared/lib/i18n/provider";
@@ -41,8 +42,13 @@ export const BowlCard = ({ bowl, onRemove, onTobaccoClick }: BowlCardProps) => {
         className="transition-colors data-[hover=true]:bg-default-100"
         onPress={() => router.push(`/bowls/view?id=${bowl.id}`)}
       >
-        <CardHeader className="flex items-center justify-between">
-          <span>{bowl.name}</span>
+        <CardHeader className="flex items-center justify-between gap-3">
+          <div className="flex min-w-0 items-center gap-3">
+            <span className="truncate text-base font-semibold text-default-700 dark:text-default-100">
+              {bowl.name}
+            </span>
+            <BowlRatingBadge className="shrink-0" rating={bowl.rating} />
+          </div>
           <div className="flex gap-2">
             <Button
               isIconOnly
@@ -78,15 +84,17 @@ export const BowlCard = ({ bowl, onRemove, onTobaccoClick }: BowlCardProps) => {
           </div>
         </CardHeader>
         <CardBody>
-          <div className="flex gap-4">
-            {bowl.tobaccos.map((t) => (
-              <BowlCardChip
-                key={t.name}
-                showPercentages={bowl.usePercentages !== false}
-                tobacco={t}
-                onSelect={() => onTobaccoClick?.(t.name)}
-              />
-            ))}
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-wrap gap-4">
+              {bowl.tobaccos.map((t) => (
+                <BowlCardChip
+                  key={t.name}
+                  showPercentages={bowl.usePercentages !== false}
+                  tobacco={t}
+                  onSelect={() => onTobaccoClick?.(t.name)}
+                />
+              ))}
+            </div>
           </div>
         </CardBody>
       </Card>

@@ -1,7 +1,5 @@
 "use client";
 
-import type { Bowl, BowlTobacco } from "@/entities/bowl";
-
 import { FormEvent, useEffect, useState } from "react";
 import { Form, Input, Slider } from "@heroui/react";
 import { Icon } from "@iconify/react";
@@ -9,6 +7,13 @@ import { Icon } from "@iconify/react";
 import { useTranslation } from "@/shared/lib/i18n/provider";
 import { Button } from "@/shared/ui/button";
 import { EditableTitle } from "@/shared/ui/editable-title";
+import {
+  BOWL_RATING_MAX,
+  BOWL_RATING_MIN,
+  DEFAULT_BOWL_RATING,
+  type Bowl,
+  type BowlTobacco,
+} from "@/entities/bowl";
 
 export type BowlFormProps = {
   bowl?: Bowl;
@@ -19,6 +24,8 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
   const initialUsePercentages = bowl?.usePercentages ?? true;
   const [usePercentages, setUsePercentages] = useState(initialUsePercentages);
   const [name, setName] = useState(bowl ? bowl.name : "");
+  const initialRating = bowl?.rating ?? DEFAULT_BOWL_RATING;
+  const [rating, setRating] = useState(initialRating);
   const [tobaccos, setTobaccos] = useState<BowlTobacco[]>(() =>
     bowl
       ? bowl.tobaccos
@@ -31,6 +38,7 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
       setTobaccos(bowl.tobaccos);
       setName(bowl.name);
       setUsePercentages(bowl.usePercentages ?? true);
+      setRating(bowl.rating ?? DEFAULT_BOWL_RATING);
     }
   }, [bowl]);
 
@@ -105,14 +113,21 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
 
   const submit = () => {
     const result: Bowl = bowl
-      ? { ...bowl, name, tobaccos, usePercentages }
-      : { id: crypto.randomUUID(), name, tobaccos, usePercentages };
+      ? { ...bowl, name, tobaccos, usePercentages, rating }
+      : {
+          id: crypto.randomUUID(),
+          name,
+          tobaccos,
+          usePercentages,
+          rating,
+        };
 
     onSubmit(result);
     if (!bowl) {
       setTobaccos([{ name: "", percentage: 100 }]);
       setName("");
       setUsePercentages(true);
+      setRating(DEFAULT_BOWL_RATING);
     }
   };
 
@@ -148,6 +163,24 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
           >
             <Icon icon="akar-icons:percentage" width={16} />
           </Button>
+        </div>
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center justify-between text-sm font-medium text-default-600 dark:text-default-400">
+            <span>{translate("bowl.form.rating.label")}</span>
+            <span aria-live="polite">{rating}</span>
+          </div>
+          <Slider
+            aria-label={translate("bowl.form.rating.label")}
+            maxValue={BOWL_RATING_MAX}
+            minValue={BOWL_RATING_MIN}
+            size="sm"
+            step={1}
+            value={rating}
+            onChange={(value) => setRating(value as number)}
+          />
+          <p className="text-xs text-default-500 dark:text-default-400">
+            {translate("bowl.form.rating.hint")}
+          </p>
         </div>
         {tobaccos.map((tobacco, idx) => (
           <div key={idx} className="flex flex-col gap-2">

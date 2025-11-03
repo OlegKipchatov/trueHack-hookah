@@ -82,11 +82,15 @@ vi.mock("@/entities/bowl", () => ({
             name: "Mint",
           },
         ],
+        rating: 3,
       },
     ],
     removeBowl: vi.fn(),
     isLoading: false,
   }),
+  BowlRatingBadge: ({ rating }: { rating: number }) => (
+    <span aria-label={`Моя оценка: ${rating}`}>{rating}</span>
+  ),
 }));
 
 describe("ViewBowlPage", () => {
@@ -103,6 +107,10 @@ describe("ViewBowlPage", () => {
     });
 
     expect(banner).toBeTruthy();
+    expect(screen.getByText(/Моя оценка/i).textContent).toContain("Моя оценка");
+    const ratingBadge = screen.getByLabelText(/Моя оценка/i);
+
+    expect(ratingBadge.textContent).toBe("3");
 
     fireEvent.click(banner);
 

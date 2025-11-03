@@ -15,7 +15,7 @@ import { Icon } from "@iconify/react";
 import { colors } from "@heroui/theme";
 import { Cell, Pie, PieChart } from "recharts";
 
-import { useBowls } from "@/entities/bowl";
+import { BowlRatingBadge, useBowls } from "@/entities/bowl";
 import { useTranslation } from "@/shared/lib/i18n/provider";
 import { Button } from "@/shared/ui/button";
 import { EmptyMessage } from "@/shared/ui/empty-message";
@@ -109,7 +109,7 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
         <>
           <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
             <PageTitle withBackButton backHref="/user" className="mb-0">
-              {bowl.name}
+              <span className="truncate text-balance">{bowl.name}</span>
             </PageTitle>
             <div className="flex gap-2">
               <Link href={`/bowls/edit?id=${bowl.id}`}>
@@ -132,6 +132,18 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
               >
                 <Icon icon="akar-icons:cross" width={16} />
               </Button>
+            </div>
+          </div>
+          <div
+            aria-label={translate("bowl.view.details")}
+            className="mt-4 flex flex-wrap items-center gap-6 rounded-2xl border border-zinc-200 bg-white p-4 text-sm text-zinc-600 shadow-sm dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200"
+            role="group"
+          >
+            <div className="flex w-full items-center justify-between gap-4">
+              <span className="text-sm font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                {translate("bowl.form.rating.label")}
+              </span>
+              <BowlRatingBadge className="text-2xl" rating={bowl.rating} />
             </div>
           </div>
           {hasTobaccos ? (

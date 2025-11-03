@@ -53,6 +53,10 @@
       "togglePercentages": "Переключить проценты",
       "disablePercentages": "Отключить проценты",
       "enablePercentages": "Включить проценты",
+      "rating": {
+        "label": "Моя оценка",
+        "hint": "Личная оценка чаши по шкале от 1 до 5"
+      },
       "tobacco": {
         "label": "Табак",
         "placeholder": "ананас",
@@ -71,7 +75,8 @@
       "notFound": "Чаша не найдена",
       "noTobaccos": "Табаки отсутствуют",
       "tobaccoFallback": "Табак {index}",
-      "disabledPercentagesHint": "Проценты для этой чаши отключены. Нажмите, чтобы настроить их."
+      "disabledPercentagesHint": "Проценты для этой чаши отключены. Нажмите, чтобы настроить их.",
+      "details": "Параметры чаши"
     },
     "edit": {
       "notFound": "Чаша для редактирования не найдена"

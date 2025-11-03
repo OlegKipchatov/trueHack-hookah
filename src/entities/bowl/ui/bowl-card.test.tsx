@@ -68,6 +68,7 @@ const bowl: Bowl = {
     { name: "Alpha", percentage: 50 },
     { name: "Beta", percentage: 50 },
   ],
+  rating: 4,
 };
 
 describe("BowlCard", () => {
@@ -78,6 +79,10 @@ describe("BowlCard", () => {
 
   it("navigates to edit page when edit button is pressed", () => {
     render(<BowlCard bowl={bowl} />);
+
+    const ratingBadge = screen.getByLabelText(/My rating/i);
+
+    expect(ratingBadge.textContent).toBe("4");
 
     fireEvent.click(screen.getByLabelText(/edit bowl/i));
 

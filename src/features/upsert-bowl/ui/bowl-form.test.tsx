@@ -73,10 +73,19 @@ describe("BowlForm", () => {
         { name: "Lime", percentage: 40 },
       ],
       usePercentages: true,
+      rating: 4,
     };
     const onSubmit = vi.fn();
 
     render(<BowlForm bowl={bowl} onSubmit={onSubmit} />);
+
+    screen.getByRole("slider", {
+      name: /rating/i,
+    });
+
+    expect(screen.getByText(String(bowl.rating)).textContent).toBe(
+      String(bowl.rating),
+    );
 
     expect(
       screen.getAllByRole("slider", { name: /percentage/i }).length,
@@ -101,6 +110,7 @@ describe("BowlForm", () => {
         { name: "Peach", percentage: 60 },
       ],
       usePercentages: true,
+      rating: 3,
     };
     const onSubmit = vi.fn();
 
@@ -144,6 +154,7 @@ describe("BowlForm", () => {
         { name: "Jasmine", percentage: 75 },
       ],
       usePercentages: true,
+      rating: 2,
     };
     const onSubmit = vi.fn();
 
