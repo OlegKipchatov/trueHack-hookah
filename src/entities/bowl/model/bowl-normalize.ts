@@ -1,0 +1,77 @@
+import type { Bowl, BowlTobacco } from "./bowl.types";
+
+import {
+  BOWL_RATING_MAX,
+  BOWL_RATING_MIN,
+  DEFAULT_BOWL_RATING,
+} from "./bowl.constants";
+
+type BowlLike = Partial<Omit<Bowl, "id">> & { id: string };
+
+type BowlTobaccoLike = Partial<BowlTobacco>;
+
+export const sanitizeMetric = (
+  value: unknown,
+  fallback: number,
+  min: number,
+  max: number,
+) => {
+  if (typeof value !== "number" || Number.isNaN(value)) {
+    return fallback;
+  }
+
+  const rounded = Math.round(value);
+
+  if (rounded < min) return min;
+  if (rounded > max) return max;
+
+  return rounded;
+};
+
+const sanitizeTobacco = (
+  tobacco: BowlTobaccoLike | undefined,
+): BowlTobacco => ({
+  name: typeof tobacco?.name === "string" ? tobacco.name : "",
+  percentage:
+    typeof tobacco?.percentage === "number" &&
+    Number.isFinite(tobacco.percentage)
+      ? tobacco.percentage
+      : undefined,
+});
+
+export const sanitizeBowl = (bowl: BowlLike): Bowl => ({
+  id: bowl.id,
+  name: typeof bowl.name === "string" ? bowl.name : "",
+  tobaccos: Array.isArray(bowl.tobaccos)
+    ? bowl.tobaccos
+        .filter(
+          (item): item is BowlTobaccoLike =>
+            typeof item === "object" && item !== null,
+        )
+        .map((tobacco) => sanitizeTobacco(tobacco))
+    : [],
+  usePercentages:
+    typeof bowl.usePercentages === "boolean" ? bowl.usePercentages : true,
+  rating: sanitizeMetric(
+    bowl.rating,
+    DEFAULT_BOWL_RATING,
+    BOWL_RATING_MIN,
+    BOWL_RATING_MAX,
+  ),
+});
+
+export const sanitizeBowls = (value: unknown): Bowl[] => {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value
+    .filter(
+      (item): item is BowlLike =>
+        typeof item === "object" &&
+        item !== null &&
+        "id" in item &&
+        typeof (item as { id: unknown }).id === "string",
+    )
+    .map((item) => sanitizeBowl(item));
+};

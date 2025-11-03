@@ -1,5 +1,6 @@
 export {
   useBowls,
+  useBowlsStore,
   BOWL_RATING_MAX,
   BOWL_RATING_MIN,
   DEFAULT_BOWL_RATING,
