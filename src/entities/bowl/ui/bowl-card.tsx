@@ -42,14 +42,14 @@ export const BowlCard = ({ bowl, onRemove, onTobaccoClick }: BowlCardProps) => {
         className="transition-colors data-[hover=true]:bg-default-100"
         onPress={() => router.push(`/bowls/view?id=${bowl.id}`)}
       >
-        <CardHeader className="flex items-center justify-between gap-3">
-          <div className="flex min-w-0 items-center gap-3">
+        <CardHeader className="flex flex-wrap items-center justify-between gap-3 gap-y-2">
+          <div className="flex min-w-0 flex-wrap items-center gap-3 gap-y-1 sm:flex-nowrap">
             <span className="truncate text-base font-semibold text-default-700">
               {bowl.name}
             </span>
-            <BowlRatingBadge className="shrink-0" rating={bowl.rating} />
+            <BowlRatingBadge rating={bowl.rating} />
           </div>
-          <div className="flex gap-2">
+          <div className="mt-2 flex w-full flex-wrap gap-2 sm:mt-0 sm:w-auto sm:flex-nowrap sm:justify-end">
             <Button
               isIconOnly
               aria-label={translate("bowl.actions.edit")}
