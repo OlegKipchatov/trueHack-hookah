@@ -196,9 +196,7 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
           <div className="flex flex-col gap-2">
             <div className="flex items-center justify-between text-sm font-medium text-default-600 dark:text-default-400">
               <span>{translate("bowl.form.rating.label")}</span>
-              <span aria-live="polite">
-                {rating}/{BOWL_RATING_MAX}
-              </span>
+              <span aria-live="polite">{rating}</span>
             </div>
             <Slider
               aria-label={translate("bowl.form.rating.label")}

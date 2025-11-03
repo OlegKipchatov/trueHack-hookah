@@ -54,12 +54,6 @@ export const useBowls = () => {
         ...b,
         name: b.name ?? "",
         usePercentages: b.usePercentages ?? true,
-        strength: sanitizeMetric(
-          b.strength,
-          DEFAULT_BOWL_STRENGTH,
-          BOWL_STRENGTH_MIN,
-          BOWL_STRENGTH_MAX,
-        ),
         rating: sanitizeMetric(
           b.rating,
           DEFAULT_BOWL_RATING,

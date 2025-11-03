@@ -3,8 +3,6 @@
 import clsx from "clsx";
 import { Icon } from "@iconify/react";
 
-import { BOWL_RATING_MAX } from "../model/bowl";
-
 import { useTranslation } from "@/shared/lib/i18n/provider";
 
 export type BowlRatingBadgeProps = {
@@ -21,7 +19,7 @@ export const BowlRatingBadge = ({
 
   return (
     <span
-      aria-label={`${label}: ${rating}/${BOWL_RATING_MAX}`}
+      aria-label={`${label}: ${rating}`}
       className={clsx(
         "inline-flex items-center gap-1 text-sm font-medium text-warning-500 dark:text-warning-400",
         className,
@@ -29,9 +27,7 @@ export const BowlRatingBadge = ({
       role="group"
     >
       <Icon aria-hidden className="h-4 w-4" icon="solar:star-bold" />
-      <span>
-        {rating}/{BOWL_RATING_MAX}
-      </span>
+      <span className="leading-none">{rating}</span>
     </span>
   );
 };

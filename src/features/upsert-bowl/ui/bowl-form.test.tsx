@@ -90,8 +90,8 @@ describe("BowlForm", () => {
     expect(screen.getByText(`${bowl.strength}/10`).textContent).toBe(
       `${bowl.strength}/10`,
     );
-    expect(screen.getByText(`${bowl.rating}/5`).textContent).toBe(
-      `${bowl.rating}/5`,
+    expect(screen.getByText(String(bowl.rating)).textContent).toBe(
+      String(bowl.rating),
     );
 
     expect(

@@ -90,9 +90,8 @@ vi.mock("@/entities/bowl", () => ({
     isLoading: false,
   }),
   BOWL_STRENGTH_MAX: 10,
-  BOWL_RATING_MAX: 5,
   BowlRatingBadge: ({ rating }: { rating: number }) => (
-    <span aria-label={`Моя оценка: ${rating}/5`}>{rating}/5</span>
+    <span aria-label={`Моя оценка: ${rating}`}>{rating}</span>
   ),
 }));
 
@@ -113,8 +112,9 @@ describe("ViewBowlPage", () => {
     expect(screen.getByText(/Крепость/i).textContent).toContain("Крепость");
     expect(screen.getByText(/Моя оценка/i).textContent).toContain("Моя оценка");
     expect(screen.getByText("4/10").textContent).toBe("4/10");
-    expect(screen.getAllByText("3/5")[0].textContent).toBe("3/5");
-    expect(screen.getAllByLabelText(/Моя оценка/i)).toHaveLength(2);
+    const ratingBadge = screen.getByLabelText(/Моя оценка/i);
+
+    expect(ratingBadge.textContent).toBe("3");
 
     fireEvent.click(banner);
 

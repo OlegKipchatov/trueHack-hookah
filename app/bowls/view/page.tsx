@@ -109,10 +109,7 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
         <>
           <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
             <PageTitle withBackButton backHref="/user" className="mb-0">
-              <span className="flex flex-wrap items-center gap-3">
-                <span className="truncate text-balance">{bowl.name}</span>
-                <BowlRatingBadge className="text-base" rating={bowl.rating} />
-              </span>
+              <span className="truncate text-balance">{bowl.name}</span>
             </PageTitle>
             <div className="flex gap-2">
               <Link href={`/bowls/edit?id=${bowl.id}`}>
