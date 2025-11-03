@@ -47,10 +47,7 @@ export const BowlCard = ({ bowl, onRemove, onTobaccoClick }: BowlCardProps) => {
             <span className="truncate text-base font-semibold text-default-700 dark:text-default-100">
               {bowl.name}
             </span>
-            <BowlRatingBadge
-              className="shrink-0 text-lg"
-              rating={bowl.rating}
-            />
+            <BowlRatingBadge className="shrink-0" rating={bowl.rating} />
           </div>
           <div className="flex gap-2">
             <Button
