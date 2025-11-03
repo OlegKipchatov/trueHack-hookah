@@ -60,3 +60,25 @@ export const SunFilledIcon = ({
     </g>
   </svg>
 );
+
+export const StarIcon = ({
+  size = 18,
+  width,
+  height,
+  ...props
+}: IconSvgProps) => (
+  <svg
+    aria-hidden="true"
+    focusable="false"
+    height={size || height}
+    role="presentation"
+    viewBox="0 0 24 24"
+    width={size || width}
+    {...props}
+  >
+    <path
+      d="M12 2.75l2.31 4.68 5.17.75-3.74 3.65.88 5.12L12 14.77l-4.62 2.43.88-5.12L4.52 8.18l5.17-.75L12 2.75z"
+      fill="currentColor"
+    />
+  </svg>
+);

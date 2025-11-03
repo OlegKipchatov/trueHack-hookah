@@ -18,9 +18,14 @@ describe("BowlFilters", () => {
       onSearchChange,
       flavors: [],
       onRemoveFlavor: vi.fn(),
+      sortOrder: "default",
+      onSortChange: vi.fn(),
     });
 
-    const input = element.props.children[0];
+    const children = Array.isArray(element.props.children)
+      ? element.props.children
+      : [element.props.children];
+    const input = children[0];
 
     input.props.onChange({ target: { value: "mint" } });
 
@@ -35,9 +40,14 @@ describe("BowlFilters", () => {
       onSearchChange: vi.fn(),
       flavors,
       onRemoveFlavor,
+      sortOrder: "default",
+      onSortChange: vi.fn(),
     });
 
-    const wrapper = element.props.children[1];
+    const children = Array.isArray(element.props.children)
+      ? element.props.children
+      : [element.props.children];
+    const wrapper = children[2];
     const chip = Array.isArray(wrapper.props.children)
       ? wrapper.props.children[0]
       : wrapper.props.children;
@@ -54,9 +64,14 @@ describe("BowlFilters", () => {
       onSearchChange: vi.fn(),
       flavors,
       onRemoveFlavor: vi.fn(),
+      sortOrder: "default",
+      onSortChange: vi.fn(),
     });
 
-    const wrapper = element.props.children[1];
+    const children = Array.isArray(element.props.children)
+      ? element.props.children
+      : [element.props.children];
+    const wrapper = children[2];
 
     expect(wrapper).toBeTruthy();
 
@@ -67,5 +82,50 @@ describe("BowlFilters", () => {
     chipsArray.forEach((chip, index) => {
       expect(chip.props.children).toBe(flavors[index]);
     });
+  });
+
+  it("passes selected sort order to dropdown menu", () => {
+    const element = BowlFilters({
+      search: "",
+      onSearchChange: vi.fn(),
+      flavors: [],
+      onRemoveFlavor: vi.fn(),
+      sortOrder: "rating-desc",
+      onSortChange: vi.fn(),
+    });
+
+    const children = Array.isArray(element.props.children)
+      ? element.props.children
+      : [element.props.children];
+    const dropdown = children[1];
+    const menu = Array.isArray(dropdown.props.children)
+      ? dropdown.props.children[1]
+      : dropdown.props.children;
+
+    expect(menu.props.selectedKeys).toEqual(["rating-desc"]);
+  });
+
+  it("calls onSortChange when dropdown action is triggered", () => {
+    const onSortChange = vi.fn();
+    const element = BowlFilters({
+      search: "",
+      onSearchChange: vi.fn(),
+      flavors: [],
+      onRemoveFlavor: vi.fn(),
+      sortOrder: "default",
+      onSortChange,
+    });
+
+    const children = Array.isArray(element.props.children)
+      ? element.props.children
+      : [element.props.children];
+    const dropdown = children[1];
+    const menu = Array.isArray(dropdown.props.children)
+      ? dropdown.props.children[1]
+      : dropdown.props.children;
+
+    menu.props.onAction("rating-asc");
+
+    expect(onSortChange).toHaveBeenCalledWith("rating-asc");
   });
 });

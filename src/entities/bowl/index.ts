@@ -4,7 +4,7 @@ export {
   BOWL_RATING_MIN,
   DEFAULT_BOWL_RATING,
 } from "./model/bowl";
-export type { Bowl, BowlTobacco } from "./model/bowl";
+export type { Bowl, BowlTobacco, BowlSortOrder } from "./model/bowl";
 
 export { BowlCard } from "./ui/bowl-card";
 export type { BowlCardProps } from "./ui/bowl-card";

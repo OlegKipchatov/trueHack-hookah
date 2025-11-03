@@ -1,6 +1,6 @@
 "use client";
 
-import type { Bowl } from "@/entities/bowl";
+import type { Bowl, BowlSortOrder } from "@/entities/bowl";
 
 import { useMemo } from "react";
 
@@ -14,6 +14,7 @@ export type BowlListProps = {
   bowls: Bowl[];
   flavors: string[];
   search: string;
+  sortOrder: BowlSortOrder;
   onAddFlavor: (name: string) => void;
   onRemove: (id: string) => void;
 };
@@ -22,12 +23,13 @@ export const BowlList = ({
   bowls,
   flavors,
   search,
+  sortOrder,
   onAddFlavor,
   onRemove,
 }: BowlListProps) => {
   const filteredBowls = useMemo(
-    () => filterBowls(bowls, search, flavors),
-    [bowls, search, flavors],
+    () => filterBowls(bowls, search, flavors, sortOrder),
+    [bowls, search, flavors, sortOrder],
   );
   const { t: translate } = useTranslation();
 
