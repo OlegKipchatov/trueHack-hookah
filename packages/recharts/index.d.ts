@@ -46,3 +46,16 @@ export type CellProps = {
 export declare const Cell: (props: CellProps) => null;
 
 export declare const Tooltip: () => null;
+
+export type ResponsiveContainerProps = {
+  width?: number | string;
+  height?: number | string;
+  aspect?: number;
+  className?: string;
+  style?: CSSProperties;
+  children?: ReactNode;
+};
+
+export declare const ResponsiveContainer: (
+  props: ResponsiveContainerProps,
+) => JSX.Element;

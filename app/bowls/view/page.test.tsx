@@ -70,36 +70,64 @@ vi.mock("next/navigation", () => ({
   }),
 }));
 
+vi.mock("recharts", () => ({
+  ResponsiveContainer: ({ children }: { children: ReactNode }) => (
+    <div data-testid="responsive-container">{children}</div>
+  ),
+  PieChart: ({ children, ...props }: { children: ReactNode }) => (
+    <div {...props}>{children}</div>
+  ),
+  Pie: ({ children }: { children: ReactNode }) => <div>{children}</div>,
+  Cell: () => null,
+}));
+
+const useBowlsMock = vi.fn();
+
 vi.mock("@/entities/bowl", () => ({
-  useBowls: () => ({
-    bowls: [
-      {
-        id: "1",
-        name: "Test bowl",
-        usePercentages: false,
-        tobaccos: [
-          {
-            name: "Mint",
-          },
-        ],
-        rating: 3,
-      },
-    ],
-    removeBowl: vi.fn(),
-    isLoading: false,
-  }),
+  useBowls: () => useBowlsMock(),
   BowlRatingBadge: ({ rating }: { rating: number }) => (
     <span aria-label={`Моя оценка: ${rating}`}>{rating}</span>
   ),
 }));
 
+const getWindowWithResizeObserver = () =>
+  window as typeof window & { ResizeObserver?: typeof ResizeObserver };
+
+const originalResizeObserver = getWindowWithResizeObserver().ResizeObserver;
+
 describe("ViewBowlPage", () => {
   afterEach(() => {
     cleanup();
     push.mockClear();
+    useBowlsMock.mockReset();
+    const windowWithObserver = getWindowWithResizeObserver();
+
+    if (originalResizeObserver) {
+      windowWithObserver.ResizeObserver = originalResizeObserver;
+    } else {
+      delete windowWithObserver.ResizeObserver;
+    }
   });
 
   it("renders banner when percentages are disabled and navigates to edit", () => {
+    useBowlsMock.mockReturnValue({
+      bowls: [
+        {
+          id: "1",
+          name: "Test bowl",
+          usePercentages: false,
+          tobaccos: [
+            {
+              name: "Mint",
+            },
+          ],
+          rating: 3,
+        },
+      ],
+      removeBowl: vi.fn(),
+      isLoading: false,
+    });
+
     render(<ViewBowlPage />);
 
     const banner = screen.getByRole("button", {
@@ -116,5 +144,67 @@ describe("ViewBowlPage", () => {
 
     expect(push).toHaveBeenCalledWith("/bowls/edit?id=1");
     expect(push).toHaveBeenCalledTimes(1);
+  });
+
+  it("shows chart placeholder when ResizeObserver is unavailable", () => {
+    useBowlsMock.mockReturnValue({
+      bowls: [
+        {
+          id: "1",
+          name: "Test bowl",
+          usePercentages: true,
+          tobaccos: [
+            {
+              name: "Mint",
+              percentage: 100,
+            },
+          ],
+          rating: 4,
+        },
+      ],
+      removeBowl: vi.fn(),
+      isLoading: false,
+    });
+
+    const windowWithObserver = getWindowWithResizeObserver();
+
+    delete windowWithObserver.ResizeObserver;
+
+    render(<ViewBowlPage />);
+
+    expect(screen.getByTestId("bowl-chart-placeholder")).toBeTruthy();
+  });
+
+  it("renders chart when ResizeObserver is available", () => {
+    useBowlsMock.mockReturnValue({
+      bowls: [
+        {
+          id: "1",
+          name: "Test bowl",
+          usePercentages: true,
+          tobaccos: [
+            {
+              name: "Mint",
+              percentage: 100,
+            },
+          ],
+          rating: 5,
+        },
+      ],
+      removeBowl: vi.fn(),
+      isLoading: false,
+    });
+
+    const windowWithObserver = getWindowWithResizeObserver();
+
+    windowWithObserver.ResizeObserver = class {
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+    };
+
+    render(<ViewBowlPage />);
+
+    expect(screen.getByTestId("bowl-chart")).toBeTruthy();
   });
 });
