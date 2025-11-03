@@ -296,16 +296,19 @@ const ResponsiveContainer = ({
     ...style,
   };
 
-  const shouldInjectDimensions =
-    React.isValidElement(children) && dimensions.width && dimensions.height;
+  let childWithDimensions = children;
 
-  const childWithDimensions = shouldInjectDimensions
-    ? React.cloneElement(children, {
+  if (React.isValidElement(children)) {
+    if (dimensions.width > 0 && dimensions.height > 0) {
+      childWithDimensions = React.cloneElement(children, {
         ...children.props,
         width: dimensions.width,
         height: dimensions.height,
-      })
-    : children;
+      });
+    } else {
+      childWithDimensions = null;
+    }
+  }
 
   return React.createElement(
     "div",
