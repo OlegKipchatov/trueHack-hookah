@@ -13,7 +13,7 @@ import {
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { colors } from "@heroui/theme";
-import { Cell, Pie, PieChart } from "recharts";
+import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
 
 import { BowlRatingBadge, useBowls } from "@/entities/bowl";
 import { useTranslation } from "@/shared/lib/i18n/provider";
@@ -174,26 +174,30 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
                   })}
                 </ul>
               </div>
-              <div className="mx-auto w-full max-w-md md:w-1/2 md:max-w-lg">
+              <div className="mx-auto w-full md:w-1/2 md:max-w-lg">
                 {usePercentages ? (
                   <div className="flex flex-col items-center rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
-                    <PieChart height={360} width={360}>
-                      <Pie
-                        data={chartData}
-                        dataKey="value"
-                        innerRadius={90}
-                        nameKey="name"
-                        outerRadius={150}
-                        paddingAngle={2}
-                      >
-                        {chartData.map((entry, index) => (
-                          <Cell
-                            key={`${entry.name}-${index}`}
-                            fill={TOBACCO_COLORS[index % TOBACCO_COLORS.length]}
-                          />
-                        ))}
-                      </Pie>
-                    </PieChart>
+                    <ResponsiveContainer aspect={1} width="100%">
+                      <PieChart>
+                        <Pie
+                          data={chartData}
+                          dataKey="value"
+                          innerRadius="60%"
+                          nameKey="name"
+                          outerRadius="90%"
+                          paddingAngle={2}
+                        >
+                          {chartData.map((entry, index) => (
+                            <Cell
+                              key={`${entry.name}-${index}`}
+                              fill={
+                                TOBACCO_COLORS[index % TOBACCO_COLORS.length]
+                              }
+                            />
+                          ))}
+                        </Pie>
+                      </PieChart>
+                    </ResponsiveContainer>
                     <ul className="mt-6 flex w-full flex-col items-center gap-3">
                       {chartData.map((entry, index) => (
                         <li
