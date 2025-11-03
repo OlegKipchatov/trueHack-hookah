@@ -15,7 +15,13 @@
     "brand": "BowlBuilder"
   },
   "filters": {
-    "searchPlaceholder": "Search bowls"
+    "searchPlaceholder": "Search bowls",
+    "sort": {
+      "aria": "Select bowl sort order",
+      "default": "Default order",
+      "ratingDesc": "Rating: high to low",
+      "ratingAsc": "Rating: low to high"
+    }
   },
   "languageSwitch": {
     "switchTo": {

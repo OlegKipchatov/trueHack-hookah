@@ -15,7 +15,13 @@
     "brand": "BowlBuilder"
   },
   "filters": {
-    "searchPlaceholder": "Поиск чаш"
+    "searchPlaceholder": "Поиск чаш",
+    "sort": {
+      "aria": "Выберите порядок сортировки чаш",
+      "default": "По умолчанию",
+      "ratingDesc": "Оценка: по убыванию",
+      "ratingAsc": "Оценка: по возрастанию"
+    }
   },
   "languageSwitch": {
     "switchTo": {
