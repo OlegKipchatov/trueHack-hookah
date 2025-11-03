@@ -50,7 +50,7 @@ export const BowlFilters = ({
       <Input
         className="mt-4 max-w-xs"
         placeholder={translate("filters.searchPlaceholder")}
-        size="sm"
+        size="md"
         value={search}
         onChange={(e) => onSearchChange(e.target.value)}
       />

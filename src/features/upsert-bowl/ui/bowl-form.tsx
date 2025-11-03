@@ -191,7 +191,7 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
                 label={translate("bowl.form.tobacco.label")}
                 labelPlacement="outside"
                 placeholder={translate("bowl.form.tobacco.placeholder")}
-                size="sm"
+                size="md"
                 value={tobacco.name}
                 onChange={(e) => updateField(idx, "name", e.target.value)}
               />
@@ -200,7 +200,7 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
                 aria-label={translate("bowl.form.tobacco.delete")}
                 color="danger"
                 hint={translate("bowl.form.tobacco.delete")}
-                size="sm"
+                size="md"
                 variant="light"
                 onPress={() => removeField(idx)}
               >
