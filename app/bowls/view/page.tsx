@@ -201,9 +201,9 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
                             <Pie
                               data={chartData}
                               dataKey="value"
-                              innerRadius="60%"
+                              innerRadius={60}
                               nameKey="name"
-                              outerRadius="90%"
+                              outerRadius={90}
                               paddingAngle={2}
                             >
                               {chartData.map((entry, index) => (
