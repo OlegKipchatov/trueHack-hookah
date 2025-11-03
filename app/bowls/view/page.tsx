@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
@@ -78,6 +78,23 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
   const router = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { t: translate } = useTranslation();
+
+  const [canRenderChart, setCanRenderChart] = useState(
+    typeof window !== "undefined" &&
+      typeof window.ResizeObserver !== "undefined",
+  );
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    if (typeof window.ResizeObserver === "undefined") {
+      return;
+    }
+
+    setCanRenderChart(true);
+  }, []);
 
   const bowl = bowls.find((item) => item.id === id);
   const tobaccos = bowl?.tobaccos ?? [];
@@ -177,27 +194,39 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
               <div className="mx-auto w-full md:w-1/2 md:max-w-lg">
                 {usePercentages ? (
                   <div className="flex flex-col items-center rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
-                    <ResponsiveContainer aspect={1} width="100%">
-                      <PieChart>
-                        <Pie
-                          data={chartData}
-                          dataKey="value"
-                          innerRadius="60%"
-                          nameKey="name"
-                          outerRadius="90%"
-                          paddingAngle={2}
-                        >
-                          {chartData.map((entry, index) => (
-                            <Cell
-                              key={`${entry.name}-${index}`}
-                              fill={
-                                TOBACCO_COLORS[index % TOBACCO_COLORS.length]
-                              }
-                            />
-                          ))}
-                        </Pie>
-                      </PieChart>
-                    </ResponsiveContainer>
+                    <div className="w-full">
+                      {canRenderChart ? (
+                        <ResponsiveContainer aspect={1} width="100%">
+                          <PieChart data-testid="bowl-chart">
+                            <Pie
+                              data={chartData}
+                              dataKey="value"
+                              innerRadius="60%"
+                              nameKey="name"
+                              outerRadius="90%"
+                              paddingAngle={2}
+                            >
+                              {chartData.map((entry, index) => (
+                                <Cell
+                                  key={`${entry.name}-${index}`}
+                                  fill={
+                                    TOBACCO_COLORS[
+                                      index % TOBACCO_COLORS.length
+                                    ]
+                                  }
+                                />
+                              ))}
+                            </Pie>
+                          </PieChart>
+                        </ResponsiveContainer>
+                      ) : (
+                        <div
+                          aria-hidden
+                          className="aspect-square w-full animate-pulse rounded-full bg-zinc-100 dark:bg-zinc-800"
+                          data-testid="bowl-chart-placeholder"
+                        />
+                      )}
+                    </div>
                     <ul className="mt-6 flex w-full flex-col items-center gap-3">
                       {chartData.map((entry, index) => (
                         <li
