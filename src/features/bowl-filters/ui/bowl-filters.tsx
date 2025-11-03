@@ -57,8 +57,8 @@ export const BowlFilters = ({
       <Dropdown>
         <DropdownTrigger>
           <Button
-            className="mt-2 max-w-xs"
-            startContent={<StarIcon className="h-4 w-4" />}
+            className="mt-4 max-w-xs"
+            startContent={<StarIcon size={22} />}
             variant="bordered"
           >
             {selectedOption?.label ?? sortOptions[0]?.label}

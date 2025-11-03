@@ -44,7 +44,7 @@ export const BowlCard = ({ bowl, onRemove, onTobaccoClick }: BowlCardProps) => {
       >
         <CardHeader className="flex items-center justify-between gap-3">
           <div className="flex min-w-0 items-center gap-3">
-            <span className="truncate text-base font-semibold text-default-700 dark:text-default-100">
+            <span className="truncate text-base font-semibold text-default-700">
               {bowl.name}
             </span>
             <BowlRatingBadge className="shrink-0" rating={bowl.rating} />

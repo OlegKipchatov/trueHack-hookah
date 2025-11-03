@@ -19,8 +19,8 @@
     "sort": {
       "aria": "Select bowl sort order",
       "default": "Default order",
-      "ratingDesc": "Rating: high to low",
-      "ratingAsc": "Rating: low to high"
+      "ratingDesc": "High to low",
+      "ratingAsc": "Low to high"
     }
   },
   "languageSwitch": {
