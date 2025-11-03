@@ -4,10 +4,6 @@ import { useEffect, useState } from "react";
 
 import { useLocalStorage } from "@/shared/lib/useLocalStorage";
 
-export const BOWL_STRENGTH_MIN = 1;
-export const BOWL_STRENGTH_MAX = 10;
-export const DEFAULT_BOWL_STRENGTH = 5;
-
 export const BOWL_RATING_MIN = 1;
 export const BOWL_RATING_MAX = 5;
 export const DEFAULT_BOWL_RATING = 3;
@@ -22,7 +18,6 @@ export type Bowl = {
   name: string;
   tobaccos: BowlTobacco[];
   usePercentages?: boolean;
-  strength: number;
   rating: number;
 };
 

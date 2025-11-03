@@ -1,5 +1,7 @@
 "use client";
 
+import type { Bowl } from "../model/bowl";
+
 import {
   Card,
   CardHeader,
@@ -13,8 +15,6 @@ import {
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/navigation";
-
-import { BOWL_STRENGTH_MAX, type Bowl } from "../model/bowl";
 
 import { BowlRatingBadge } from "./bowl-rating-badge";
 import { BowlCardChip } from "./bowl-card-chip";
@@ -48,7 +48,7 @@ export const BowlCard = ({ bowl, onRemove, onTobaccoClick }: BowlCardProps) => {
               {bowl.name}
             </span>
             <BowlRatingBadge
-              className="shrink-0 text-xs"
+              className="shrink-0 text-lg"
               rating={bowl.rating}
             />
           </div>
@@ -88,22 +88,6 @@ export const BowlCard = ({ bowl, onRemove, onTobaccoClick }: BowlCardProps) => {
         </CardHeader>
         <CardBody>
           <div className="flex flex-col gap-4">
-            <div className="flex flex-wrap items-center gap-4 text-sm text-default-600 dark:text-default-300">
-              <span aria-live="polite" className="flex items-baseline gap-1">
-                <span className="font-medium text-default-700 dark:text-default-100">
-                  {translate("bowl.form.strength.label")}:
-                </span>
-                <span>
-                  {bowl.strength}/{BOWL_STRENGTH_MAX}
-                </span>
-              </span>
-              <span aria-live="polite" className="flex items-center gap-1">
-                <span className="font-medium text-default-700 dark:text-default-100">
-                  {translate("bowl.form.rating.label")}:
-                </span>
-                <BowlRatingBadge className="text-xs" rating={bowl.rating} />
-              </span>
-            </div>
             <div className="flex flex-wrap gap-4">
               {bowl.tobaccos.map((t) => (
                 <BowlCardChip

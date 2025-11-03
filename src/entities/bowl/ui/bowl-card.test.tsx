@@ -68,7 +68,6 @@ const bowl: Bowl = {
     { name: "Alpha", percentage: 50 },
     { name: "Beta", percentage: 50 },
   ],
-  strength: 6,
   rating: 4,
 };
 
@@ -81,15 +80,9 @@ describe("BowlCard", () => {
   it("navigates to edit page when edit button is pressed", () => {
     render(<BowlCard bowl={bowl} />);
 
-    expect(screen.getByText(/Strength:/i).textContent).toContain("Strength:");
-    expect(screen.getByText(/My rating:/i).textContent).toContain("My rating:");
-    expect(screen.getByText("6/10").textContent).toBe("6/10");
-    const ratingBadges = screen.getAllByLabelText(/My rating/i);
+    const ratingBadge = screen.getByLabelText(/My rating/i);
 
-    expect(ratingBadges).toHaveLength(2);
-    ratingBadges.forEach((badge) => {
-      expect(badge.textContent).toBe("4");
-    });
+    expect(ratingBadge.textContent).toBe("4");
 
     fireEvent.click(screen.getByLabelText(/edit bowl/i));
 

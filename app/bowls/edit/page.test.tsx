@@ -12,7 +12,6 @@ const existingBowl: Bowl = {
   name: "Existing Bowl",
   tobaccos: [],
   usePercentages: true,
-  strength: 6,
   rating: 4,
 };
 

@@ -73,7 +73,6 @@ describe("BowlForm", () => {
         { name: "Lime", percentage: 40 },
       ],
       usePercentages: true,
-      strength: 7,
       rating: 4,
     };
     const onSubmit = vi.fn();
@@ -81,15 +80,9 @@ describe("BowlForm", () => {
     render(<BowlForm bowl={bowl} onSubmit={onSubmit} />);
 
     screen.getByRole("slider", {
-      name: /strength/i,
-    });
-    screen.getByRole("slider", {
       name: /rating/i,
     });
 
-    expect(screen.getByText(`${bowl.strength}/10`).textContent).toBe(
-      `${bowl.strength}/10`,
-    );
     expect(screen.getByText(String(bowl.rating)).textContent).toBe(
       String(bowl.rating),
     );
@@ -117,7 +110,6 @@ describe("BowlForm", () => {
         { name: "Peach", percentage: 60 },
       ],
       usePercentages: true,
-      strength: 5,
       rating: 3,
     };
     const onSubmit = vi.fn();
@@ -162,7 +154,6 @@ describe("BowlForm", () => {
         { name: "Jasmine", percentage: 75 },
       ],
       usePercentages: true,
-      strength: 4,
       rating: 2,
     };
     const onSubmit = vi.fn();
