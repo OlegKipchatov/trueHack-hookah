@@ -1,19 +1,17 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
-import { Form, Input, Slider } from "@heroui/react";
-import { Icon } from "@iconify/react";
+import { Form } from "@heroui/react";
+
+import { useBowlFormState } from "../model";
+
+import { BowlPercentageToggle } from "./bowl-percentage-toggle";
+import { BowlRatingControl } from "./bowl-rating-control";
+import { BowlTobaccoList } from "./bowl-tobacco-list";
 
 import { useTranslation } from "@/shared/lib/i18n/provider";
 import { Button } from "@/shared/ui/button";
 import { EditableTitle } from "@/shared/ui/editable-title";
-import {
-  BOWL_RATING_MAX,
-  BOWL_RATING_MIN,
-  DEFAULT_BOWL_RATING,
-  type Bowl,
-  type BowlTobacco,
-} from "@/entities/bowl";
+import { BOWL_RATING_MAX, BOWL_RATING_MIN, type Bowl } from "@/entities/bowl";
 
 export type BowlFormProps = {
   bowl?: Bowl;
@@ -21,120 +19,23 @@ export type BowlFormProps = {
 };
 
 export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
-  const initialUsePercentages = bowl?.usePercentages ?? true;
-  const [usePercentages, setUsePercentages] = useState(initialUsePercentages);
-  const [name, setName] = useState(bowl ? bowl.name : "");
-  const initialRating = bowl?.rating ?? DEFAULT_BOWL_RATING;
-  const [rating, setRating] = useState(initialRating);
-  const [tobaccos, setTobaccos] = useState<BowlTobacco[]>(() =>
-    bowl
-      ? bowl.tobaccos
-      : [{ name: "", percentage: initialUsePercentages ? 100 : undefined }],
-  );
   const { t: translate } = useTranslation();
-
-  useEffect(() => {
-    if (bowl) {
-      setTobaccos(bowl.tobaccos);
-      setName(bowl.name);
-      setUsePercentages(bowl.usePercentages ?? true);
-      setRating(bowl.rating ?? DEFAULT_BOWL_RATING);
-    }
-  }, [bowl]);
-
-  const addField = () => {
-    setTobaccos((prev) => {
-      if (!usePercentages) {
-        return [...prev, { name: "", percentage: undefined }];
-      }
-
-      const total = prev.reduce((sum, t) => sum + (t.percentage ?? 0), 0);
-      const percentage = Math.max(0, 100 - total);
-
-      return [...prev, { name: "", percentage }];
-    });
-  };
-
-  const updateField = <K extends keyof BowlTobacco>(
-    index: number,
-    field: K,
-    value: BowlTobacco[K],
-  ) => {
-    setTobaccos((prev) => {
-      const next = [...prev];
-
-      if (field === "percentage") {
-        if (!usePercentages) {
-          next[index].percentage = value as number;
-
-          return next;
-        }
-
-        const othersTotal = prev.reduce((sum, tobacco, idx) => {
-          if (idx === index) {
-            return sum;
-          }
-
-          return sum + (tobacco.percentage ?? 0);
-        }, 0);
-        const max = Math.max(0, 100 - othersTotal);
-        const clamped = Math.max(0, Math.min(value as number, max));
-
-        next[index].percentage = clamped;
-      } else {
-        next[index][field] = value;
-      }
-
-      return next;
-    });
-  };
-
-  const removeField = (index: number) => {
-    setTobaccos((prev) => {
-      const next = prev.filter((_, idx) => idx !== index);
-
-      if (next.length === 0) {
-        return [{ name: "", percentage: usePercentages ? 100 : undefined }];
-      }
-
-      if (usePercentages && next.length === 1) {
-        const [first] = next;
-
-        return [{ ...first, percentage: 100 }];
-      }
-
-      return next;
-    });
-  };
-
-  const total = tobaccos.reduce((sum, t) => sum + (t.percentage ?? 0), 0);
-  const hasErrorTotal = usePercentages ? total !== 100 : false;
-  const hasErrorName = name.trim() === "";
-
-  const submit = () => {
-    const result: Bowl = bowl
-      ? { ...bowl, name, tobaccos, usePercentages, rating }
-      : {
-          id: crypto.randomUUID(),
-          name,
-          tobaccos,
-          usePercentages,
-          rating,
-        };
-
-    onSubmit(result);
-    if (!bowl) {
-      setTobaccos([{ name: "", percentage: 100 }]);
-      setName("");
-      setUsePercentages(true);
-      setRating(DEFAULT_BOWL_RATING);
-    }
-  };
-
-  const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    submit();
-  };
+  const {
+    addTobacco,
+    handleFormSubmit,
+    handleSubmit,
+    hasErrorName,
+    hasErrorTotal,
+    name,
+    rating,
+    removeTobacco,
+    setName,
+    setRating,
+    tobaccos,
+    toggleUsePercentages,
+    updateTobacco,
+    usePercentages,
+  } = useBowlFormState({ bowl, onSubmit });
 
   return (
     <Form className="items-stretch gap-4" onSubmit={handleFormSubmit}>
@@ -144,93 +45,38 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
             className="flex-1"
             placeholder={translate("bowl.form.titlePlaceholder")}
             value={name}
-            onChange={setName}
+            onChange={(value) => setName(value)}
           />
-          <Button
-            isIconOnly
-            aria-label={translate("bowl.form.togglePercentages")}
-            aria-pressed={usePercentages}
-            className="ml-auto"
-            color={usePercentages ? "primary" : "default"}
-            hint={
-              usePercentages
-                ? translate("bowl.form.disablePercentages")
-                : translate("bowl.form.enablePercentages")
-            }
-            size="sm"
-            variant={usePercentages ? "solid" : "bordered"}
-            onPress={() => setUsePercentages((prev) => !prev)}
-          >
-            <Icon icon="akar-icons:percentage" width={16} />
-          </Button>
-        </div>
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center justify-between text-sm font-medium text-default-600 dark:text-default-400">
-            <span>{translate("bowl.form.rating.label")}</span>
-            <span aria-live="polite">{rating}</span>
-          </div>
-          <Slider
-            aria-label={translate("bowl.form.rating.label")}
-            maxValue={BOWL_RATING_MAX}
-            minValue={BOWL_RATING_MIN}
-            size="sm"
-            step={1}
-            value={rating}
-            onChange={(value) => setRating(value as number)}
+          <BowlPercentageToggle
+            activeHint={translate("bowl.form.disablePercentages")}
+            inactiveHint={translate("bowl.form.enablePercentages")}
+            isActive={usePercentages}
+            label={translate("bowl.form.togglePercentages")}
+            onToggle={toggleUsePercentages}
           />
-          <p className="text-xs text-default-500 dark:text-default-400">
-            {translate("bowl.form.rating.hint")}
-          </p>
         </div>
-        {tobaccos.map((tobacco, idx) => (
-          <div key={idx} className="flex flex-col gap-2">
-            <div className="flex items-end gap-2">
-              <Input
-                isRequired
-                className="flex-1"
-                label={translate("bowl.form.tobacco.label")}
-                labelPlacement="outside"
-                placeholder={translate("bowl.form.tobacco.placeholder")}
-                size="md"
-                value={tobacco.name}
-                onChange={(e) => updateField(idx, "name", e.target.value)}
-              />
-              <Button
-                isIconOnly
-                aria-label={translate("bowl.form.tobacco.delete")}
-                color="danger"
-                hint={translate("bowl.form.tobacco.delete")}
-                size="md"
-                variant="light"
-                onPress={() => removeField(idx)}
-              >
-                <Icon icon="akar-icons:cross" width={16} />
-              </Button>
-            </div>
-            {usePercentages && (
-              <Slider
-                label={translate("bowl.form.percentage.label")}
-                maxValue={100}
-                size="sm"
-                value={tobacco.percentage ?? 0}
-                onChange={(value) =>
-                  updateField(idx, "percentage", value as number)
-                }
-              />
-            )}
-          </div>
-        ))}
-        <div>
-          <Button
-            color="primary"
-            size="sm"
-            startContent={<Icon icon="akar-icons:plus" width={16} />}
-            variant="light"
-            onPress={addField}
-          >
-            {translate("bowl.form.tobacco.add")}
-          </Button>
-        </div>
+        <BowlRatingControl
+          hint={translate("bowl.form.rating.hint")}
+          label={translate("bowl.form.rating.label")}
+          max={BOWL_RATING_MAX}
+          min={BOWL_RATING_MIN}
+          value={rating}
+          onChange={(value) => setRating(value)}
+        />
+        <BowlTobaccoList
+          labels={{
+            addLabel: translate("bowl.form.tobacco.add"),
+            deleteLabel: translate("bowl.form.tobacco.delete"),
+            nameLabel: translate("bowl.form.tobacco.label"),
+            namePlaceholder: translate("bowl.form.tobacco.placeholder"),
+            percentageLabel: translate("bowl.form.percentage.label"),
+          }}
+          tobaccos={tobaccos}
+          usePercentages={usePercentages}
+          onAdd={() => addTobacco()}
+          onRemove={(index) => removeTobacco(index)}
+          onUpdate={(index, field, value) => updateTobacco(index, field, value)}
+        />
       </div>
       <div className="flex justify-end">
         <Button
@@ -244,7 +90,7 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
           }
           isDisabled={hasErrorTotal || hasErrorName}
           type="submit"
-          onPress={submit}
+          onPress={handleSubmit}
         >
           {translate("common.save")}
         </Button>
