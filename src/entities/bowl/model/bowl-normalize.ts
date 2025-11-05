@@ -6,9 +6,18 @@ import {
   DEFAULT_BOWL_RATING,
 } from "./bowl.constants";
 
-type BowlLike = Partial<Omit<Bowl, "id">> & { id: string };
+type BowlLike = {
+  id: string;
+  name?: unknown;
+  tobaccos?: unknown;
+  usePercentages?: unknown;
+  rating?: unknown;
+};
 
-type BowlTobaccoLike = Partial<BowlTobacco>;
+type BowlTobaccoLike = {
+  name?: unknown;
+  percentage?: unknown;
+};
 
 export const sanitizeMetric = (
   value: unknown,

@@ -1,12 +1,13 @@
 "use client";
 
-import { useCallback, useSyncExternalStore } from "react";
+import type { Bowl } from "./bowl.types";
 
-import { getLocalStorageItem, setLocalStorageItem } from "@/shared/lib/storage";
+import { useCallback, useSyncExternalStore } from "react";
 
 import { BOWLS_STORAGE_KEY } from "./bowl.constants";
 import { sanitizeBowl, sanitizeBowls } from "./bowl-normalize";
-import type { Bowl } from "./bowl.types";
+
+import { getLocalStorageItem, setLocalStorageItem } from "@/shared/lib/storage";
 
 type BowlsStoreState = {
   bowls: Bowl[];
