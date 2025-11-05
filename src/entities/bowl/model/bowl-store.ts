@@ -2,7 +2,7 @@
 
 import type { Bowl } from "./bowl.types";
 
-import { useCallback, useSyncExternalStore } from "react";
+import { useCallback, useRef, useSyncExternalStore } from "react";
 
 import { BOWLS_STORAGE_KEY } from "./bowl.constants";
 import { sanitizeBowl, sanitizeBowls } from "./bowl-normalize";
@@ -131,10 +131,26 @@ export const useBowlsStore = <T>(
     [selector],
   );
 
+  const serverSnapshotRef = useRef<T | null>(null);
+  const hasServerSnapshotRef = useRef(false);
+
+  const getCachedServerSnapshot = useCallback(() => {
+    if (typeof window !== "undefined") {
+      return getSelectedSnapshot();
+    }
+
+    if (!hasServerSnapshotRef.current) {
+      hasServerSnapshotRef.current = true;
+      serverSnapshotRef.current = getSelectedSnapshot();
+    }
+
+    return serverSnapshotRef.current as T;
+  }, [getSelectedSnapshot]);
+
   return useSyncExternalStore(
     subscribe,
     getSelectedSnapshot,
-    getSelectedSnapshot,
+    getCachedServerSnapshot,
   );
 };
 
