@@ -34,10 +34,26 @@ export const BowlFilters = ({
   onSortChange,
 }: BowlFiltersProps) => {
   const { t: translate } = useTranslation();
-  const sortOptions: Array<{ key: BowlSortOrder; label: string }> = [
-    { key: "default", label: translate("filters.sort.default") },
-    { key: "rating-desc", label: translate("filters.sort.ratingDesc") },
-    { key: "rating-asc", label: translate("filters.sort.ratingAsc") },
+  const sortOptions: Array<{
+    key: BowlSortOrder;
+    label: string;
+    icon: JSX.Element;
+  }> = [
+    {
+      key: "default",
+      label: translate("filters.sort.default"),
+      icon: <StarIcon size={18} />,
+    },
+    {
+      key: "rating-desc",
+      label: translate("filters.sort.ratingDesc"),
+      icon: <SortDescIcon size={18} />,
+    },
+    {
+      key: "rating-asc",
+      label: translate("filters.sort.ratingAsc"),
+      icon: <SortAscIcon size={18} />,
+    },
   ];
   const selectedOption = sortOptions.find((option) => option.key === sortOrder);
   const selectedIcon =
@@ -80,7 +96,9 @@ export const BowlFilters = ({
           onAction={handleSortAction}
         >
           {sortOptions.map((option) => (
-            <DropdownItem key={option.key}>{option.label}</DropdownItem>
+            <DropdownItem key={option.key} startContent={option.icon}>
+              {option.label}
+            </DropdownItem>
           ))}
         </DropdownMenu>
       </Dropdown>

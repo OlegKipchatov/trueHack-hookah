@@ -102,7 +102,6 @@ export const SortAscIcon = ({
       d="M4 6h10v2H4V6zm0 5h12v2H4v-2zm0 5h14v2H4v-2z"
       fill="currentColor"
     />
-    <path d="M19 5l3 3h-2v11h-2V8h-2l3-3z" fill="currentColor" />
   </svg>
 );
 
@@ -125,6 +124,5 @@ export const SortDescIcon = ({
       d="M4 6h14v2H4V6zm0 5h12v2H4v-2zm0 5h10v2H4v-2z"
       fill="currentColor"
     />
-    <path d="M19 19l-3-3h2V5h2v11h2l-3 3z" fill="currentColor" />
   </svg>
 );
