@@ -1,6 +1,6 @@
 "use client";
 
-import type { Key } from "react";
+import type { Key, ReactElement } from "react";
 import type { BowlSortOrder } from "@/entities/bowl";
 
 import {
@@ -37,7 +37,7 @@ export const BowlFilters = ({
   const sortOptions: Array<{
     key: BowlSortOrder;
     label: string;
-    icon: JSX.Element;
+    icon: ReactElement;
   }> = [
     {
       key: "default",
