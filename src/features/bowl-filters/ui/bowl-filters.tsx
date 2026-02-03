@@ -48,7 +48,7 @@ export const BowlFilters = ({
   return (
     <>
       <Input
-        className="mt-4 max-w-xs"
+        className="mt-4 w-full"
         placeholder={translate("filters.searchPlaceholder")}
         size="md"
         value={search}
