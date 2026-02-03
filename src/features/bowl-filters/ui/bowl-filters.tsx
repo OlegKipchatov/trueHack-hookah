@@ -14,7 +14,7 @@ import {
 } from "@heroui/react";
 
 import { useTranslation } from "@/shared/lib/i18n/provider";
-import { StarIcon } from "@/shared/ui/icons";
+import { SortAscIcon, SortDescIcon, StarIcon } from "@/shared/ui/icons";
 
 export type BowlFiltersProps = {
   search: string;
@@ -40,6 +40,14 @@ export const BowlFilters = ({
     { key: "rating-asc", label: translate("filters.sort.ratingAsc") },
   ];
   const selectedOption = sortOptions.find((option) => option.key === sortOrder);
+  const selectedIcon =
+    sortOrder === "rating-desc" ? (
+      <SortDescIcon size={22} />
+    ) : sortOrder === "rating-asc" ? (
+      <SortAscIcon size={22} />
+    ) : (
+      <StarIcon size={22} />
+    );
 
   const handleSortAction = (key: Key) => {
     onSortChange(key as BowlSortOrder);
@@ -58,7 +66,7 @@ export const BowlFilters = ({
         <DropdownTrigger>
           <Button
             className="mt-4 max-w-xs"
-            startContent={<StarIcon size={22} />}
+            startContent={selectedIcon}
             variant="bordered"
           >
             {selectedOption?.label ?? sortOptions[0]?.label}
