@@ -43,8 +43,14 @@ const subscribe = (listener: () => void) => {
   };
 };
 
+let snapshot: BowlsStoreSnapshot;
+
 const setState = (updater: (prev: BowlsStoreState) => BowlsStoreState) => {
   state = updater(state);
+  snapshot = {
+    ...state,
+    ...actions,
+  };
   notify();
 };
 
@@ -61,6 +67,10 @@ const hydrate = () => {
   state = {
     bowls,
     isLoading: false,
+  };
+  snapshot = {
+    ...state,
+    ...actions,
   };
 };
 
@@ -118,10 +128,12 @@ const actions: BowlsStoreActions = {
   },
 };
 
-const getSnapshot = (): BowlsStoreSnapshot => ({
+snapshot = {
   ...state,
   ...actions,
-});
+};
+
+const getSnapshot = (): BowlsStoreSnapshot => snapshot;
 
 export const useBowlsStore = <T>(
   selector: (store: BowlsStoreSnapshot) => T,
@@ -160,5 +172,9 @@ export const initializeBowlsStore = () => {
   }
 
   ensureInitialized();
+  snapshot = {
+    ...state,
+    ...actions,
+  };
   notify();
 };
