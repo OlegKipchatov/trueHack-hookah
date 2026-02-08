@@ -8,7 +8,12 @@ export {
   BOWL_STRENGTH_MIN,
   DEFAULT_BOWL_STRENGTH,
 } from "./model/bowl";
-export type { Bowl, BowlTobacco, BowlSortOrder } from "./model/bowl";
+export type {
+  Bowl,
+  BowlRatingSortOrder,
+  BowlStrengthSortOrder,
+  BowlTobacco,
+} from "./model/bowl";
 
 export { BowlCard } from "./ui/bowl-card";
 export type { BowlCardProps } from "./ui/bowl-card";

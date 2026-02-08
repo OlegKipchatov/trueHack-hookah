@@ -20,7 +20,9 @@
       "aria": "Select bowl sort order",
       "default": "Default order",
       "ratingDesc": "High to low",
-      "ratingAsc": "Low to high"
+      "ratingAsc": "Low to high",
+      "strengthDesc": "Strength high to low",
+      "strengthAsc": "Strength low to high"
     }
   },
   "languageSwitch": {

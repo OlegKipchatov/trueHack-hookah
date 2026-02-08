@@ -13,7 +13,12 @@ export {
   DEFAULT_BOWL_STRENGTH,
 } from "./bowl.constants";
 export { useBowlsStore } from "./bowl-store";
-export type { Bowl, BowlSortOrder, BowlTobacco } from "./bowl.types";
+export type {
+  Bowl,
+  BowlRatingSortOrder,
+  BowlStrengthSortOrder,
+  BowlTobacco,
+} from "./bowl.types";
 
 export const useBowls = () => {
   useEffect(() => {

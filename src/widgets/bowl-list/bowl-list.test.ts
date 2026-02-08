@@ -33,14 +33,14 @@ const flavors: string[] = [];
 
 describe("filterBowls", () => {
   it("matches regardless of search case", () => {
-    const result = filterBowls(bowls, "mInT", flavors, "default");
+    const result = filterBowls(bowls, "mInT", flavors, "default", "default");
 
     expect(result.length).toBe(1);
     expect(result[0].id).toBe("1");
   });
 
   it("matches for uppercase query", () => {
-    const result = filterBowls(bowls, "BLUE", flavors, "default");
+    const result = filterBowls(bowls, "BLUE", flavors, "default", "default");
 
     expect(result.length).toBe(1);
     expect(result[0].id).toBe("2");
@@ -51,6 +51,7 @@ describe("filterBowls", () => {
       bowlsWithFlavors,
       "",
       ["mint", "lemon"],
+      "default",
       "default",
     );
 
@@ -64,6 +65,7 @@ describe("filterBowls", () => {
       "",
       ["mint", "blueberry"],
       "default",
+      "default",
     );
 
     expect(result.length).toBe(0);
@@ -76,7 +78,7 @@ describe("filterBowls", () => {
       { id: "7", name: "Third", tobaccos: [], rating: 3, strength: 3 },
     ];
 
-    const result = filterBowls(orderedBowls, "", [], "default");
+    const result = filterBowls(orderedBowls, "", [], "default", "default");
 
     expect(result.map((b) => b.id)).toEqual(["5", "6", "7"]);
   });
@@ -88,7 +90,7 @@ describe("filterBowls", () => {
       { id: "10", name: "Medium", tobaccos: [], rating: 4, strength: 4 },
     ];
 
-    const result = filterBowls(mixedBowls, "", [], "rating-desc");
+    const result = filterBowls(mixedBowls, "", [], "rating-desc", "default");
 
     expect(result.map((b) => b.id)).toEqual(["9", "10", "8"]);
   });
@@ -100,8 +102,50 @@ describe("filterBowls", () => {
       { id: "13", name: "Low", tobaccos: [], rating: 2, strength: 2 },
     ];
 
-    const result = filterBowls(mixedBowls, "", [], "rating-asc");
+    const result = filterBowls(mixedBowls, "", [], "rating-asc", "default");
 
     expect(result.map((b) => b.id)).toEqual(["13", "11", "12"]);
+  });
+
+  it("sorts bowls by strength descending", () => {
+    const mixedBowls: Bowl[] = [
+      { id: "14", name: "Mild", tobaccos: [], rating: 3, strength: 2 },
+      { id: "15", name: "Strong", tobaccos: [], rating: 4, strength: 8 },
+      { id: "16", name: "Medium", tobaccos: [], rating: 5, strength: 5 },
+    ];
+
+    const result = filterBowls(mixedBowls, "", [], "default", "strength-desc");
+
+    expect(result.map((b) => b.id)).toEqual(["15", "16", "14"]);
+  });
+
+  it("sorts bowls by strength ascending while keeping ties stable", () => {
+    const mixedBowls: Bowl[] = [
+      { id: "17", name: "Strong", tobaccos: [], rating: 3, strength: 8 },
+      { id: "18", name: "Strong 2", tobaccos: [], rating: 4, strength: 8 },
+      { id: "19", name: "Mild", tobaccos: [], rating: 2, strength: 2 },
+    ];
+
+    const result = filterBowls(mixedBowls, "", [], "default", "strength-asc");
+
+    expect(result.map((b) => b.id)).toEqual(["19", "17", "18"]);
+  });
+
+  it("applies rating sort before strength sort", () => {
+    const mixedBowls: Bowl[] = [
+      { id: "20", name: "Top", tobaccos: [], rating: 5, strength: 2 },
+      { id: "21", name: "Top Strong", tobaccos: [], rating: 5, strength: 9 },
+      { id: "22", name: "Low", tobaccos: [], rating: 3, strength: 10 },
+    ];
+
+    const result = filterBowls(
+      mixedBowls,
+      "",
+      [],
+      "rating-desc",
+      "strength-asc",
+    );
+
+    expect(result.map((b) => b.id)).toEqual(["20", "21", "22"]);
   });
 });

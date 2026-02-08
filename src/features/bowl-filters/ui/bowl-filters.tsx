@@ -1,7 +1,10 @@
 "use client";
 
 import type { Key, ReactElement } from "react";
-import type { BowlSortOrder } from "@/entities/bowl";
+import type {
+  BowlRatingSortOrder,
+  BowlStrengthSortOrder,
+} from "@/entities/bowl";
 
 import {
   Input,
@@ -14,15 +17,22 @@ import {
 } from "@heroui/react";
 
 import { useTranslation } from "@/shared/lib/i18n/provider";
-import { SortAscIcon, SortDescIcon, StarIcon } from "@/shared/ui/icons";
+import {
+  SortAscIcon,
+  SortDescIcon,
+  StarIcon,
+  StrengthDefaultIcon,
+} from "@/shared/ui/icons";
 
 export type BowlFiltersProps = {
   search: string;
   onSearchChange: (value: string) => void;
   flavors: string[];
   onRemoveFlavor: (flavor: string) => void;
-  sortOrder: BowlSortOrder;
-  onSortChange: (order: BowlSortOrder) => void;
+  ratingSortOrder: BowlRatingSortOrder;
+  strengthSortOrder: BowlStrengthSortOrder;
+  onRatingSortChange: (order: BowlRatingSortOrder) => void;
+  onStrengthSortChange: (order: BowlStrengthSortOrder) => void;
 };
 
 export const BowlFilters = ({
@@ -30,12 +40,14 @@ export const BowlFilters = ({
   onSearchChange,
   flavors,
   onRemoveFlavor,
-  sortOrder,
-  onSortChange,
+  ratingSortOrder,
+  strengthSortOrder,
+  onRatingSortChange,
+  onStrengthSortChange,
 }: BowlFiltersProps) => {
   const { t: translate } = useTranslation();
-  const sortOptions: Array<{
-    key: BowlSortOrder;
+  const ratingSortOptions: Array<{
+    key: BowlRatingSortOrder;
     label: string;
     icon: ReactElement;
   }> = [
@@ -55,18 +67,57 @@ export const BowlFilters = ({
       icon: <SortAscIcon size={18} />,
     },
   ];
-  const selectedOption = sortOptions.find((option) => option.key === sortOrder);
-  const selectedIcon =
-    sortOrder === "rating-desc" ? (
+  const strengthSortOptions: Array<{
+    key: BowlStrengthSortOrder;
+    label: string;
+    icon: ReactElement;
+  }> = [
+    {
+      key: "default",
+      label: translate("filters.sort.default"),
+      icon: <StrengthDefaultIcon size={18} />,
+    },
+    {
+      key: "strength-desc",
+      label: translate("filters.sort.strengthDesc"),
+      icon: <SortDescIcon size={18} />,
+    },
+    {
+      key: "strength-asc",
+      label: translate("filters.sort.strengthAsc"),
+      icon: <SortAscIcon size={18} />,
+    },
+  ];
+
+  const selectedRatingOption = ratingSortOptions.find(
+    (option) => option.key === ratingSortOrder,
+  );
+  const selectedStrengthOption = strengthSortOptions.find(
+    (option) => option.key === strengthSortOrder,
+  );
+  const selectedRatingIcon =
+    ratingSortOrder === "rating-desc" ? (
       <SortDescIcon size={22} />
-    ) : sortOrder === "rating-asc" ? (
+    ) : ratingSortOrder === "rating-asc" ? (
       <SortAscIcon size={22} />
     ) : (
       <StarIcon size={22} />
     );
+  const selectedStrengthIcon =
+    strengthSortOrder === "strength-desc" ? (
+      <SortDescIcon size={22} />
+    ) : strengthSortOrder === "strength-asc" ? (
+      <SortAscIcon size={22} />
+    ) : (
+      <StrengthDefaultIcon size={22} />
+    );
 
-  const handleSortAction = (key: Key) => {
-    onSortChange(key as BowlSortOrder);
+  const handleRatingSortAction = (key: Key) => {
+    onRatingSortChange(key as BowlRatingSortOrder);
+  };
+
+  const handleStrengthSortAction = (key: Key) => {
+    onStrengthSortChange(key as BowlStrengthSortOrder);
   };
 
   return (
@@ -78,30 +129,56 @@ export const BowlFilters = ({
         value={search}
         onChange={(e) => onSearchChange(e.target.value)}
       />
-      <Dropdown>
-        <DropdownTrigger>
-          <Button
-            className="mt-4 max-w-xs"
-            startContent={selectedIcon}
-            variant="bordered"
+      <div className="mt-4 flex flex-wrap gap-2">
+        <Dropdown>
+          <DropdownTrigger>
+            <Button
+              className="max-w-xs"
+              startContent={selectedRatingIcon}
+              variant="bordered"
+            >
+              {selectedRatingOption?.label ?? ratingSortOptions[0]?.label}
+            </Button>
+          </DropdownTrigger>
+          <DropdownMenu
+            disallowEmptySelection
+            aria-label={translate("filters.sort.aria")}
+            selectedKeys={[ratingSortOrder]}
+            selectionMode="single"
+            onAction={handleRatingSortAction}
           >
-            {selectedOption?.label ?? sortOptions[0]?.label}
-          </Button>
-        </DropdownTrigger>
-        <DropdownMenu
-          disallowEmptySelection
-          aria-label={translate("filters.sort.aria")}
-          selectedKeys={[sortOrder]}
-          selectionMode="single"
-          onAction={handleSortAction}
-        >
-          {sortOptions.map((option) => (
-            <DropdownItem key={option.key} startContent={option.icon}>
-              {option.label}
-            </DropdownItem>
-          ))}
-        </DropdownMenu>
-      </Dropdown>
+            {ratingSortOptions.map((option) => (
+              <DropdownItem key={option.key} startContent={option.icon}>
+                {option.label}
+              </DropdownItem>
+            ))}
+          </DropdownMenu>
+        </Dropdown>
+        <Dropdown>
+          <DropdownTrigger>
+            <Button
+              className="max-w-xs"
+              startContent={selectedStrengthIcon}
+              variant="bordered"
+            >
+              {selectedStrengthOption?.label ?? strengthSortOptions[0]?.label}
+            </Button>
+          </DropdownTrigger>
+          <DropdownMenu
+            disallowEmptySelection
+            aria-label={translate("filters.sort.aria")}
+            selectedKeys={[strengthSortOrder]}
+            selectionMode="single"
+            onAction={handleStrengthSortAction}
+          >
+            {strengthSortOptions.map((option) => (
+              <DropdownItem key={option.key} startContent={option.icon}>
+                {option.label}
+              </DropdownItem>
+            ))}
+          </DropdownMenu>
+        </Dropdown>
+      </div>
       {flavors.length > 0 && (
         <div className="mt-4 flex flex-wrap gap-2">
           {flavors.map((flavor) => (
