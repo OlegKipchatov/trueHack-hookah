@@ -1,6 +1,9 @@
 "use client";
 
-import type { BowlSortOrder } from "@/entities/bowl";
+import type {
+  BowlRatingSortOrder,
+  BowlStrengthSortOrder,
+} from "@/entities/bowl";
 
 import Link from "next/link";
 import { useCallback, useState } from "react";
@@ -19,7 +22,10 @@ const UserPage = ({}: UserPageProps) => {
   const { bowls, removeBowl, isLoading } = useBowls();
   const [search, setSearch] = useState("");
   const [flavors, setFlavors] = useState<string[]>([]);
-  const [sortOrder, setSortOrder] = useState<BowlSortOrder>("default");
+  const [ratingSortOrder, setRatingSortOrder] =
+    useState<BowlRatingSortOrder>("default");
+  const [strengthSortOrder, setStrengthSortOrder] =
+    useState<BowlStrengthSortOrder>("default");
   const { t: translate } = useTranslation();
 
   const addFlavor = useCallback(
@@ -29,8 +35,12 @@ const UserPage = ({}: UserPageProps) => {
   );
   const removeFlavor = (name: string) =>
     setFlavors((prev) => prev.filter((f) => f !== name));
-  const handleSortChange = useCallback(
-    (order: BowlSortOrder) => setSortOrder(order),
+  const handleRatingSortChange = useCallback(
+    (order: BowlRatingSortOrder) => setRatingSortOrder(order),
+    [],
+  );
+  const handleStrengthSortChange = useCallback(
+    (order: BowlStrengthSortOrder) => setStrengthSortOrder(order),
     [],
   );
 
@@ -44,17 +54,20 @@ const UserPage = ({}: UserPageProps) => {
       </div>
       <BowlFilters
         flavors={flavors}
+        ratingSortOrder={ratingSortOrder}
         search={search}
-        sortOrder={sortOrder}
+        strengthSortOrder={strengthSortOrder}
+        onRatingSortChange={handleRatingSortChange}
         onRemoveFlavor={removeFlavor}
         onSearchChange={setSearch}
-        onSortChange={handleSortChange}
+        onStrengthSortChange={handleStrengthSortChange}
       />
       <BowlList
         bowls={bowls}
         flavors={flavors}
+        ratingSortOrder={ratingSortOrder}
         search={search}
-        sortOrder={sortOrder}
+        strengthSortOrder={strengthSortOrder}
         onAddFlavor={addFlavor}
         onRemove={removeBowl}
       />

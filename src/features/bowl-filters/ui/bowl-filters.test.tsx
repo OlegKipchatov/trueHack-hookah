@@ -18,8 +18,10 @@ describe("BowlFilters", () => {
       onSearchChange,
       flavors: [],
       onRemoveFlavor: vi.fn(),
-      sortOrder: "default",
-      onSortChange: vi.fn(),
+      ratingSortOrder: "default",
+      strengthSortOrder: "default",
+      onRatingSortChange: vi.fn(),
+      onStrengthSortChange: vi.fn(),
     });
 
     const children = Array.isArray(element.props.children)
@@ -40,8 +42,10 @@ describe("BowlFilters", () => {
       onSearchChange: vi.fn(),
       flavors,
       onRemoveFlavor,
-      sortOrder: "default",
-      onSortChange: vi.fn(),
+      ratingSortOrder: "default",
+      strengthSortOrder: "default",
+      onRatingSortChange: vi.fn(),
+      onStrengthSortChange: vi.fn(),
     });
 
     const children = Array.isArray(element.props.children)
@@ -64,8 +68,10 @@ describe("BowlFilters", () => {
       onSearchChange: vi.fn(),
       flavors,
       onRemoveFlavor: vi.fn(),
-      sortOrder: "default",
-      onSortChange: vi.fn(),
+      ratingSortOrder: "default",
+      strengthSortOrder: "default",
+      onRatingSortChange: vi.fn(),
+      onStrengthSortChange: vi.fn(),
     });
 
     const children = Array.isArray(element.props.children)
@@ -84,48 +90,72 @@ describe("BowlFilters", () => {
     });
   });
 
-  it("passes selected sort order to dropdown menu", () => {
+  it("passes selected sort order to both dropdown menus", () => {
     const element = BowlFilters({
       search: "",
       onSearchChange: vi.fn(),
       flavors: [],
       onRemoveFlavor: vi.fn(),
-      sortOrder: "rating-desc",
-      onSortChange: vi.fn(),
+      ratingSortOrder: "rating-desc",
+      strengthSortOrder: "strength-desc",
+      onRatingSortChange: vi.fn(),
+      onStrengthSortChange: vi.fn(),
     });
 
     const children = Array.isArray(element.props.children)
       ? element.props.children
       : [element.props.children];
-    const dropdown = children[1];
-    const menu = Array.isArray(dropdown.props.children)
-      ? dropdown.props.children[1]
-      : dropdown.props.children;
+    const dropdownWrapper = children[1];
+    const dropdowns = Array.isArray(dropdownWrapper.props.children)
+      ? dropdownWrapper.props.children
+      : [dropdownWrapper.props.children];
+    const ratingDropdown = dropdowns[0];
+    const strengthDropdown = dropdowns[1];
+    const ratingMenu = Array.isArray(ratingDropdown.props.children)
+      ? ratingDropdown.props.children[1]
+      : ratingDropdown.props.children;
+    const strengthMenu = Array.isArray(strengthDropdown.props.children)
+      ? strengthDropdown.props.children[1]
+      : strengthDropdown.props.children;
 
-    expect(menu.props.selectedKeys).toEqual(["rating-desc"]);
+    expect(ratingMenu.props.selectedKeys).toEqual(["rating-desc"]);
+    expect(strengthMenu.props.selectedKeys).toEqual(["strength-desc"]);
   });
 
-  it("calls onSortChange when dropdown action is triggered", () => {
-    const onSortChange = vi.fn();
+  it("calls sort change callbacks when dropdown actions are triggered", () => {
+    const onRatingSortChange = vi.fn();
+    const onStrengthSortChange = vi.fn();
     const element = BowlFilters({
       search: "",
       onSearchChange: vi.fn(),
       flavors: [],
       onRemoveFlavor: vi.fn(),
-      sortOrder: "default",
-      onSortChange,
+      ratingSortOrder: "default",
+      strengthSortOrder: "default",
+      onRatingSortChange,
+      onStrengthSortChange,
     });
 
     const children = Array.isArray(element.props.children)
       ? element.props.children
       : [element.props.children];
-    const dropdown = children[1];
-    const menu = Array.isArray(dropdown.props.children)
-      ? dropdown.props.children[1]
-      : dropdown.props.children;
+    const dropdownWrapper = children[1];
+    const dropdowns = Array.isArray(dropdownWrapper.props.children)
+      ? dropdownWrapper.props.children
+      : [dropdownWrapper.props.children];
+    const ratingDropdown = dropdowns[0];
+    const strengthDropdown = dropdowns[1];
+    const ratingMenu = Array.isArray(ratingDropdown.props.children)
+      ? ratingDropdown.props.children[1]
+      : ratingDropdown.props.children;
+    const strengthMenu = Array.isArray(strengthDropdown.props.children)
+      ? strengthDropdown.props.children[1]
+      : strengthDropdown.props.children;
 
-    menu.props.onAction("rating-asc");
+    ratingMenu.props.onAction("rating-asc");
+    strengthMenu.props.onAction("strength-asc");
 
-    expect(onSortChange).toHaveBeenCalledWith("rating-asc");
+    expect(onRatingSortChange).toHaveBeenCalledWith("rating-asc");
+    expect(onStrengthSortChange).toHaveBeenCalledWith("strength-asc");
   });
 });

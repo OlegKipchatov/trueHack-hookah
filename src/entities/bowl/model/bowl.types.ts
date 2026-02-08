@@ -1,4 +1,9 @@
-export type BowlSortOrder = "default" | "rating-desc" | "rating-asc";
+export type BowlRatingSortOrder = "default" | "rating-desc" | "rating-asc";
+
+export type BowlStrengthSortOrder =
+  | "default"
+  | "strength-desc"
+  | "strength-asc";
 
 export type BowlTobacco = {
   name: string;

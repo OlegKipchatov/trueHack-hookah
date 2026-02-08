@@ -1,7 +1,51 @@
-import type { Bowl, BowlSortOrder } from "@/entities/bowl";
+import type {
+  Bowl,
+  BowlRatingSortOrder,
+  BowlStrengthSortOrder,
+} from "@/entities/bowl";
 
-const sortBowls = (bowls: Bowl[], sortOrder: BowlSortOrder): Bowl[] => {
-  if (sortOrder === "default") {
+const compareRating = (a: Bowl, b: Bowl, sortOrder: BowlRatingSortOrder) => {
+  if (sortOrder === "rating-desc") {
+    if (b.rating !== a.rating) {
+      return b.rating - a.rating;
+    }
+  }
+
+  if (sortOrder === "rating-asc") {
+    if (a.rating !== b.rating) {
+      return a.rating - b.rating;
+    }
+  }
+
+  return 0;
+};
+
+const compareStrength = (
+  a: Bowl,
+  b: Bowl,
+  sortOrder: BowlStrengthSortOrder,
+) => {
+  if (sortOrder === "strength-desc") {
+    if (b.strength !== a.strength) {
+      return b.strength - a.strength;
+    }
+  }
+
+  if (sortOrder === "strength-asc") {
+    if (a.strength !== b.strength) {
+      return a.strength - b.strength;
+    }
+  }
+
+  return 0;
+};
+
+const sortBowls = (
+  bowls: Bowl[],
+  ratingSortOrder: BowlRatingSortOrder,
+  strengthSortOrder: BowlStrengthSortOrder,
+): Bowl[] => {
+  if (ratingSortOrder === "default" && strengthSortOrder === "default") {
     return bowls;
   }
 
@@ -9,15 +53,23 @@ const sortBowls = (bowls: Bowl[], sortOrder: BowlSortOrder): Bowl[] => {
 
   return withIndex
     .sort((a, b) => {
-      if (sortOrder === "rating-desc") {
-        if (b.bowl.rating !== a.bowl.rating) {
-          return b.bowl.rating - a.bowl.rating;
+      if (ratingSortOrder !== "default") {
+        const ratingDelta = compareRating(a.bowl, b.bowl, ratingSortOrder);
+
+        if (ratingDelta !== 0) {
+          return ratingDelta;
         }
       }
 
-      if (sortOrder === "rating-asc") {
-        if (a.bowl.rating !== b.bowl.rating) {
-          return a.bowl.rating - b.bowl.rating;
+      if (strengthSortOrder !== "default") {
+        const strengthDelta = compareStrength(
+          a.bowl,
+          b.bowl,
+          strengthSortOrder,
+        );
+
+        if (strengthDelta !== 0) {
+          return strengthDelta;
         }
       }
 
@@ -30,7 +82,8 @@ export const filterBowls = (
   bowls: Bowl[],
   search: string,
   flavors: string[],
-  sortOrder: BowlSortOrder,
+  ratingSortOrder: BowlRatingSortOrder,
+  strengthSortOrder: BowlStrengthSortOrder,
 ) => {
   const filtered = bowls.filter(
     (b) =>
@@ -38,5 +91,5 @@ export const filterBowls = (
       flavors.every((f) => b.tobaccos.some((t) => t.name === f)),
   );
 
-  return sortBowls(filtered, sortOrder);
+  return sortBowls(filtered, ratingSortOrder, strengthSortOrder);
 };

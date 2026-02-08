@@ -126,3 +126,25 @@ export const SortDescIcon = ({
     />
   </svg>
 );
+
+export const StrengthDefaultIcon = ({
+  size = 18,
+  width,
+  height,
+  ...props
+}: IconSvgProps) => (
+  <svg
+    aria-hidden="true"
+    focusable="false"
+    height={size || height}
+    role="presentation"
+    viewBox="0 0 24 24"
+    width={size || width}
+    {...props}
+  >
+    <path
+      d="M12 4a4 4 0 014 4v2h2.5a1 1 0 011 1v6a3 3 0 01-3 3H9.5a3 3 0 01-3-3v-6a1 1 0 011-1H10V8a4 4 0 014-4zm2 6V8a2 2 0 10-4 0v2h4z"
+      fill="currentColor"
+    />
+  </svg>
+);
