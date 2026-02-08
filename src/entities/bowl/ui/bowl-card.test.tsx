@@ -69,6 +69,7 @@ const bowl: Bowl = {
     { name: "Beta", percentage: 50 },
   ],
   rating: 4,
+  strength: 3,
 };
 
 describe("BowlCard", () => {

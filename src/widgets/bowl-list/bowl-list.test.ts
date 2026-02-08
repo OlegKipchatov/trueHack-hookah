@@ -5,8 +5,8 @@ import { describe, expect, it } from "vitest";
 import { filterBowls } from "./filter-bowls.ts";
 
 const bowls: Bowl[] = [
-  { id: "1", name: "Mint", tobaccos: [], rating: 3 },
-  { id: "2", name: "Blueberry", tobaccos: [], rating: 5 },
+  { id: "1", name: "Mint", tobaccos: [], rating: 3, strength: 4 },
+  { id: "2", name: "Blueberry", tobaccos: [], rating: 5, strength: 5 },
 ];
 
 const bowlsWithFlavors: Bowl[] = [
@@ -18,12 +18,14 @@ const bowlsWithFlavors: Bowl[] = [
       { name: "lemon", percentage: 50 },
     ],
     rating: 4,
+    strength: 3,
   },
   {
     id: "4",
     name: "Mint",
     tobaccos: [{ name: "mint", percentage: 100 }],
     rating: 2,
+    strength: 2,
   },
 ];
 
@@ -69,9 +71,9 @@ describe("filterBowls", () => {
 
   it("keeps original order for default sort", () => {
     const orderedBowls: Bowl[] = [
-      { id: "5", name: "First", tobaccos: [], rating: 4 },
-      { id: "6", name: "Second", tobaccos: [], rating: 5 },
-      { id: "7", name: "Third", tobaccos: [], rating: 3 },
+      { id: "5", name: "First", tobaccos: [], rating: 4, strength: 4 },
+      { id: "6", name: "Second", tobaccos: [], rating: 5, strength: 5 },
+      { id: "7", name: "Third", tobaccos: [], rating: 3, strength: 3 },
     ];
 
     const result = filterBowls(orderedBowls, "", [], "default");
@@ -81,9 +83,9 @@ describe("filterBowls", () => {
 
   it("sorts bowls by rating descending", () => {
     const mixedBowls: Bowl[] = [
-      { id: "8", name: "Low", tobaccos: [], rating: 2 },
-      { id: "9", name: "High", tobaccos: [], rating: 5 },
-      { id: "10", name: "Medium", tobaccos: [], rating: 4 },
+      { id: "8", name: "Low", tobaccos: [], rating: 2, strength: 2 },
+      { id: "9", name: "High", tobaccos: [], rating: 5, strength: 5 },
+      { id: "10", name: "Medium", tobaccos: [], rating: 4, strength: 4 },
     ];
 
     const result = filterBowls(mixedBowls, "", [], "rating-desc");
@@ -93,9 +95,9 @@ describe("filterBowls", () => {
 
   it("sorts bowls by rating ascending while keeping ties stable", () => {
     const mixedBowls: Bowl[] = [
-      { id: "11", name: "High", tobaccos: [], rating: 5 },
-      { id: "12", name: "High 2", tobaccos: [], rating: 5 },
-      { id: "13", name: "Low", tobaccos: [], rating: 2 },
+      { id: "11", name: "High", tobaccos: [], rating: 5, strength: 5 },
+      { id: "12", name: "High 2", tobaccos: [], rating: 5, strength: 4 },
+      { id: "13", name: "Low", tobaccos: [], rating: 2, strength: 2 },
     ];
 
     const result = filterBowls(mixedBowls, "", [], "rating-asc");

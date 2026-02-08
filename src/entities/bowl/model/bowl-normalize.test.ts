@@ -4,6 +4,8 @@ import {
   BOWL_RATING_MAX,
   BOWL_RATING_MIN,
   DEFAULT_BOWL_RATING,
+  BOWL_STRENGTH_MAX,
+  DEFAULT_BOWL_STRENGTH,
 } from "./bowl.constants";
 import { sanitizeBowl, sanitizeBowls, sanitizeMetric } from "./bowl-normalize";
 
@@ -15,6 +17,7 @@ const createBowl = (
   tobaccos: [],
   usePercentages: true,
   rating: DEFAULT_BOWL_RATING,
+  strength: DEFAULT_BOWL_STRENGTH,
   ...overrides,
 });
 
@@ -50,6 +53,7 @@ describe("sanitizeBowl", () => {
         name: undefined,
         usePercentages: undefined,
         rating: Number.NaN,
+        strength: Number.NaN,
         tobaccos: [
           { name: undefined, percentage: undefined },
           { name: "Mint", percentage: 33.3 },
@@ -68,6 +72,7 @@ describe("sanitizeBowl", () => {
       ],
       usePercentages: true,
       rating: DEFAULT_BOWL_RATING,
+      strength: DEFAULT_BOWL_STRENGTH,
     });
   });
 });
@@ -80,7 +85,14 @@ describe("sanitizeBowls", () => {
   it("filters out entries without string ids and sanitizes remaining bowls", () => {
     const sanitized = sanitizeBowls([
       { ...createBowl(), id: 42 },
-      { ...createBowl({ id: "valid-id", name: undefined, rating: 10 }) },
+      {
+        ...createBowl({
+          id: "valid-id",
+          name: undefined,
+          rating: 10,
+          strength: 11,
+        }),
+      },
     ]);
 
     expect(sanitized).toHaveLength(1);
@@ -88,6 +100,7 @@ describe("sanitizeBowls", () => {
       id: "valid-id",
       name: "",
       rating: BOWL_RATING_MAX,
+      strength: BOWL_STRENGTH_MAX,
     });
   });
 });

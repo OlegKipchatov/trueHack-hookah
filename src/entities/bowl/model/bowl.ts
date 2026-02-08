@@ -8,6 +8,9 @@ export {
   BOWL_RATING_MAX,
   BOWL_RATING_MIN,
   DEFAULT_BOWL_RATING,
+  BOWL_STRENGTH_MAX,
+  BOWL_STRENGTH_MIN,
+  DEFAULT_BOWL_STRENGTH,
 } from "./bowl.constants";
 export { useBowlsStore } from "./bowl-store";
 export type { Bowl, BowlSortOrder, BowlTobacco } from "./bowl.types";
