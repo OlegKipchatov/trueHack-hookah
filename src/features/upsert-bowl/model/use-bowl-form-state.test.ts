@@ -6,6 +6,7 @@ import { useBowlFormState } from "./use-bowl-form-state";
 import {
   BOWL_RATING_MAX,
   DEFAULT_BOWL_RATING,
+  DEFAULT_BOWL_STRENGTH,
   type Bowl,
 } from "@/entities/bowl";
 
@@ -20,6 +21,7 @@ describe("useBowlFormState", () => {
     expect(result.current.tobaccos).toHaveLength(1);
     expect(result.current.tobaccos[0]?.percentage).toBe(100);
     expect(result.current.rating).toBe(DEFAULT_BOWL_RATING);
+    expect(result.current.strength).toBe(DEFAULT_BOWL_STRENGTH);
     expect(result.current.usePercentages).toBe(true);
     expect(result.current.hasErrorTotal).toBe(false);
   });
@@ -34,6 +36,7 @@ describe("useBowlFormState", () => {
       ],
       usePercentages: true,
       rating: 3,
+      strength: 4,
     };
     const onSubmit = vi.fn();
     const { result } = renderHook(() =>
@@ -57,6 +60,7 @@ describe("useBowlFormState", () => {
     act(() => {
       result.current.setName("Fresh Bowl");
       result.current.setRating(BOWL_RATING_MAX);
+      result.current.setStrength(1);
     });
 
     act(() => {
@@ -70,12 +74,14 @@ describe("useBowlFormState", () => {
       id: "generated-id",
       name: "Fresh Bowl",
       rating: BOWL_RATING_MAX,
+      strength: 1,
       usePercentages: true,
     });
     expect(submitted.tobaccos).toHaveLength(1);
     expect(submitted.tobaccos[0]?.percentage).toBe(100);
     expect(result.current.name).toBe("");
     expect(result.current.rating).toBe(DEFAULT_BOWL_RATING);
+    expect(result.current.strength).toBe(DEFAULT_BOWL_STRENGTH);
     expect(result.current.tobaccos).toHaveLength(1);
     expect(result.current.tobaccos[0]?.percentage).toBe(100);
   });
@@ -90,6 +96,7 @@ describe("useBowlFormState", () => {
       ],
       usePercentages: true,
       rating: 4,
+      strength: 2,
     };
     const onSubmit = vi.fn();
     const { result } = renderHook(() =>
@@ -99,6 +106,7 @@ describe("useBowlFormState", () => {
     act(() => {
       result.current.setName("Updated Bowl");
       result.current.setRating(2);
+      result.current.setStrength(5);
     });
 
     act(() => {
@@ -111,10 +119,12 @@ describe("useBowlFormState", () => {
       ...bowl,
       name: "Updated Bowl",
       rating: 2,
+      strength: 5,
     });
     expect(submitted.tobaccos).not.toBe(bowl.tobaccos);
     expect(submitted.tobaccos).toEqual(bowl.tobaccos);
     expect(result.current.name).toBe("Updated Bowl");
     expect(result.current.rating).toBe(2);
+    expect(result.current.strength).toBe(5);
   });
 });

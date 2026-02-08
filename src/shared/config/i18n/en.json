@@ -63,6 +63,10 @@
         "label": "My rating",
         "hint": "Personal score for this bowl from 1 to 5"
       },
+      "strength": {
+        "label": "Strength",
+        "hint": "Strength level for this bowl from 1 to 10"
+      },
       "tobacco": {
         "label": "Tobacco",
         "placeholder": "pineapple",

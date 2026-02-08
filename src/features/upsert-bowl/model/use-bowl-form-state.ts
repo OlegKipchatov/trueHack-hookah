@@ -10,6 +10,7 @@ import { calculateTotalPercentage, clampPercentage } from "./bowl-form.utils";
 
 import {
   DEFAULT_BOWL_RATING,
+  DEFAULT_BOWL_STRENGTH,
   type Bowl,
   type BowlTobacco,
 } from "@/entities/bowl";
@@ -37,6 +38,9 @@ export const useBowlFormState = ({
   const [usePercentages, setUsePercentages] = useState(initialUsePercentages);
   const [name, setName] = useState(bowl ? bowl.name : "");
   const [rating, setRating] = useState(bowl?.rating ?? DEFAULT_BOWL_RATING);
+  const [strength, setStrength] = useState(
+    bowl?.strength ?? DEFAULT_BOWL_STRENGTH,
+  );
   const [tobaccos, setTobaccos] = useState<BowlTobacco[]>(() =>
     bowl
       ? bowl.tobaccos.map((tobacco) => ({ ...tobacco }))
@@ -51,6 +55,7 @@ export const useBowlFormState = ({
     setName(bowl.name);
     setUsePercentages(bowl.usePercentages ?? true);
     setRating(bowl.rating ?? DEFAULT_BOWL_RATING);
+    setStrength(bowl.strength ?? DEFAULT_BOWL_STRENGTH);
     setTobaccos(bowl.tobaccos.map((tobacco) => ({ ...tobacco })));
   }, [bowl]);
 
@@ -151,13 +156,14 @@ export const useBowlFormState = ({
 
   const handleSubmit = useCallback(() => {
     const result: Bowl = bowl
-      ? { ...bowl, name, tobaccos, usePercentages, rating }
+      ? { ...bowl, name, tobaccos, usePercentages, rating, strength }
       : {
           id: generateId(),
           name,
           tobaccos,
           usePercentages,
           rating,
+          strength,
         };
 
     onSubmit(result);
@@ -166,9 +172,19 @@ export const useBowlFormState = ({
       setName("");
       setUsePercentages(true);
       setRating(DEFAULT_BOWL_RATING);
+      setStrength(DEFAULT_BOWL_STRENGTH);
       setTobaccos([{ name: "", percentage: 100 }]);
     }
-  }, [bowl, generateId, name, onSubmit, rating, tobaccos, usePercentages]);
+  }, [
+    bowl,
+    generateId,
+    name,
+    onSubmit,
+    rating,
+    strength,
+    tobaccos,
+    usePercentages,
+  ]);
 
   const handleFormSubmit = useCallback(
     (event: FormEvent<HTMLFormElement>) => {
@@ -186,9 +202,11 @@ export const useBowlFormState = ({
     hasErrorTotal,
     name,
     rating,
+    strength,
     removeTobacco,
     setName,
     setRating,
+    setStrength,
     tobaccos,
     toggleUsePercentages,
     totalPercentage,

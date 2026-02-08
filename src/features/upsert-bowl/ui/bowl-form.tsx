@@ -11,7 +11,13 @@ import { BowlTobaccoList } from "./bowl-tobacco-list";
 import { useTranslation } from "@/shared/lib/i18n/provider";
 import { Button } from "@/shared/ui/button";
 import { EditableTitle } from "@/shared/ui/editable-title";
-import { BOWL_RATING_MAX, BOWL_RATING_MIN, type Bowl } from "@/entities/bowl";
+import {
+  BOWL_RATING_MAX,
+  BOWL_RATING_MIN,
+  BOWL_STRENGTH_MAX,
+  BOWL_STRENGTH_MIN,
+  type Bowl,
+} from "@/entities/bowl";
 
 export type BowlFormProps = {
   bowl?: Bowl;
@@ -28,9 +34,11 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
     hasErrorTotal,
     name,
     rating,
+    strength,
     removeTobacco,
     setName,
     setRating,
+    setStrength,
     tobaccos,
     toggleUsePercentages,
     updateTobacco,
@@ -55,14 +63,24 @@ export const BowlForm = ({ bowl, onSubmit }: BowlFormProps) => {
             onToggle={toggleUsePercentages}
           />
         </div>
-        <BowlRatingControl
-          hint={translate("bowl.form.rating.hint")}
-          label={translate("bowl.form.rating.label")}
-          max={BOWL_RATING_MAX}
-          min={BOWL_RATING_MIN}
-          value={rating}
-          onChange={(value) => setRating(value)}
-        />
+        <div className="grid gap-4 md:grid-cols-2">
+          <BowlRatingControl
+            hint={translate("bowl.form.strength.hint")}
+            label={translate("bowl.form.strength.label")}
+            max={BOWL_STRENGTH_MAX}
+            min={BOWL_STRENGTH_MIN}
+            value={strength}
+            onChange={(value) => setStrength(value)}
+          />
+          <BowlRatingControl
+            hint={translate("bowl.form.rating.hint")}
+            label={translate("bowl.form.rating.label")}
+            max={BOWL_RATING_MAX}
+            min={BOWL_RATING_MIN}
+            value={rating}
+            onChange={(value) => setRating(value)}
+          />
+        </div>
         <BowlTobaccoList
           labels={{
             addLabel: translate("bowl.form.tobacco.add"),

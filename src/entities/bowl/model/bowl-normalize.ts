@@ -4,6 +4,9 @@ import {
   BOWL_RATING_MAX,
   BOWL_RATING_MIN,
   DEFAULT_BOWL_RATING,
+  BOWL_STRENGTH_MAX,
+  BOWL_STRENGTH_MIN,
+  DEFAULT_BOWL_STRENGTH,
 } from "./bowl.constants";
 
 type BowlLike = {
@@ -12,6 +15,7 @@ type BowlLike = {
   tobaccos?: unknown;
   usePercentages?: unknown;
   rating?: unknown;
+  strength?: unknown;
 };
 
 type BowlTobaccoLike = {
@@ -66,6 +70,12 @@ export const sanitizeBowl = (bowl: BowlLike): Bowl => ({
     DEFAULT_BOWL_RATING,
     BOWL_RATING_MIN,
     BOWL_RATING_MAX,
+  ),
+  strength: sanitizeMetric(
+    bowl.strength,
+    DEFAULT_BOWL_STRENGTH,
+    BOWL_STRENGTH_MIN,
+    BOWL_STRENGTH_MAX,
   ),
 });
 

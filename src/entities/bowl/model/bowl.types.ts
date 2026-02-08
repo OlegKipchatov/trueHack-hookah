@@ -11,4 +11,5 @@ export type Bowl = {
   tobaccos: BowlTobacco[];
   usePercentages?: boolean;
   rating: number;
+  strength: number;
 };

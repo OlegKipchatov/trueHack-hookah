@@ -74,6 +74,7 @@ describe("BowlForm", () => {
       ],
       usePercentages: true,
       rating: 4,
+      strength: 5,
     };
     const onSubmit = vi.fn();
 
@@ -82,9 +83,15 @@ describe("BowlForm", () => {
     screen.getByRole("slider", {
       name: /rating/i,
     });
+    screen.getByRole("slider", {
+      name: /strength/i,
+    });
 
     expect(screen.getByText(String(bowl.rating)).textContent).toBe(
       String(bowl.rating),
+    );
+    expect(screen.getByText(String(bowl.strength)).textContent).toBe(
+      String(bowl.strength),
     );
 
     expect(
@@ -111,6 +118,7 @@ describe("BowlForm", () => {
       ],
       usePercentages: true,
       rating: 3,
+      strength: 2,
     };
     const onSubmit = vi.fn();
 
@@ -155,6 +163,7 @@ describe("BowlForm", () => {
       ],
       usePercentages: true,
       rating: 2,
+      strength: 1,
     };
     const onSubmit = vi.fn();
 
