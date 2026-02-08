@@ -84,6 +84,9 @@ describe("BowlCard", () => {
     const ratingBadge = screen.getByLabelText(/My rating/i);
 
     expect(ratingBadge.textContent).toBe("4");
+    const strengthBadge = screen.getByLabelText(/Strength/i);
+
+    expect(strengthBadge.textContent).toContain("3");
 
     fireEvent.click(screen.getByLabelText(/edit bowl/i));
 

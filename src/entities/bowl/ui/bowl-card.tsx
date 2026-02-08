@@ -20,6 +20,7 @@ import { BowlRatingBadge } from "./bowl-rating-badge";
 import { BowlCardChip } from "./bowl-card-chip";
 
 import { useTranslation } from "@/shared/lib/i18n/provider";
+import { StrengthDefaultIcon } from "@/shared/ui/icons";
 import { Button } from "@/shared/ui/button";
 
 export type BowlCardProps = {
@@ -32,6 +33,7 @@ export const BowlCard = ({ bowl, onRemove, onTobaccoClick }: BowlCardProps) => {
   const router = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { t: translate } = useTranslation();
+  const strengthLabel = translate("bowl.form.strength.label");
 
   return (
     <>
@@ -47,7 +49,18 @@ export const BowlCard = ({ bowl, onRemove, onTobaccoClick }: BowlCardProps) => {
             <span className="truncate text-base font-semibold text-default-700">
               {bowl.name}
             </span>
-            <BowlRatingBadge rating={bowl.rating} />
+            <div className="flex items-center gap-2 text-sm font-semibold text-default-400 dark:text-default-300">
+              <BowlRatingBadge rating={bowl.rating} />
+              <span className="text-default-400 dark:text-default-500">|</span>
+              <span
+                aria-label={`${strengthLabel}: ${bowl.strength}`}
+                className="inline-flex items-center gap-1 text-default-300 dark:text-default-200"
+                role="group"
+              >
+                <StrengthDefaultIcon aria-hidden size={16} />
+                <span className="leading-none">{bowl.strength}</span>
+              </span>
+            </div>
           </div>
           <div className="mt-2 flex w-full flex-wrap gap-2 sm:mt-0 sm:w-auto sm:flex-nowrap sm:justify-end">
             <Button
