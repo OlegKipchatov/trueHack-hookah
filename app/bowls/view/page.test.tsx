@@ -1,7 +1,13 @@
 import type { ReactNode } from "react";
 
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  within,
+} from "@testing-library/react";
 
 import ViewBowlPage from "./page";
 
@@ -122,6 +128,7 @@ describe("ViewBowlPage", () => {
             },
           ],
           rating: 3,
+          strength: 5,
         },
       ],
       removeBowl: vi.fn(),
@@ -135,10 +142,13 @@ describe("ViewBowlPage", () => {
     });
 
     expect(banner).toBeTruthy();
-    expect(screen.getByText(/Моя оценка/i).textContent).toContain("Моя оценка");
-    const ratingBadge = screen.getByLabelText(/Моя оценка/i);
+    expect(screen.getByText("Крепость: 5")).toBeTruthy();
+
+    const heading = screen.getByRole("heading", { level: 1 });
+    const ratingBadge = within(heading).getByLabelText(/Моя оценка/i);
 
     expect(ratingBadge.textContent).toBe("3");
+    expect(screen.queryByLabelText(/Параметры чаши/i)).toBeNull();
 
     fireEvent.click(banner);
 
@@ -160,6 +170,7 @@ describe("ViewBowlPage", () => {
             },
           ],
           rating: 4,
+          strength: 4,
         },
       ],
       removeBowl: vi.fn(),
@@ -189,6 +200,7 @@ describe("ViewBowlPage", () => {
             },
           ],
           rating: 5,
+          strength: 6,
         },
       ],
       removeBowl: vi.fn(),

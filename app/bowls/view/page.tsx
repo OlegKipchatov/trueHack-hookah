@@ -124,9 +124,17 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
     <Page isLoading={isLoading} status={status}>
       {bowl && (
         <>
-          <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-4">
             <PageTitle withBackButton backHref="/user" className="mb-0">
-              <span className="truncate text-balance">{bowl.name}</span>
+              <span className="flex w-full flex-wrap items-center gap-3">
+                <span className="min-w-0 flex-1 truncate text-balance">
+                  {bowl.name}
+                </span>
+                <BowlRatingBadge
+                  className="ml-auto text-3xl md:text-4xl"
+                  rating={bowl.rating}
+                />
+              </span>
             </PageTitle>
             <div className="flex gap-2">
               <Link href={`/bowls/edit?id=${bowl.id}`}>
@@ -151,17 +159,10 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
               </Button>
             </div>
           </div>
-          <div
-            aria-label={translate("bowl.view.details")}
-            className="mt-4 flex flex-wrap items-center gap-6 rounded-2xl border border-zinc-200 bg-white p-4 text-sm text-zinc-600 shadow-sm dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200"
-            role="group"
-          >
-            <div className="flex w-full items-center justify-between gap-4">
-              <span className="text-sm font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-                {translate("bowl.form.rating.label")}
-              </span>
-              <BowlRatingBadge className="text-2xl" rating={bowl.rating} />
-            </div>
+          <div className="text-sm text-zinc-500 dark:text-zinc-400">
+            <span className="font-medium">
+              {translate("bowl.form.strength.label")}: {bowl.strength}
+            </span>
           </div>
           {hasTobaccos ? (
             <div className="mt-6 flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
