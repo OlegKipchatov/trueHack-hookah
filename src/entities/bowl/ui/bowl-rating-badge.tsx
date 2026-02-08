@@ -26,7 +26,11 @@ export const BowlRatingBadge = ({
       )}
       role="group"
     >
-      <Icon aria-hidden className="h-4 w-4 shrink-0" icon="solar:star-bold" />
+      <Icon
+        aria-hidden
+        className="h-[1em] w-[1em] shrink-0"
+        icon="solar:star-bold"
+      />
       <span className="leading-none">{rating}</span>
     </span>
   );
