@@ -12,7 +12,10 @@
   },
   "navbar": {
     "profile": "Профиль",
-    "brand": "BowlBuilder"
+    "brand": "BowlBuilder",
+    "login": "Войти",
+    "logout": "Выйти",
+    "greeting": "Привет, {name}!"
   },
   "filters": {
     "searchPlaceholder": "Поиск чаш",
@@ -102,6 +105,19 @@
     "errors": {
       "name": "Название обязательно",
       "total": "Сумма должна быть 100%"
+    }
+  },
+  "auth": {
+    "title": "Вход",
+    "description": "Получите доступ к сохранённым чашам и синхронизируйте их между устройствами.",
+    "vk": {
+      "button": "Продолжить через VK ID",
+      "logout": "Выйти",
+      "scriptError": "Не удалось загрузить скрипт VK ID. Попробуйте позже.",
+      "misconfigured": "VK ID настроен некорректно.",
+      "notReady": "VK ID ещё не готов.",
+      "noCode": "VK ID не вернул код авторизации.",
+      "exchangeFailed": "Не удалось обменять код VK на сессию."
     }
   },
   "error": {

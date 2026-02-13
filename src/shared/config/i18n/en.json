@@ -12,7 +12,10 @@
   },
   "navbar": {
     "profile": "Profile",
-    "brand": "BowlBuilder"
+    "brand": "BowlBuilder",
+    "login": "Log in",
+    "logout": "Log out",
+    "greeting": "Hello, {name}!"
   },
   "filters": {
     "searchPlaceholder": "Search bowls",
@@ -102,6 +105,19 @@
     "errors": {
       "name": "Name is required",
       "total": "Total must be 100%"
+    }
+  },
+  "auth": {
+    "title": "Sign in",
+    "description": "Access your saved bowls and sync them across devices.",
+    "vk": {
+      "button": "Continue with VK ID",
+      "logout": "Sign out",
+      "scriptError": "Unable to load VK ID script. Please try again later.",
+      "misconfigured": "VK ID is not configured correctly.",
+      "notReady": "VK ID is not ready yet.",
+      "noCode": "VK ID did not return an authorization code.",
+      "exchangeFailed": "Unable to exchange VK code for a session."
     }
   },
   "error": {
