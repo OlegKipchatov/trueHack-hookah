@@ -117,7 +117,7 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
     if (!bowl) return;
 
     removeBowl(bowl.id);
-    router.push("/user");
+    router.push("/bowls");
   };
 
   return (
@@ -125,7 +125,7 @@ const ViewBowlContent = ({}: ViewBowlPageProps) => {
       {bowl && (
         <>
           <div className="mb-4 flex flex-wrap items-center justify-between gap-4">
-            <PageTitle withBackButton backHref="/user" className="mb-0">
+            <PageTitle withBackButton backHref="/bowls" className="mb-0">
               <span className="flex w-full flex-wrap items-center gap-3">
                 <span className="min-w-0 flex-1 truncate text-balance">
                   {bowl.name}

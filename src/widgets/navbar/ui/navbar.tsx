@@ -26,7 +26,7 @@ export const Navbar = () => {
   const { t: translate } = useTranslation();
   const pathname = usePathname();
   const menuItems = useMemo(
-    () => [{ href: "/user", label: translate("navbar.profile") }],
+    () => [{ href: "/bowls", label: translate("navbar.profile") }],
     [translate],
   );
 

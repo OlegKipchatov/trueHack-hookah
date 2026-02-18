@@ -1,0 +1,78 @@
+"use client";
+
+import type {
+  BowlRatingSortOrder,
+  BowlStrengthSortOrder,
+} from "@/entities/bowl";
+
+import Link from "next/link";
+import { useCallback, useState } from "react";
+
+import { useTranslation } from "@/shared/lib/i18n/provider";
+import { Button } from "@/shared/ui/button";
+import { Page } from "@/shared/ui/page";
+import { PageTitle } from "@/shared/ui/page-title";
+import { useBowls } from "@/entities/bowl";
+import { BowlFilters } from "@/features/bowl-filters";
+import { BowlList } from "@/widgets/bowl-list";
+
+export type BowlsPageProps = {};
+
+const BowlsPage = ({}: BowlsPageProps) => {
+  const { bowls, removeBowl, isLoading } = useBowls();
+  const [search, setSearch] = useState("");
+  const [flavors, setFlavors] = useState<string[]>([]);
+  const [ratingSortOrder, setRatingSortOrder] =
+    useState<BowlRatingSortOrder>("default");
+  const [strengthSortOrder, setStrengthSortOrder] =
+    useState<BowlStrengthSortOrder>("default");
+  const { t: translate } = useTranslation();
+
+  const addFlavor = useCallback(
+    (name: string) =>
+      setFlavors((prev) => (prev.includes(name) ? prev : [...prev, name])),
+    [],
+  );
+  const removeFlavor = (name: string) =>
+    setFlavors((prev) => prev.filter((f) => f !== name));
+  const handleRatingSortChange = useCallback(
+    (order: BowlRatingSortOrder) => setRatingSortOrder(order),
+    [],
+  );
+  const handleStrengthSortChange = useCallback(
+    (order: BowlStrengthSortOrder) => setStrengthSortOrder(order),
+    [],
+  );
+
+  return (
+    <Page isLoading={isLoading}>
+      <div className="mb-4 flex items-center justify-between">
+        <PageTitle className="mb-0">{translate("user.title")}</PageTitle>
+        <Link href="/bowls/new">
+          <Button color="primary">{translate("bowl.actions.create")}</Button>
+        </Link>
+      </div>
+      <BowlFilters
+        flavors={flavors}
+        ratingSortOrder={ratingSortOrder}
+        search={search}
+        strengthSortOrder={strengthSortOrder}
+        onRatingSortChange={handleRatingSortChange}
+        onRemoveFlavor={removeFlavor}
+        onSearchChange={setSearch}
+        onStrengthSortChange={handleStrengthSortChange}
+      />
+      <BowlList
+        bowls={bowls}
+        flavors={flavors}
+        ratingSortOrder={ratingSortOrder}
+        search={search}
+        strengthSortOrder={strengthSortOrder}
+        onAddFlavor={addFlavor}
+        onRemove={removeBowl}
+      />
+    </Page>
+  );
+};
+
+export default BowlsPage;
