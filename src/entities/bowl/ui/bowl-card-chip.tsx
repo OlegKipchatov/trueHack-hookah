@@ -19,7 +19,8 @@ export const BowlCardChip = ({
   const chip = (
     <Chip
       ref={ref}
-      className="cursor-pointer rounded-full border border-white/10 bg-gradient-to-r from-violet-800/50 to-fuchsia-600/40 px-4 py-2 text-base font-medium text-violet-100 shadow-sm shadow-black/20 transition-colors"
+      className="cursor-pointer px-4 py-2 text-base font-medium"
+      color="primary"
       size="lg"
       variant={isHover ? "solid" : "flat"}
       onClick={(event) => {
@@ -31,11 +32,11 @@ export const BowlCardChip = ({
       }}
     >
       <span className="flex items-center gap-2">
-        <span>{tobacco.name}</span>
+        <span className="text-inherit">{tobacco.name}</span>
         {showPercentages && typeof tobacco.percentage === "number" && (
           <>
-            <span className="text-violet-200/70">•</span>
-            <span className="font-semibold text-fuchsia-200">
+            <span className="text-default-300 dark:text-default-200">•</span>
+            <span className="font-semibold text-inherit">
               {tobacco.percentage}%
             </span>
           </>
