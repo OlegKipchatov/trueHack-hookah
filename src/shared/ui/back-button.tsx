@@ -26,7 +26,7 @@ export const BackButton = ({ className, href }: BackButtonProps) => {
     if (window.history.length > 1) {
       router.back();
     } else {
-      router.push("/user");
+      router.push("/bowls");
     }
   };
 

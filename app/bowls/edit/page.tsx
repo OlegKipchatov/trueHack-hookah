@@ -20,7 +20,7 @@ const EditBowlContent = ({}: EditBowlPageProps) => {
   const { t: translate } = useTranslation();
 
   const bowl = bowls.find((b) => b.id === id);
-  const backHref = id ? `/bowls/view?id=${id}` : "/user";
+  const backHref = id ? `/bowls/view?id=${id}` : "/bowls";
 
   const handleSubmit = (b: Bowl) => {
     updateBowl(b);
