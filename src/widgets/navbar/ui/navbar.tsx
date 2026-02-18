@@ -15,6 +15,7 @@ import {
 } from "@heroui/react";
 
 import { NavbarItemText } from "./navbar-item-text";
+import { NavbarProfileMenu } from "./navbar-profile-menu";
 
 import { LanguageSwitch } from "@/features/language-switch";
 import { ThemeSwitch } from "@/features/theme-switch";
@@ -51,19 +52,22 @@ export const Navbar = () => {
             {label}
           </NavbarItemText>
         ))}
-
         <NavbarItem className="hidden sm:flex items-center gap-2">
           <LanguageSwitch />
           <ThemeSwitch />
         </NavbarItem>
+        <NavbarItem>
+          <NavbarProfileMenu />
+        </NavbarItem>
       </NavbarContent>
 
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
-        <div className="flex items-center gap-2">
+        <NavbarItem className="flex items-center gap-2">
           <LanguageSwitch />
           <ThemeSwitch />
           <NavbarMenuToggle />
-        </div>
+          <NavbarProfileMenu />
+        </NavbarItem>
       </NavbarContent>
 
       <NavbarMenu>

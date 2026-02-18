@@ -12,7 +12,8 @@
   },
   "navbar": {
     "profile": "Profile",
-    "brand": "BowlBuilder"
+    "brand": "BowlBuilder",
+    "profileMenuAria": "Open profile menu"
   },
   "filters": {
     "searchPlaceholder": "Search bowls",
