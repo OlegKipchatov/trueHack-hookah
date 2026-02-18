@@ -51,10 +51,9 @@ export const BowlCard = ({ bowl, onRemove, onTobaccoClick }: BowlCardProps) => {
             </span>
             <div className="flex items-center gap-2 text-sm font-semibold text-default-400 dark:text-default-300">
               <BowlRatingBadge rating={bowl.rating} />
-              <span className="text-default-400 dark:text-default-500">|</span>
               <span
                 aria-label={`${strengthLabel}: ${bowl.strength}`}
-                className="inline-flex items-center gap-1 text-default-300 dark:text-default-200"
+                className="inline-flex items-center gap-1 text-default-200 dark:text-default-100"
                 role="group"
               >
                 <StrengthDefaultIcon aria-hidden size={16} />
