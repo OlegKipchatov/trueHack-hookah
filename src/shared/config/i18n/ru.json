@@ -12,7 +12,8 @@
   },
   "navbar": {
     "profile": "Профиль",
-    "brand": "BowlBuilder"
+    "brand": "BowlBuilder",
+    "profileMenuAria": "Открыть меню профиля"
   },
   "filters": {
     "searchPlaceholder": "Поиск чаш",
